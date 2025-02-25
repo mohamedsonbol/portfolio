@@ -1,27 +1,8 @@
 /* src/index.css */
 
-html {
-  font-family: 'Poppins', sans-serif;
-}
 
 body {
   margin:0;
   height: 100%;
-  font-family: 'Poppins', sans-serif;
-}
-
-a {
-  color: white;
-}
-
-
-.projects-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.projects-card {
-  min-width: 300px;
-  margin: 15px;
+  font-family: 'Cinzel Decorative, serif';
 }

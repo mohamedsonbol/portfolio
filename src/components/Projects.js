@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, Tab, Grid, Card, CardContent, CardMedia, CardActions, Button, Typography } from '@mui/material';
+import { Tabs, Tab, Grid, Card, CardContent, CardMedia, CardActions, Button, Typography, Box, Paper } from '@mui/material';
 import Portfolio from '../assets/portfolio.png';
 import BlogApp from '../assets/blogapp2.png';
 import Bootstrap4 from '../assets/bootstrap4.png';
@@ -52,55 +52,58 @@ class Projects extends Component {
       : projects.slice(4, 5); // Adjust this based on which projects belong to which tab
 
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+      <Box display="flex" flexWrap="wrap" gap={2}>
         {categoryProjects.map((project, index) => (
-          <Card key={index} style={{ maxWidth: 345 }}>
-            <CardMedia
-              component="img"
-              alt={project.title}
-              height="140"
-              image={project.image}
-              style={{ objectFit: 'cover' }}
-            />
-            <CardContent>
-              <Typography variant="h5" component="div">
-                {project.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {project.description}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              {project.github && (
-                <Button size="small" href={project.github} target="_blank" rel="noopener noreferrer">
-                  Github
-                </Button>
-              )}
-              {project.codepen && (
-                <Button size="small" href={project.codepen} target="_blank" rel="noopener noreferrer">
-                  Codepen
-                </Button>
-              )}
-              {project.liveDemo && (
-                <Button size="small" href={project.liveDemo} target="_blank" rel="noopener noreferrer">
-                  Live Demo
-                </Button>
-              )}
-            </CardActions>
-          </Card>
+          <Paper key={index} elevation={3} style={{ maxWidth: 330 }}>
+            <Card>
+              <CardMedia
+                component="img"
+                alt={project.title}
+                height="140"
+                image={project.image}
+                style={{ objectFit: 'cover' }}
+              />
+              <CardContent>
+                <Typography variant="h5" component="div">
+                  {project.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {project.description}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                {project.github && (
+                  <Button size="small" href={project.github} target="_blank" rel="noopener noreferrer">
+                    Github
+                  </Button>
+                )}
+                {project.codepen && (
+                  <Button size="small" href={project.codepen} target="_blank" rel="noopener noreferrer">
+                    Codepen
+                  </Button>
+                )}
+                {project.liveDemo && (
+                  <Button size="small" href={project.liveDemo} target="_blank" rel="noopener noreferrer">
+                    Live Demo
+                  </Button>
+                )}
+              </CardActions>
+            </Card>
+          </Paper>
         ))}
-      </div>
+      </Box>
     );
   }
 
   render() {
     return (
-      <div style={{ padding: '20px' }}>
+      <Box padding={3}>
         <Tabs
           value={this.state.activeTab}
           onChange={(event, newValue) => this.setState({ activeTab: newValue })}
           textColor="primary"
           indicatorColor="primary"
+          style={{ marginBottom:'10px' }}
         >
           <Tab label="Front-end" />
           <Tab label="Full-stack" />
@@ -112,7 +115,7 @@ class Projects extends Component {
             </Grid>
           </Grid>
         </section>
-      </div>
+      </Box>
     );
   }
 }

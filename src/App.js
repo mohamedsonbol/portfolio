@@ -5,15 +5,15 @@ import Home from './components/Home';
 import Contact from './components/Contact';
 import Resume from './components/Resume';
 import Projects from './components/Projects';
-import Header from './components/Header';
 import './App.css';
+import NavBar from './components/Header';
 
 function App() {
   return (
     <div className="App">
-      <Header />
+      <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="*" element={<Home />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/contact" element={<Contact />} />

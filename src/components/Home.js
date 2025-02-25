@@ -1,66 +1,87 @@
 import React from 'react';
-import styled from 'styled-components';
-import {
-  LinearProgress,
-} from '@mui/material';
-const HomeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 90vh;
-  text-align: center;
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  color: white;
-`;
-
-const ProfileImage = styled.img`
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
-  margin-bottom: 1rem;
-`;
-
-const Title = styled.h1`
-  font-size: 2.5rem;
-  margin: 1rem 0;
-`;
-
-const Subtitle = styled.p`
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-`;
-
-const IconsContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
-
-const IconLink = styled.a`
-  color: white;
-  font-size: 2rem;
-
-  &:hover {
-    color: #61dafb;
-  }
-`;
+import MyPic from '../assets/mohamedsonbol.png';
+import { Box, Typography, IconButton } from '@mui/material';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const Home = () => {
   return (
-    <HomeContainer>
-      <ProfileImage src="https://via.placeholder.com/150" alt="Profile" />
-      <Title>Web Developer</Title>
-      <Subtitle>Hi! Welcome to my website, built with React.</Subtitle>
-      <IconsContainer>
-        <IconLink href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-          <i className="fab fa-linkedin"></i>
-        </IconLink>
-        <IconLink href="https://github.com" target="_blank" rel="noopener noreferrer">
-          <i className="fab fa-github"></i>
-        </IconLink>
-      </IconsContainer>
-      <LinearProgress color="secondary" />
-    </HomeContainer>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        // justifyContent: 'center',
+        paddingTop: '3rem',
+        height: '100vh',
+        textAlign: 'center',
+        color: 'white',
+        background: 'linear-gradient(to right, #267871, #136a8a);',
+
+      }}>
+      <Box
+        component="img"
+        src={MyPic}
+        alt="Profile"
+        sx={{
+          borderRadius: '50%',
+          width: '350px', // Adjust size as needed
+        }}
+      />
+      <Typography
+        variant="h1"
+        sx={{
+          fontSize: '2.5rem',
+          fontWeight: 500,
+        }}
+      >
+        Web Developer
+      </Typography>
+      <Typography
+        variant="subtitle1"
+        sx={{
+          fontSize: '1.1em',
+          maxWidth: {
+            xs: '80%',
+            sm: '100%'
+          },
+          padding: '.5em',
+          color: '#fff',
+          contrastText: '#f3f3f3'
+        }}
+      >
+      Hi! Welcome to my website, I'm a Web Developer, 
+      Digital Advetising and Technical Consultant. 
+      Spcialized in eCommerce stores developmenet.
+
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '1rem',
+          padding:'.5rem'
+        }}
+      >
+        <IconButton
+          component="a"
+          href="https://linkedin.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{ color: 'white', fontSize: '2.5rem', '&:hover': { color: '#61dafb' } }}
+        >
+          <LinkedInIcon fontSize="inherit" />
+        </IconButton>
+        <IconButton
+          component="a"
+          href="https://github.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{ color: 'white', fontSize: '2.5rem', '&:hover': { color: '#61dafb' } }}
+        >
+          <GitHubIcon fontSize="inherit" />
+        </IconButton>
+      </Box>
+    </Box>
   );
 };
 
