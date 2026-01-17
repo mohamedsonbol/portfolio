@@ -3,15 +3,14 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Send, Mail, MapPin, Github, Linkedin, Twitter } from "lucide-react"
+import { Send, Mail, MapPin, Github, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
 const socialLinks = [
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Twitter, href: "#", label: "Twitter" },
+  { icon: Github, href: "https://github.com/mohamedsonbol", label: "GitHub" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/mohamedsonbol", label: "LinkedIn" },
 ]
 
 export function ContactSection() {
@@ -25,11 +24,16 @@ export function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    const mailtoLink = `mailto:mohamed@exceptionalgrp.com?subject=Portfolio Contact from ${formData.name}&body=${encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
+    )}`
+
+    window.location.href = mailtoLink
+
+    await new Promise((resolve) => setTimeout(resolve, 500))
     setIsSubmitting(false)
     setFormData({ name: "", email: "", message: "" })
-    alert("Message sent successfully!")
   }
 
   return (
@@ -56,7 +60,12 @@ export function ContactSection() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="font-medium">hello@alexchen.dev</p>
+                    <a
+                      href="mailto:mohamed@exceptionalgrp.com"
+                      className="font-medium hover:text-primary transition-colors"
+                    >
+                      mohamed@exceptionalgrp.com
+                    </a>
                   </div>
                 </div>
 
@@ -66,7 +75,7 @@ export function ContactSection() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Location</p>
-                    <p className="font-medium">San Francisco, CA</p>
+                    <p className="font-medium">Warsaw, Poland</p>
                   </div>
                 </div>
               </div>
@@ -78,6 +87,8 @@ export function ContactSection() {
                     <a
                       key={social.label}
                       href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="p-3 rounded-xl bg-secondary hover:bg-primary/10 hover:text-primary transition-all"
                       aria-label={social.label}
                     >

@@ -14,7 +14,7 @@ const skillCategories = [
       { name: "TypeScript", level: 90 },
       { name: "Next.js", level: 88 },
       { name: "Tailwind CSS", level: 92 },
-      { name: "Vue.js", level: 75 },
+      { name: "JavaScript", level: 95 },
     ],
   },
   {
@@ -37,9 +37,8 @@ const skillCategories = [
     color: "chart-3",
     skills: [
       { name: "PostgreSQL", level: 88 },
-      { name: "MongoDB", level: 85 },
-      { name: "Redis", level: 80 },
-      { name: "Prisma", level: 82 },
+      { name: "MongoDB", level: 90 },
+      { name: "MySQL", level: 85 },
     ],
   },
   {
@@ -52,6 +51,7 @@ const skillCategories = [
       { name: "Docker", level: 85 },
       { name: "CI/CD", level: 80 },
       { name: "Vercel", level: 90 },
+      { name: "Render", level: 88 },
     ],
   },
   {
@@ -62,7 +62,7 @@ const skillCategories = [
     skills: [
       { name: "Git", level: 95 },
       { name: "VS Code", level: 92 },
-      { name: "Figma", level: 75 },
+      { name: "Postman", level: 88 },
       { name: "Linux", level: 80 },
     ],
   },
@@ -75,7 +75,7 @@ const skillCategories = [
       { name: "UI/UX", level: 78 },
       { name: "Figma", level: 80 },
       { name: "Responsive", level: 92 },
-      { name: "Animation", level: 75 },
+      { name: "CSS/SCSS", level: 90 },
     ],
   },
 ]
