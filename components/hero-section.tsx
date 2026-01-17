@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 
 const terminalLines = [
   { text: "$ whoami", delay: 0 },
-  { text: "Alex Chen", delay: 800, isOutput: true },
+  { text: "Mohamed Sonbol", delay: 800, isOutput: true },
   { text: "$ cat role.txt", delay: 1600 },
   { text: "Full Stack Developer", delay: 2400, isOutput: true },
   { text: "$ ls skills/", delay: 3200 },
-  { text: "React  Node.js  TypeScript  Python  AWS", delay: 4000, isOutput: true },
+  { text: "React  Node.js  TypeScript  MongoDB  Express", delay: 4000, isOutput: true },
 ]
 
 export function HeroSection() {
@@ -68,7 +68,7 @@ export function HeroSection() {
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
               <span className="text-muted-foreground">Hi, I'm</span>
               <br />
-              <span className="text-foreground">Alex Chen</span>
+              <span className="text-foreground">Mohamed Sonbol</span>
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
@@ -77,20 +77,35 @@ export function HeroSection() {
             </p>
 
             <div className="flex items-center gap-4 pt-4">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6">View Projects</Button>
-              <Button variant="outline" className="border-border hover:bg-secondary bg-transparent">
-                Download CV
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6" asChild>
+                <a href="#projects">View Projects</a>
+              </Button>
+              <Button variant="outline" className="border-border hover:bg-secondary bg-transparent" asChild>
+                <a href="#contact">Contact Me</a>
               </Button>
             </div>
 
             <div className="flex items-center gap-4 pt-4">
-              <a href="#" className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors">
+              <a
+                href="https://github.com/mohamedsonbol"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+              >
                 <Github className="h-5 w-5 text-muted-foreground hover:text-foreground" />
               </a>
-              <a href="#" className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors">
+              <a
+                href="https://www.linkedin.com/in/mohamedsonbol"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+              >
                 <Linkedin className="h-5 w-5 text-muted-foreground hover:text-foreground" />
               </a>
-              <a href="#" className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors">
+              <a
+                href="mailto:mohamed@exceptionalgrp.com"
+                className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+              >
                 <Mail className="h-5 w-5 text-muted-foreground hover:text-foreground" />
               </a>
             </div>
