@@ -41,7 +41,7 @@ export function ContactSection() {
     try {
       const supabase = createClient()
 
-      const { error } = await supabase.from("consultation_requests").insert({
+      const { error } = await supabase.from("dev_consultation_requests").insert({
         name: formData.name,
         email: formData.email,
         company: formData.company || null,
