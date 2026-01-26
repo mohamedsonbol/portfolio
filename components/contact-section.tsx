@@ -3,10 +3,11 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Send, Mail, MapPin, Github, Linkedin, Briefcase, Users } from "lucide-react"
+import { Send, Mail, MapPin, Github, Linkedin, Briefcase, Users, CheckCircle, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { createClient } from "@/lib/supabase/client"
 
 const socialLinks = [
   { icon: Github, href: "https://github.com/mohamedsonbol", label: "GitHub" },
@@ -28,32 +29,39 @@ export function ContactSection() {
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setSubmitStatus("idle")
+    setErrorMessage("")
 
-    const inquiryLabel = formData.inquiryType === "client" ? "Client Project Request" : "Job Opportunity"
-    const subject = `[${inquiryLabel}] from ${formData.name}${formData.company ? ` - ${formData.company}` : ""}`
-    
-    const bodyParts = [
-      `Name: ${formData.name}`,
-      `Email: ${formData.email}`,
-      formData.company && `Company: ${formData.company}`,
-      `Inquiry Type: ${inquiryLabel}`,
-      formData.inquiryType === "client" && formData.budget && `Budget Range: ${formData.budget}`,
-      "",
-      "Message:",
-      formData.message,
-    ].filter(Boolean)
+    try {
+      const supabase = createClient()
 
-    const mailtoLink = `mailto:ezzat@exceptionalgrp.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyParts.join("\n"))}`
+      const { error } = await supabase.from("consultation_requests").insert({
+        name: formData.name,
+        email: formData.email,
+        company: formData.company || null,
+        inquiry_type: formData.inquiryType,
+        budget: formData.inquiryType === "client" ? formData.budget || null : null,
+        message: formData.message,
+      })
 
-    window.location.href = mailtoLink
+      if (error) {
+        throw error
+      }
 
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    setIsSubmitting(false)
-    setFormData({ name: "", email: "", company: "", inquiryType: "client", budget: "", message: "" })
+      setSubmitStatus("success")
+      setFormData({ name: "", email: "", company: "", inquiryType: "client", budget: "", message: "" })
+    } catch (error) {
+      setSubmitStatus("error")
+      setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -247,7 +255,7 @@ export function ContactSection() {
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
-                  "Opening Email..."
+                  "Sending..."
                 ) : (
                   <>
                     Send Message
@@ -255,6 +263,26 @@ export function ContactSection() {
                   </>
                 )}
               </Button>
+
+              {/* Success Message */}
+              {submitStatus === "success" && (
+                <div className="flex items-center gap-2 p-4 rounded-xl bg-accent/10 border border-accent/20">
+                  <CheckCircle className="h-5 w-5 text-accent flex-shrink-0" />
+                  <p className="text-sm text-accent">
+                    Thank you for reaching out! I'll get back to you soon.
+                  </p>
+                </div>
+              )}
+
+              {/* Error Message */}
+              {submitStatus === "error" && (
+                <div className="flex items-center gap-2 p-4 rounded-xl bg-destructive/10 border border-destructive/20">
+                  <XCircle className="h-5 w-5 text-destructive flex-shrink-0" />
+                  <p className="text-sm text-destructive">
+                    {errorMessage}
+                  </p>
+                </div>
+              )}
             </form>
           </div>
         </div>
