@@ -27,42 +27,6 @@ const projects = [
     live: "https://blogapp-f2xu.onrender.com/blogs",
     featured: true,
   },
-  {
-    id: 3,
-    title: "E-Commerce Platform",
-    description: "A full-featured online store with product catalog, shopping cart, and secure checkout functionality.",
-    image: "/ecommerce-shopping-website-dark-theme.jpg",
-    tags: ["React", "Node.js", "MongoDB", "Stripe"],
-    github: "https://github.com/mohamedsonbol",
-    live: "#",
-  },
-  {
-    id: 4,
-    title: "Task Manager App",
-    description: "A productivity application for managing tasks and projects with drag-and-drop functionality.",
-    image: "/task-manager-kanban-board-dark-theme.jpg",
-    tags: ["React", "TypeScript", "Express", "MongoDB"],
-    github: "https://github.com/mohamedsonbol",
-    live: "#",
-  },
-  {
-    id: 5,
-    title: "Weather Dashboard",
-    description: "Real-time weather application with location-based forecasts and interactive weather maps.",
-    image: "/weather-dashboard-app-dark-theme-modern.jpg",
-    tags: ["JavaScript", "API", "CSS", "HTML"],
-    github: "https://github.com/mohamedsonbol",
-    live: "#",
-  },
-  {
-    id: 6,
-    title: "Chat Application",
-    description: "Real-time messaging app with WebSocket integration for instant communication.",
-    image: "/chat-messaging-app-dark-theme-modern.jpg",
-    tags: ["React", "Socket.io", "Node.js", "MongoDB"],
-    github: "https://github.com/mohamedsonbol",
-    live: "#",
-  },
 ]
 
 export function ProjectsSection() {
@@ -82,18 +46,16 @@ export function ProjectsSection() {
         </div>
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {projects.map((project, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {projects.map((project) => (
             <div
               key={project.id}
-              className={`group relative rounded-2xl bg-card border border-border overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 ${
-                project.featured && index < 2 ? "md:col-span-1 lg:row-span-1" : ""
-              } ${index === 0 ? "lg:col-span-2" : ""}`}
+              className="group relative rounded-2xl bg-card border border-border overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
               onMouseEnter={() => setHoveredId(project.id)}
               onMouseLeave={() => setHoveredId(null)}
             >
               {/* Project Image */}
-              <div className={`relative overflow-hidden ${index === 0 ? "h-64" : "h-48"}`}>
+              <div className="relative overflow-hidden h-56">
                 <img
                   src={project.image || "/placeholder.svg"}
                   alt={project.title}
