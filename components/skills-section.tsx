@@ -42,8 +42,11 @@ const consultingCategories = [
     title: "Current Expansion Areas",
     icon: Rocket,
     items: [
-      "AI-driven Automation & Workflow Orchestration",
-      "Modern Web Development (React, Node.js, API Integrations)",
+      "AI‑driven automation & workflow orchestration (n8n, custom scripts)",
+      "Modern web development for analytics tooling (React, Node.js, APIs)",
+      "Blockchain fundamentals & smart contract development",
+      "LLM operations & MCP server development",
+      "Vibe coding: AI‑assisted development & rapid prototyping",
     ],
   },
 ]
@@ -72,8 +75,8 @@ export function SkillsSection() {
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
                 className={`p-4 rounded-xl border transition-all duration-300 text-left ${isActive
-                    ? "bg-primary/10 border-primary shadow-lg shadow-primary/10"
-                    : "bg-card border-border hover:border-primary/50"
+                  ? "bg-primary/10 border-primary shadow-lg shadow-primary/10"
+                  : "bg-card border-border hover:border-primary/50"
                   }`}
               >
                 <Icon className={`h-6 w-6 mb-2 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
