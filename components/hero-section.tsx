@@ -5,7 +5,7 @@ import { Github, Linkedin, Mail, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const terminalLines = [
-  { text: "$ List my Enterprise Techncial Overview", delay: 0 },
+  { text: "$ cat about me", delay: 0 },
   { text: "> 100+ enterprise clients supported across Accenture, Samsung SDS, and Sauce Labs", delay: 800, isOutput: true },
   { text: "> GDPR compliance lead for initiatives spanning multiple European markets", delay: 1600, isOutput: true },
   { text: "> Tag management expert across Google, Adobe, and Tealium platforms (client-side and server-side)", delay: 2400, isOutput: true },
