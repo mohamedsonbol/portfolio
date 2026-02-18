@@ -15,7 +15,7 @@ const socialLinks = [
 ]
 
 const inquiryTypes = [
-  { value: "client", label: "Client Project", icon: Users },
+  { value: "client", label: "Consultation", icon: Users },
   { value: "job", label: "Job Opportunity", icon: Briefcase },
 ]
 
@@ -68,10 +68,9 @@ export function ContactSection() {
     <section id="contact" className="py-24">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-primary font-mono text-sm mb-2">// Get in Touch</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Contact</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            {"Looking to start a project or discuss a job opportunity? I'd love to hear from you."}
+            {"Need an expert who understands enterprise analytics infrastructure?"}
           </p>
         </div>
 
@@ -79,9 +78,28 @@ export function ContactSection() {
           {/* Contact Info */}
           <div className="space-y-8">
             <div className="glass rounded-2xl p-8">
-              <h3 className="text-xl font-semibold mb-6">{"Let's connect"}</h3>
+              <h3 className="text-xl font-semibold mb-4">{"I take on a limited number of consulting engagements for clients who need:"}</h3>
 
-              <div className="space-y-4">
+              <ul className="space-y-2 mb-6 text-muted-foreground text-sm">
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
+                  Tag management implementation or audit (Google, Adobe, Tealium)
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
+                  GDPR compliance technical architecture
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
+                  Production debugging for tracking and data layer issues
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
+                  Technical project management for analytics initiatives
+                </li>
+              </ul>
+
+              {/* <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <div className="p-3 rounded-xl bg-primary/10">
                     <Mail className="h-5 w-5 text-primary" />
@@ -106,10 +124,10 @@ export function ContactSection() {
                     <p className="font-medium">Warsaw, Poland</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="mt-8 pt-8 border-t border-border">
-                <p className="text-sm text-muted-foreground mb-4">Follow me</p>
+                <p className="text-sm text-muted-foreground mb-4">Social links:</p>
                 <div className="flex gap-3">
                   {socialLinks.map((social) => (
                     <a
@@ -135,7 +153,7 @@ export function ContactSection() {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
                 </span>
                 <p className="text-sm">
-                  Currently <span className="text-accent font-medium">available</span> for freelance work and opportunities
+                  Currently <span className="text-accent font-medium">available</span> for opportunities.
                 </p>
               </div>
             </div>
@@ -153,11 +171,10 @@ export function ContactSection() {
                       key={type.value}
                       type="button"
                       onClick={() => setFormData({ ...formData, inquiryType: type.value, budget: "" })}
-                      className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${
-                        formData.inquiryType === type.value
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-border bg-secondary/50 hover:border-primary/50"
-                      }`}
+                      className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${formData.inquiryType === type.value
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border bg-secondary/50 hover:border-primary/50"
+                        }`}
                     >
                       <type.icon className="h-4 w-4" />
                       <span className="text-sm font-medium">{type.label}</span>

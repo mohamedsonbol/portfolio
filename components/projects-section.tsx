@@ -37,7 +37,6 @@ export function ProjectsSection() {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16">
           <div>
-            <p className="text-primary font-mono text-sm mb-2">// Featured Work</p>
             <h2 className="text-3xl md:text-4xl font-bold">Projects</h2>
           </div>
           <p className="text-muted-foreground max-w-md">
@@ -86,9 +85,8 @@ export function ProjectsSection() {
 
                 {/* Description - shown on hover or always on mobile */}
                 <p
-                  className={`text-sm text-muted-foreground leading-relaxed transition-all duration-300 ${
-                    hoveredId === project.id ? "opacity-100 max-h-20" : "opacity-70 max-h-12 line-clamp-2"
-                  }`}
+                  className={`text-sm text-muted-foreground leading-relaxed transition-all duration-300 ${hoveredId === project.id ? "opacity-100 max-h-20" : "opacity-70 max-h-12 line-clamp-2"
+                    }`}
                 >
                   {project.description}
                 </p>
@@ -109,9 +107,8 @@ export function ProjectsSection() {
 
               {/* Hover arrow indicator */}
               <div
-                className={`absolute top-4 right-4 p-2 rounded-full bg-primary text-primary-foreground transition-all duration-300 ${
-                  hoveredId === project.id ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
-                }`}
+                className={`absolute top-4 right-4 p-2 rounded-full bg-primary text-primary-foreground transition-all duration-300 ${hoveredId === project.id ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
+                  }`}
               >
                 <ArrowUpRight className="h-4 w-4" />
               </div>

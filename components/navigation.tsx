@@ -6,9 +6,8 @@ import { Menu, X, Terminal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#skills", label: "Skills" },
+  { href: "#skills", label: "Expertise" },
+  { href: "#engagements", label: "Engagements" },
   { href: "#contact", label: "Contact" },
 ]
 
@@ -31,7 +30,7 @@ export function Navigation() {
       <nav className="container mx-auto px-6 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 text-primary font-mono font-bold text-lg">
           <Terminal className="h-5 w-5" />
-          <span>dev.portfolio</span>
+          <span>Mo Ezzat</span>
         </a>
 
         {/* Desktop Navigation */}

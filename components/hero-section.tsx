@@ -5,12 +5,11 @@ import { Github, Linkedin, Mail, ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const terminalLines = [
-  { text: "$ whoami", delay: 0 },
-  { text: "Mohamed Sonbol", delay: 800, isOutput: true },
-  { text: "$ cat role.txt", delay: 1600 },
-  { text: "Full Stack Developer", delay: 2400, isOutput: true },
-  { text: "$ ls skills/", delay: 3200 },
-  { text: "React  Node.js  TypeScript  MongoDB  Express", delay: 4000, isOutput: true },
+  { text: "$ tell about-me.mo", delay: 0 },
+  { text: "> 100+ enterprise clients supported across Accenture, Samsung SDS, and Sauce Labs", delay: 800, isOutput: true },
+  { text: "> GDPR compliance lead for initiatives spanning multiple European markets", delay: 1600, isOutput: true },
+  { text: "> Tag management expert across Google, Adobe, and Tealium platforms (client-side and server-side)", delay: 2400, isOutput: true },
+  { text: "> JavaScript debugging specialist for production issues other developers can't replicate", delay: 3200, isOutput: true },
 ]
 
 export function HeroSection() {
@@ -60,28 +59,27 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left side - Text content */}
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              Available for opportunities
-            </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              <span className="text-muted-foreground">Hi, I'm</span>
-              <br />
-              <span className="text-foreground">Mohamed Sonbol</span>
+              <span className="text-foreground">Mohamed Ezzat</span>
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
-              A passionate <span className="text-primary font-medium">Full Stack Developer</span> crafting elegant
-              solutions and building products that make a difference.
+              <span className="text-primary font-medium">I'm an experienced Technical Consultant</span> specializing in{" "}
+              <span className="text-primary font-medium">Analytics Implementation, Tag Management, and Enterprise SaaS Technical consulting</span>
+            </p>
+
+            <p className="text-base text-muted-foreground max-w-lg leading-relaxed">
+              I help enterprise clients collect accurate data, maintain GDPR compliance, and solve complex production
+              issues that standard development teams {"can't"} resolve.
             </p>
 
             <div className="flex items-center gap-4 pt-4">
               <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6" asChild>
-                <a href="#projects">View Projects</a>
+                <a href="#engagements">View Engagements</a>
               </Button>
               <Button variant="outline" className="border-border hover:bg-secondary bg-transparent" asChild>
-                <a href="#contact">Contact Me</a>
+                <a href="#contact">Get in Touch</a>
               </Button>
             </div>
 
@@ -102,12 +100,6 @@ export function HeroSection() {
               >
                 <Linkedin className="h-5 w-5 text-muted-foreground hover:text-foreground" />
               </a>
-              <a
-                href="mailto:mohamed@exceptionalgrp.com"
-                className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
-              >
-                <Mail className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-              </a>
             </div>
           </div>
 
@@ -121,7 +113,7 @@ export function HeroSection() {
                   <div className="w-3 h-3 rounded-full bg-chart-4/60" />
                   <div className="w-3 h-3 rounded-full bg-accent/60" />
                 </div>
-                <span className="text-xs text-muted-foreground font-mono ml-2">~/developer-portfolio</span>
+                <span className="text-xs text-muted-foreground font-mono ml-2">~/enterprise-consulting</span>
               </div>
 
               {/* Terminal content */}
