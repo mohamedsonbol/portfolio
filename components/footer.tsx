@@ -6,7 +6,10 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Terminal className="h-4 w-4" />Crafted with <span className="font-mono text-sm"> <Heart className="h-4 w-4 text-destructive fill-destructive" /> by Mohamed Sonbol.</span>
+            <Terminal className="h-4 w-4" />
+            <span className="font-mono text-sm">          <p className="text-sm text-muted-foreground flex items-center gap-1">
+              Built with <Heart className="h-4 w-4 text-destructive fill-destructive" />
+            </p></span>
           </div>
 
           <p className="text-sm text-muted-foreground flex items-center gap-1">
