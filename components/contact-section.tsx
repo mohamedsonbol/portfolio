@@ -115,7 +115,7 @@ export function ContactSection() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
+                {/* <div className="flex items-center gap-4">
                   <div className="p-3 rounded-xl bg-primary/10">
                     <MapPin className="h-5 w-5 text-primary" />
                   </div>
@@ -123,7 +123,7 @@ export function ContactSection() {
                     <p className="text-sm text-muted-foreground">Location</p>
                     <p className="font-medium">Warsaw, Poland</p>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className="mt-8 pt-8 border-t border-border">
