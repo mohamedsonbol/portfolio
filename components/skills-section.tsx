@@ -20,11 +20,12 @@ const consultingCategories = [
     title: "Technical Implementation",
     icon: Shield,
     items: [
-      "JavaScript (ES6+) for custom tracking solutions and bug fixes",
-      "API Integrations, Webhooks, and Distributed Systems Debugging",
-      "Automation Frameworks: Selenium, WebdriverIO, n8n",
-      "Cloud Environments & Server-side Tagging Infrastructure",
-    ],
+      "Custom JavaScript (ES6+) for tracking solutions, debugging, and data layer fixes",
+      "API integrations, webhooks, and distributed systems debugging",
+      "Advertising technical consulting: event creation, implementation audits, and optimization recommendations",
+      "Automation frameworks: Selenium, WebdriverIO, n8n for testing and workflow orchestration",
+      "Cloud environments & server-side tagging infrastructure (GTM SS, Adobe Launch)",
+    ]
   },
   {
     id: "client-facing",
