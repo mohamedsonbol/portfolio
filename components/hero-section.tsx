@@ -61,11 +61,11 @@ export function HeroSection() {
           <div className="space-y-6">
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              <span className="text-foreground">Mo. Sonbol</span>
+              <span className="text-foreground">Hello, My name is Mohamed.</span>
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
-              <span className="text-primary font-medium">Technical Consultant</span> specializing in{" "}
+              <span className="text-primary font-medium">I'm an experienced Technical Consultant</span> specializing in{" "}
               <span className="text-primary font-medium">Analytics Implementation, Tag Management, and Enterprise SaaS Technical consulting</span>
             </p>
 
