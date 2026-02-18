@@ -99,9 +99,9 @@ export function ContactSection() {
                 </li>
               </ul>
 
-              <div className="space-y-4">
+              {/* <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  {/* <div className="p-3 rounded-xl bg-primary/10">
+                  <div className="p-3 rounded-xl bg-primary/10">
                     <Mail className="h-5 w-5 text-primary" />
                   </div>
                   <div>
@@ -115,7 +115,7 @@ export function ContactSection() {
                   </div>
                 </div>
 
-                 <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4">
                   <div className="p-3 rounded-xl bg-primary/10">
                     <MapPin className="h-5 w-5 text-primary" />
                   </div>
@@ -123,187 +123,187 @@ export function ContactSection() {
                     <p className="text-sm text-muted-foreground">Location</p>
                     <p className="font-medium">Warsaw, Poland</p>
                   </div>
-                </div> */}
                 </div>
+              </div> */}
 
-                <div className="mt-8 pt-8 border-t border-border">
-                  <p className="text-sm text-muted-foreground mb-4">Follow me</p>
-                  <div className="flex gap-3">
-                    {socialLinks.map((social) => (
-                      <a
-                        key={social.label}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 rounded-xl bg-secondary hover:bg-primary/10 hover:text-primary transition-all"
-                        aria-label={social.label}
-                      >
-                        <social.icon className="h-5 w-5" />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Status card */}
-              <div className="glass rounded-2xl p-6">
-                <div className="flex items-center gap-3">
-                  <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
-                  </span>
-                  <p className="text-sm">
-                    Currently <span className="text-accent font-medium">available</span>.
-                  </p>
+              <div className="mt-8 pt-8 border-t border-border">
+                <p className="text-sm text-muted-foreground mb-4">Follow me</p>
+                <div className="flex gap-3">
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-3 rounded-xl bg-secondary hover:bg-primary/10 hover:text-primary transition-all"
+                      aria-label={social.label}
+                    >
+                      <social.icon className="h-5 w-5" />
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>
 
-            {/* Contact Form */}
-            <div className="glass rounded-2xl p-8">
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Inquiry Type Toggle */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">What can I help you with?</label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {inquiryTypes.map((type) => (
-                      <button
-                        key={type.value}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, inquiryType: type.value, budget: "" })}
-                        className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${formData.inquiryType === type.value
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-border bg-secondary/50 hover:border-primary/50"
-                          }`}
-                      >
-                        <type.icon className="h-4 w-4" />
-                        <span className="text-sm font-medium">{type.label}</span>
-                      </button>
-                    ))}
-                  </div>
+            {/* Status card */}
+            <div className="glass rounded-2xl p-6">
+              <div className="flex items-center gap-3">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                </span>
+                <p className="text-sm">
+                  Currently <span className="text-accent font-medium">available</span>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div className="glass rounded-2xl p-8">
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Inquiry Type Toggle */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium">What can I help you with?</label>
+                <div className="grid grid-cols-2 gap-3">
+                  {inquiryTypes.map((type) => (
+                    <button
+                      key={type.value}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, inquiryType: type.value, budget: "" })}
+                      className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${formData.inquiryType === type.value
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border bg-secondary/50 hover:border-primary/50"
+                        }`}
+                    >
+                      <type.icon className="h-4 w-4" />
+                      <span className="text-sm font-medium">{type.label}</span>
+                    </button>
+                  ))}
                 </div>
+              </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm font-medium">
-                      Name *
-                    </label>
-                    <Input
-                      id="name"
-                      placeholder="Your name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="bg-secondary/50 border-border focus:border-primary"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-medium">
-                      Email *
-                    </label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="you@company.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="bg-secondary/50 border-border focus:border-primary"
-                      required
-                    />
-                  </div>
-                </div>
-
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label htmlFor="company" className="text-sm font-medium">
-                    Company / Organization
+                  <label htmlFor="name" className="text-sm font-medium">
+                    Name *
                   </label>
                   <Input
-                    id="company"
-                    placeholder="Your company name"
-                    value={formData.company}
-                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    id="name"
+                    placeholder="Your name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="bg-secondary/50 border-border focus:border-primary"
-                  />
-                </div>
-
-                {formData.inquiryType === "client" && (
-                  <div className="space-y-2">
-                    <label htmlFor="budget" className="text-sm font-medium">
-                      Budget Range
-                    </label>
-                    <select
-                      id="budget"
-                      value={formData.budget}
-                      onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                      className="w-full h-10 px-3 rounded-md bg-secondary/50 border border-border focus:border-primary text-sm"
-                    >
-                      <option value="">Select a budget range</option>
-                      <option value="$1,000 - $5,000">$1,000 - $5,000</option>
-                      <option value="$5,000 - $10,000">$5,000 - $10,000</option>
-                      <option value="$10,000 - $25,000">$10,000 - $25,000</option>
-                      <option value="$25,000+">$25,000+</option>
-                    </select>
-                  </div>
-                )}
-
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium">
-                    {formData.inquiryType === "client" ? "Project Details *" : "Tell me about the opportunity *"}
-                  </label>
-                  <Textarea
-                    id="message"
-                    placeholder={
-                      formData.inquiryType === "client"
-                        ? "Describe your project, goals, and timeline..."
-                        : "Describe the role, team, and what you're looking for..."
-                    }
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="bg-secondary/50 border-border focus:border-primary resize-none"
                     required
                   />
                 </div>
 
-                <Button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    "Sending..."
-                  ) : (
-                    <>
-                      Send Message
-                      <Send className="ml-2 h-4 w-4" />
-                    </>
-                  )}
-                </Button>
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-sm font-medium">
+                    Email *
+                  </label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="you@company.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="bg-secondary/50 border-border focus:border-primary"
+                    required
+                  />
+                </div>
+              </div>
 
-                {/* Success Message */}
-                {submitStatus === "success" && (
-                  <div className="flex items-center gap-2 p-4 rounded-xl bg-accent/10 border border-accent/20">
-                    <CheckCircle className="h-5 w-5 text-accent flex-shrink-0" />
-                    <p className="text-sm text-accent">
-                      Thank you for reaching out! I'll get back to you soon.
-                    </p>
-                  </div>
-                )}
+              <div className="space-y-2">
+                <label htmlFor="company" className="text-sm font-medium">
+                  Company / Organization
+                </label>
+                <Input
+                  id="company"
+                  placeholder="Your company name"
+                  value={formData.company}
+                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  className="bg-secondary/50 border-border focus:border-primary"
+                />
+              </div>
 
-                {/* Error Message */}
-                {submitStatus === "error" && (
-                  <div className="flex items-center gap-2 p-4 rounded-xl bg-destructive/10 border border-destructive/20">
-                    <XCircle className="h-5 w-5 text-destructive flex-shrink-0" />
-                    <p className="text-sm text-destructive">
-                      {errorMessage}
-                    </p>
-                  </div>
+              {formData.inquiryType === "client" && (
+                <div className="space-y-2">
+                  <label htmlFor="budget" className="text-sm font-medium">
+                    Budget Range
+                  </label>
+                  <select
+                    id="budget"
+                    value={formData.budget}
+                    onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                    className="w-full h-10 px-3 rounded-md bg-secondary/50 border border-border focus:border-primary text-sm"
+                  >
+                    <option value="">Select a budget range</option>
+                    <option value="$1,000 - $5,000">$1,000 - $5,000</option>
+                    <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                    <option value="$10,000 - $25,000">$10,000 - $25,000</option>
+                    <option value="$25,000+">$25,000+</option>
+                  </select>
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <label htmlFor="message" className="text-sm font-medium">
+                  {formData.inquiryType === "client" ? "Project Details *" : "Tell me about the opportunity *"}
+                </label>
+                <Textarea
+                  id="message"
+                  placeholder={
+                    formData.inquiryType === "client"
+                      ? "Describe your project, goals, and timeline..."
+                      : "Describe the role, team, and what you're looking for..."
+                  }
+                  rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  className="bg-secondary/50 border-border focus:border-primary resize-none"
+                  required
+                />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  "Sending..."
+                ) : (
+                  <>
+                    Send Message
+                    <Send className="ml-2 h-4 w-4" />
+                  </>
                 )}
-              </form>
-            </div>
+              </Button>
+
+              {/* Success Message */}
+              {submitStatus === "success" && (
+                <div className="flex items-center gap-2 p-4 rounded-xl bg-accent/10 border border-accent/20">
+                  <CheckCircle className="h-5 w-5 text-accent flex-shrink-0" />
+                  <p className="text-sm text-accent">
+                    Thank you for reaching out! I'll get back to you soon.
+                  </p>
+                </div>
+              )}
+
+              {/* Error Message */}
+              {submitStatus === "error" && (
+                <div className="flex items-center gap-2 p-4 rounded-xl bg-destructive/10 border border-destructive/20">
+                  <XCircle className="h-5 w-5 text-destructive flex-shrink-0" />
+                  <p className="text-sm text-destructive">
+                    {errorMessage}
+                  </p>
+                </div>
+              )}
+            </form>
           </div>
         </div>
+      </div>
     </section>
   )
 }
