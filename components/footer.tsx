@@ -8,16 +8,14 @@ export function Footer() {
           <div className="flex items-center gap-2 text-muted-foreground">
             <Terminal className="h-4 w-4" />
             <span className="font-mono text-sm">          <p className="text-sm text-muted-foreground flex items-center gap-1">
-              Built with <Heart className="h-4 w-4 text-destructive fill-destructive" />
+              Built with <Heart className="h-4 w-4 text-destructive fill-destructive" /> by Mohamed Ezzat Sonbol.
             </p></span>
           </div>
 
-          <p className="text-sm text-muted-foreground flex items-center gap-1">
-            Built with <Heart className="h-4 w-4 text-destructive fill-destructive" />
-          </p>
+
 
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Mohamed Sonbol.
+            © {new Date().getFullYear()}
           </p>
         </div>
       </div>
