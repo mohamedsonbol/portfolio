@@ -7,7 +7,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Terminal className="h-4 w-4" />
-            <span className="font-mono text-sm">mohamed.dev</span>
+            <span className="font-mono text-sm">mohamed.consulting</span>
           </div>
 
           <p className="text-sm text-muted-foreground flex items-center gap-1">
