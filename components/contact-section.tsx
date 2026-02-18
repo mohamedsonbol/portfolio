@@ -127,7 +127,7 @@ export function ContactSection() {
               </div> */}
 
               <div className="mt-8 pt-8 border-t border-border">
-                <p className="text-sm text-muted-foreground mb-4">See some of my work or reach out for a quick chat!</p>
+                <p className="text-sm text-muted-foreground mb-4">Social links:</p>
                 <div className="flex gap-3">
                   {socialLinks.map((social) => (
                     <a
