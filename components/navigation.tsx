@@ -30,7 +30,7 @@ export function Navigation() {
       <nav className="container mx-auto px-6 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 text-primary font-mono font-bold text-lg">
           <Terminal className="h-5 w-5" />
-          <span>dev.portfolio</span>
+          <span>Mo.Sonbol</span>
         </a>
 
         {/* Desktop Navigation */}
