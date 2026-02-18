@@ -9,7 +9,7 @@ const terminalLines = [
   { text: "> 100+ enterprise clients supported across Accenture, Samsung SDS, and Sauce Labs", delay: 800, isOutput: true },
   { text: "> GDPR compliance lead for initiatives spanning multiple European markets", delay: 1600, isOutput: true },
   { text: "> Tag management expert across Google, Adobe, and Tealium platforms (client-side and server-side)", delay: 2400, isOutput: true },
-  { text: "> JavaScript debugging specialist for production issues other developers can't replicate", delay: 3200, isOutput: true },
+  { text: "> JavaScript specialist with web development and debugging experience", delay: 3200, isOutput: true },
 ]
 
 export function HeroSection() {
