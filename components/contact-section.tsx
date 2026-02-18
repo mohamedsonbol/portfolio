@@ -15,8 +15,8 @@ const socialLinks = [
 ]
 
 const inquiryTypes = [
-  { value: "client", label: "Consulting/Project", icon: Users },
-  { value: "job", label: "Long-term Opportunity", icon: Briefcase },
+  { value: "client", label: "Consultation", icon: Users },
+  { value: "job", label: "Job Opportunity", icon: Briefcase },
 ]
 
 export function ContactSection() {
