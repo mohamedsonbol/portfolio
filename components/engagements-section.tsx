@@ -1,4 +1,4 @@
-import { Building2, Shield, Cog } from "lucide-react"
+import { Building2, Shield } from "lucide-react"
 
 const engagements = [
   {
@@ -15,13 +15,6 @@ const engagements = [
     description:
       "Led technical implementation for a large-scale privacy compliance initiative across multiple European markets. Coordinated tag management deployment and consent architecture, translating regulatory requirements into technical specifications while maintaining analytics functionality.",
   },
-  {
-    icon: Cog,
-    title: "Automation Framework Engineering",
-    company: "Sauce Labs",
-    description:
-      "Built automated monitoring logic that reduced manual testing cycles by 40% and achieved 99.9% reliability for enterprise testing workflows. Consulted on API integration strategies and cross-platform test automation.",
-  },
 ]
 
 export function EngagementsSection() {
@@ -31,7 +24,7 @@ export function EngagementsSection() {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Consulting in focus</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Key engagements where I delivered measurable impact for enterprise clients across multiple projects such as analytics, compliance, and automation.
+            Key engagements where I delivered measurable impact for enterprise clients across analytics and compliance initiatives.
           </p>
         </div>
 
