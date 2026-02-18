@@ -56,7 +56,6 @@ export function SkillsSection() {
     <section id="skills" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-primary font-mono text-sm mb-2">{"// Technical Expertise"}</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Enterprise Technical Consulting</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             A comprehensive overview of my consulting capabilities across analytics, compliance, and enterprise data infrastructure.
@@ -72,11 +71,10 @@ export function SkillsSection() {
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`p-4 rounded-xl border transition-all duration-300 text-left ${
-                  isActive
+                className={`p-4 rounded-xl border transition-all duration-300 text-left ${isActive
                     ? "bg-primary/10 border-primary shadow-lg shadow-primary/10"
                     : "bg-card border-border hover:border-primary/50"
-                }`}
+                  }`}
               >
                 <Icon className={`h-6 w-6 mb-2 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
                 <p className={`font-medium text-sm ${isActive ? "text-primary" : "text-foreground"}`}>
