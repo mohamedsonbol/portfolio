@@ -59,18 +59,14 @@ export function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left side - Text content */}
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-mono">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              Available for enterprise consulting engagements
-            </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              <span className="text-foreground">Mohamed Sonbol</span>
+              <span className="text-foreground">Mohamed Ezzat Sonbol</span>
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
               <span className="text-primary font-medium">Technical Consultant</span> specializing in{" "}
-              <span className="text-primary font-medium">Analytics Implementation, Tag Management, and Enterprise Data Infrastructure</span>
+              <span className="text-primary font-medium">Analytics Implementation, Tag Management, and Enterprise SaaS Technical consulting</span>
             </p>
 
             <p className="text-base text-muted-foreground max-w-lg leading-relaxed">
