@@ -68,7 +68,6 @@ export function ContactSection() {
     <section id="contact" className="py-24">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-primary font-mono text-sm mb-2">// Get in Touch</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Contact</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {"Need an expert who understands enterprise analytics infrastructure?"}
@@ -172,11 +171,10 @@ export function ContactSection() {
                       key={type.value}
                       type="button"
                       onClick={() => setFormData({ ...formData, inquiryType: type.value, budget: "" })}
-                      className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${
-                        formData.inquiryType === type.value
+                      className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${formData.inquiryType === type.value
                           ? "border-primary bg-primary/10 text-primary"
                           : "border-border bg-secondary/50 hover:border-primary/50"
-                      }`}
+                        }`}
                     >
                       <type.icon className="h-4 w-4" />
                       <span className="text-sm font-medium">{type.label}</span>
