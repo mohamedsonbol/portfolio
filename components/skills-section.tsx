@@ -9,10 +9,11 @@ const consultingCategories = [
     title: "Core Consulting Specialties",
     icon: Tag,
     items: [
-      "Tag Management Systems (Google Tag Manager, Adobe Launch, Tealium) -- Client-side & Server-side",
-      "GDPR Compliance Architecture & Implementation",
-      "Data Layer Strategy & Custom JavaScript Debugging",
-      "Production Issue Resolution & Root Cause Analysis",
+      "Tag Management Systems (Google, Adobe, Tealium) – client‑side & server‑side implementation, optimization, and governance",
+      "GDPR & privacy compliance architecture – consent management, data layer design, and regulatory technical implementation",
+      "Data layer strategy & custom JavaScript debugging – resolving complex tracking issues and ensuring data integrity",
+      "Production issue resolution & root cause analysis – rapid diagnosis of analytics failures and restoration of reliable data",
+      "Advertising analytics support – event creation, implementation audits, and technical recommendations for campaign tracking",
     ],
   },
   {
