@@ -29,9 +29,9 @@ export function EngagementsSection() {
     <section id="engagements" className="py-24 relative">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Selected Consulting Engagements</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Consulting in focus</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Key engagements where I delivered measurable impact for enterprise clients across analytics, compliance, and automation.
+            Key engagements where I delivered measurable impact for enterprise clients across multiple projects such as analytics, compliance, and automation.
           </p>
         </div>
 
