@@ -100,12 +100,6 @@ export function HeroSection() {
               >
                 <Linkedin className="h-5 w-5 text-muted-foreground hover:text-foreground" />
               </a>
-              <a
-                href="mailto:mohamed@exceptionalgrp.com"
-                className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
-              >
-                <Mail className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-              </a>
             </div>
           </div>
 
