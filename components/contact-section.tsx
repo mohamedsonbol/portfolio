@@ -15,8 +15,8 @@ const socialLinks = [
 ]
 
 const inquiryTypes = [
-  { value: "client", label: "Consulting Engagement", icon: Users },
-  { value: "job", label: "Job Opportunity", icon: Briefcase },
+  { value: "client", label: "Consulting/Project", icon: Users },
+  { value: "job", label: "Long-term Opportunity", icon: Briefcase },
 ]
 
 export function ContactSection() {
@@ -153,7 +153,7 @@ export function ContactSection() {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
                 </span>
                 <p className="text-sm">
-                  Currently <span className="text-accent font-medium">available</span> for enterprise consulting engagements
+                  Currently <span className="text-accent font-medium">available</span> for a new adventure.
                 </p>
               </div>
             </div>
@@ -172,8 +172,8 @@ export function ContactSection() {
                       type="button"
                       onClick={() => setFormData({ ...formData, inquiryType: type.value, budget: "" })}
                       className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${formData.inquiryType === type.value
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-border bg-secondary/50 hover:border-primary/50"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border bg-secondary/50 hover:border-primary/50"
                         }`}
                     >
                       <type.icon className="h-4 w-4" />
