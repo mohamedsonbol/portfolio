@@ -11,7 +11,7 @@ export function Footer() {
           </div>
 
           <p className="text-sm text-muted-foreground flex items-center gap-1">
-            Built with <Heart className="h-4 w-4 text-destructive fill-destructive" /> using Vercel / Supabase
+            Built with <Heart className="h-4 w-4 text-destructive fill-destructive" />
           </p>
 
           <p className="text-sm text-muted-foreground">
