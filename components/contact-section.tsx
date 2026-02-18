@@ -153,7 +153,7 @@ export function ContactSection() {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
                 </span>
                 <p className="text-sm">
-                  Currently <span className="text-accent font-medium">available</span>.
+                  Currently <span className="text-accent font-medium">available</span> for opportunities.
                 </p>
               </div>
             </div>
