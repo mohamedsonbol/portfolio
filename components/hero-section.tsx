@@ -142,10 +142,10 @@ export function HeroSection() {
         {/* Scroll indicator */}
         <a
           href="#skills"
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer"
+          className="absolute bottom-10 right-10 animate-bounce cursor-pointer p-3 rounded-full bg-secondary/50 border border-border/50 hover:bg-primary/20 hover:border-primary/40 transition-all"
           aria-label="Scroll to next section"
         >
-          <ChevronDown className="h-6 w-6 text-muted-foreground hover:text-foreground transition-colors" />
+          <ChevronDown className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
         </a>
       </div>
     </section>
