@@ -76,9 +76,6 @@ export function HeroSection() {
 
             <div className="flex flex-wrap items-center gap-3 pt-4">
               <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
-                <a href="#contact">Get in Touch</a>
-              </Button>
-              <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
                 <a href="/projects">Projects</a>
               </Button>
               <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
