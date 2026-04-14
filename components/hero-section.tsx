@@ -74,12 +74,18 @@ export function HeroSection() {
               issues that standard development teams {"can't"} resolve.
             </p>
 
-            <div className="flex items-center gap-4 pt-4">
+            <div className="flex flex-wrap items-center gap-3 pt-4">
               <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-6" asChild>
                 <a href="#engagements">View Engagements</a>
               </Button>
-              <Button variant="outline" className="border-border hover:bg-secondary bg-transparent" asChild>
+              <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
                 <a href="#contact">Get in Touch</a>
+              </Button>
+              <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
+                <a href="/projects">Projects</a>
+              </Button>
+              <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
+                <a href="/resume">Resume</a>
               </Button>
             </div>
 
@@ -88,7 +94,7 @@ export function HeroSection() {
                 href="https://github.com/mohamedsonbol"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+                className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
               >
                 <Github className="h-5 w-5 text-muted-foreground hover:text-foreground" />
               </a>
@@ -96,7 +102,7 @@ export function HeroSection() {
                 href="https://www.linkedin.com/in/mohamedsonbol"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
+                className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
               >
                 <Linkedin className="h-5 w-5 text-muted-foreground hover:text-foreground" />
               </a>
@@ -142,9 +148,13 @@ export function HeroSection() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-          <ChevronDown className="h-6 w-6 text-muted-foreground" />
-        </div>
+        <a
+          href="#skills"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer"
+          aria-label="Scroll to next section"
+        >
+          <ChevronDown className="h-6 w-6 text-muted-foreground hover:text-foreground transition-colors" />
+        </a>
       </div>
     </section>
   )
