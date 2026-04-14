@@ -56,55 +56,53 @@ export function HeroSection() {
       />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left side - Text content */}
-          <div className="space-y-6">
+        {/* All content centered in a single column */}
+        <div className="flex flex-col items-center text-center max-w-2xl mx-auto space-y-8">
 
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              <span className="text-foreground">Mohamed Ezzat</span>
-            </h1>
+          {/* Tagline */}
+          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+            <span className="text-primary font-medium">I'm an experienced Technical Consultant</span> specializing in{" "}
+            <span className="text-primary font-medium">Analytics Implementation, Tag Management, and Enterprise SaaS Technical consulting</span>
+          </p>
 
-            <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
-              <span className="text-primary font-medium">I'm an experienced Technical Consultant</span> specializing in{" "}
-              <span className="text-primary font-medium">Analytics Implementation, Tag Management, and Enterprise SaaS Technical consulting</span>
-            </p>
+          {/* Description */}
+          <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
+            I help enterprise clients collect accurate data, maintain GDPR compliance, and solve complex production
+            issues that standard development teams {"can't"} resolve.
+          </p>
 
-            <p className="text-base text-muted-foreground max-w-lg leading-relaxed">
-              I help enterprise clients collect accurate data, maintain GDPR compliance, and solve complex production
-              issues that standard development teams {"can't"} resolve.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3 pt-4">
-              <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
-                <a href="/projects">Projects</a>
-              </Button>
-              <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
-                <a href="/resume">Resume</a>
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-4 pt-4">
-              <a
-                href="https://github.com/mohamedsonbol"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
-              >
-                <Github className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/mohamedsonbol"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
-              >
-                <Linkedin className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-              </a>
-            </div>
+          {/* Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
+              <a href="/projects">Projects</a>
+            </Button>
+            <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
+              <a href="/resume">Resume</a>
+            </Button>
           </div>
 
-          {/* Right side - Terminal */}
-          <div className="animate-float">
+          {/* Social icons */}
+          <div className="flex items-center gap-3">
+            <a
+              href="https://github.com/mohamedsonbol"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
+            >
+              <Github className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/mohamedsonbol"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
+            >
+              <Linkedin className="h-5 w-5 text-muted-foreground hover:text-foreground" />
+            </a>
+          </div>
+
+          {/* Terminal */}
+          <div className="w-full max-w-xl animate-float">
             <div className="bg-card rounded-2xl border border-border shadow-2xl overflow-hidden animate-glow">
               {/* Terminal header */}
               <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
@@ -117,7 +115,7 @@ export function HeroSection() {
               </div>
 
               {/* Terminal content */}
-              <div className="p-6 font-mono text-sm space-y-2 min-h-[280px]">
+              <div className="p-6 font-mono text-sm space-y-2 min-h-[240px]">
                 {displayedLines.map((line, index) => (
                   <div key={index} className={line.isOutput ? "text-accent pl-4" : "text-muted-foreground"}>
                     {line.text}
