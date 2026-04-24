@@ -130,8 +130,7 @@ const en = {
   // Footer
   footer: {
     rights: "All rights reserved",
-    builtWith: "Built with",
-    by: "by Mohamed Ezzat Sonbol",
+    builtWith: "Built with modern web technologies",
   },
   // Common
   common: {
@@ -288,8 +287,7 @@ const ar = {
   // Footer
   footer: {
     rights: "جميع الحقوق محفوظة",
-    builtWith: "مبني بـ",
-    by: "بواسطة محمد عزت سنبل",
+    builtWith: "مبني بأحدث تقنيات الويب",
   },
   // Common
   common: {

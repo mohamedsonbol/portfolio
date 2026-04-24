@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Code2, Heart, Github, Linkedin, MessageCircle } from "lucide-react"
+import { Code2, Github, Linkedin, MessageCircle } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 
 export function Footer() {
@@ -30,8 +30,8 @@ export function Footer() {
               <Code2 className="h-5 w-5" />
               <span>Mohamed Sonbol</span>
             </Link>
-            <p className="text-sm text-muted-foreground flex items-center gap-1">
-              © {new Date().getFullYear()} • {t.footer.builtWith} <Heart className="h-4 w-4 text-destructive fill-destructive" /> {t.footer.by}
+            <p className="text-sm text-muted-foreground">
+              © {new Date().getFullYear()} • {t.footer.builtWith}
             </p>
           </div>
 
