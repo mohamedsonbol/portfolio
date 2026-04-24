@@ -75,7 +75,8 @@
 }
 
 @theme inline {
-  --font-sans: "Inter", "Inter Fallback", system-ui, sans-serif;
+  --font-sans: "Inter", "IBM Plex Sans Arabic", "Inter Fallback", system-ui, sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Geist Mono", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -178,4 +179,14 @@
 .dark .glass {
   background: oklch(0.2 0.02 230 / 0.3);
   border: 1px solid oklch(1 0 0 / 0.05);
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  font-family: var(--font-arabic), var(--font-sans);
+}
+
+[dir="rtl"] .font-mono {
+  direction: ltr;
+  unicode-bidi: embed;
 }

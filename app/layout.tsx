@@ -1,16 +1,25 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, JetBrains_Mono } from "next/font/google"
+import { Inter, IBM_Plex_Sans_Arabic } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
+import { I18nProvider } from "@/lib/i18n"
 import "./globals.css"
 
-const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const _jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" })
+const inter = Inter({ 
+  subsets: ["latin"], 
+  variable: "--font-inter" 
+})
+
+const ibmPlexArabic = IBM_Plex_Sans_Arabic({ 
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-arabic" 
+})
 
 export const metadata: Metadata = {
-  title: "Mohamed Sonbol | Enterprise Technical Consultant",
-  description: "Technical Consultant specializing in Analytics Implementation, Tag Management, and Enterprise Data Infrastructure",
+  title: "Mohamed Sonbol | Technical Consultant & Web Developer",
+  description: "Technical Consultant and Web Developer serving GCC (UAE, Saudi Arabia, Kuwait) and Europe (Germany, France, Poland). Specializing in web development, e-commerce, and technical consulting.",
   generator: "v0.app",
   icons: {
     icon: [
@@ -37,10 +46,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`font-sans antialiased`}>
+    <html lang="en" dir="ltr" suppressHydrationWarning className="bg-background">
+      <body className={`${inter.variable} ${ibmPlexArabic.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
+          <I18nProvider>
+            {children}
+          </I18nProvider>
         </ThemeProvider>
         <Analytics />
       </body>

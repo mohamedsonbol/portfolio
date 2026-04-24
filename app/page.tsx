@@ -1,8 +1,9 @@
+"use client"
+
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
-import { SkillsSection } from "@/components/skills-section"
-import { EngagementsSection } from "@/components/engagements-section"
-import { ContactSection } from "@/components/contact-section"
+import { ServicesPreview } from "@/components/services-preview"
+import { CTASection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
 
 export default function HomePage() {
@@ -10,9 +11,8 @@ export default function HomePage() {
     <main className="min-h-screen bg-background">
       <Navigation />
       <HeroSection />
-      <SkillsSection />
-      <EngagementsSection />
-      <ContactSection />
+      <ServicesPreview />
+      <CTASection />
       <Footer />
     </main>
   )

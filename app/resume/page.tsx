@@ -1,14 +1,13 @@
-import type { Metadata } from "next"
+"use client"
+
 import { FileText, Download, ExternalLink } from "lucide-react"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-
-export const metadata: Metadata = {
-  title: "Resume | Mohamed Sonbol",
-  description: "Professional resume of Mohamed Sonbol — Enterprise Technical Consultant",
-}
+import { useI18n } from "@/lib/i18n"
 
 export default function ResumePage() {
+  const { t } = useI18n()
+
   return (
     <main className="min-h-screen bg-background flex flex-col">
       <Navigation />
@@ -22,7 +21,7 @@ export default function ResumePage() {
                 <FileText className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold">Resume</h1>
+                <h1 className="text-3xl md:text-4xl font-bold">{t.resume.title}</h1>
                 <p className="text-muted-foreground text-sm mt-1">Mohamed Sonbol</p>
               </div>
             </div>
@@ -33,7 +32,7 @@ export default function ResumePage() {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
               >
                 <Download className="h-4 w-4" />
-                Download PDF
+                {t.resume.download}
               </a>
               <a
                 href="/Resume.pdf"
@@ -42,7 +41,7 @@ export default function ResumePage() {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border text-sm font-medium hover:bg-secondary transition-colors"
               >
                 <ExternalLink className="h-4 w-4" />
-                Open in New Tab
+                {t.resume.openNew}
               </a>
             </div>
           </div>

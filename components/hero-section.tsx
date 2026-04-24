@@ -1,54 +1,22 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Github, Linkedin, Mail, ChevronDown } from "lucide-react"
+import Link from "next/link"
+import { ArrowRight, MessageCircle, Github, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const terminalLines = [
-  { text: "$ tell about-me.mo", delay: 0 },
-  { text: "> 100+ enterprise clients supported across Accenture, Samsung SDS, and Sauce Labs", delay: 800, isOutput: true },
-  { text: "> GDPR compliance lead for initiatives spanning multiple European markets", delay: 1600, isOutput: true },
-  { text: "> Tag management expert across Google, Adobe, and Tealium platforms (client-side and server-side)", delay: 2400, isOutput: true },
-  { text: "> JavaScript specialist with web development and debugging experience", delay: 3200, isOutput: true },
-]
+import { useI18n } from "@/lib/i18n"
 
 export function HeroSection() {
-  const [displayedLines, setDisplayedLines] = useState<typeof terminalLines>([])
-  const [currentLineIndex, setCurrentLineIndex] = useState(0)
-  const [currentText, setCurrentText] = useState("")
-  const [isTyping, setIsTyping] = useState(true)
-
-  useEffect(() => {
-    if (currentLineIndex >= terminalLines.length) {
-      setIsTyping(false)
-      return
-    }
-
-    const currentLine = terminalLines[currentLineIndex]
-    const timeout = setTimeout(
-      () => {
-        if (currentText.length < currentLine.text.length) {
-          setCurrentText(currentLine.text.slice(0, currentText.length + 1))
-        } else {
-          setDisplayedLines([...displayedLines, currentLine])
-          setCurrentText("")
-          setCurrentLineIndex(currentLineIndex + 1)
-        }
-      },
-      currentLine.isOutput ? 30 : 50,
-    )
-
-    return () => clearTimeout(timeout)
-  }, [currentLineIndex, currentText, displayedLines])
+  const { t, dir } = useI18n()
+  const whatsappLink = "https://wa.me/48732785743?text=Hi%20Mohamed%2C%20I'd%20like%20to%20discuss%20a%20project."
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
 
       {/* Grid pattern */}
       <div
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
@@ -56,38 +24,56 @@ export function HeroSection() {
       />
 
       <div className="container mx-auto px-6 relative z-10">
-        {/* All content centered in a single column */}
-        <div className="flex flex-col items-center text-center max-w-2xl mx-auto space-y-8">
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-8">
+          {/* Greeting Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+            </span>
+            <span className="text-sm text-primary font-medium">{t.contact.availability.available}</span>
+          </div>
 
-          {/* Tagline */}
-          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-            <span className="text-primary font-medium">I'm an experienced Technical Consultant</span> specializing in{" "}
-            <span className="text-primary font-medium">Analytics Implementation, Tag Management, and Enterprise SaaS Technical consulting</span>
+          {/* Main Heading */}
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight text-balance">
+            <span className="text-foreground">{t.hero.greeting}</span>
+            <br />
+            <span className="text-primary">{t.hero.title}</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed text-pretty">
+            {t.hero.subtitle}
           </p>
 
           {/* Description */}
-          <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-            I help enterprise clients collect accurate data, maintain GDPR compliance, and solve complex production
-            issues that standard development teams {"can't"} resolve.
+          <p className="text-base text-muted-foreground leading-relaxed max-w-2xl">
+            {t.hero.description}
           </p>
 
-          {/* Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
-              <a href="/projects">Projects</a>
+          {/* CTA Buttons */}
+          <div className={`flex flex-wrap items-center justify-center gap-4 ${dir === "rtl" ? "flex-row-reverse" : ""}`}>
+            <Button size="lg" className="gap-2" asChild>
+              <Link href="/services">
+                {t.hero.cta.services}
+                <ArrowRight className={`h-4 w-4 ${dir === "rtl" ? "rotate-180" : ""}`} />
+              </Link>
             </Button>
-            <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
-              <a href="/resume">Resume</a>
+            <Button size="lg" variant="outline" className="gap-2 border-primary/30 hover:bg-primary/10" asChild>
+              <Link href="/contact">
+                {t.hero.cta.contact}
+              </Link>
             </Button>
           </div>
 
-          {/* Social icons */}
-          <div className="flex items-center gap-3">
+          {/* Social Links */}
+          <div className="flex items-center gap-4 pt-4">
             <a
               href="https://github.com/mohamedsonbol"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
+              className="p-3 rounded-xl bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
+              aria-label="GitHub"
             >
               <Github className="h-5 w-5 text-muted-foreground hover:text-foreground" />
             </a>
@@ -95,58 +81,44 @@ export function HeroSection() {
               href="https://www.linkedin.com/in/mohamedsonbol"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
+              className="p-3 rounded-xl bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
+              aria-label="LinkedIn"
             >
               <Linkedin className="h-5 w-5 text-muted-foreground hover:text-foreground" />
             </a>
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-xl bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 hover:border-[#25D366]/50 transition-all"
+              aria-label="WhatsApp"
+            >
+              <MessageCircle className="h-5 w-5 text-[#25D366]" />
+            </a>
           </div>
 
-          {/* Terminal */}
-          <div className="w-full max-w-xl animate-float">
-            <div className="bg-card rounded-2xl border border-border shadow-2xl overflow-hidden animate-glow">
-              {/* Terminal header */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-destructive/60" />
-                  <div className="w-3 h-3 rounded-full bg-chart-4/60" />
-                  <div className="w-3 h-3 rounded-full bg-accent/60" />
-                </div>
-                <span className="text-xs text-muted-foreground font-mono ml-2">~/enterprise-consulting</span>
-              </div>
-
-              {/* Terminal content */}
-              <div className="p-6 font-mono text-sm space-y-2 min-h-[240px]">
-                {displayedLines.map((line, index) => (
-                  <div key={index} className={line.isOutput ? "text-accent pl-4" : "text-muted-foreground"}>
-                    {line.text}
-                  </div>
-                ))}
-                {currentLineIndex < terminalLines.length && (
-                  <div
-                    className={terminalLines[currentLineIndex]?.isOutput ? "text-accent pl-4" : "text-muted-foreground"}
-                  >
-                    {currentText}
-                    <span className="animate-terminal-blink text-primary">▌</span>
-                  </div>
-                )}
-                {!isTyping && (
-                  <div className="text-muted-foreground">
-                    $ <span className="animate-terminal-blink text-primary">▌</span>
-                  </div>
-                )}
-              </div>
-            </div>
+          {/* Regions Badge */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+            <span className="px-3 py-1 rounded-full bg-secondary text-xs text-muted-foreground border border-border">
+              UAE
+            </span>
+            <span className="px-3 py-1 rounded-full bg-secondary text-xs text-muted-foreground border border-border">
+              Saudi Arabia
+            </span>
+            <span className="px-3 py-1 rounded-full bg-secondary text-xs text-muted-foreground border border-border">
+              Kuwait
+            </span>
+            <span className="px-3 py-1 rounded-full bg-secondary text-xs text-muted-foreground border border-border">
+              Germany
+            </span>
+            <span className="px-3 py-1 rounded-full bg-secondary text-xs text-muted-foreground border border-border">
+              France
+            </span>
+            <span className="px-3 py-1 rounded-full bg-secondary text-xs text-muted-foreground border border-border">
+              Poland
+            </span>
           </div>
         </div>
-
-        {/* Scroll indicator */}
-        <a
-          href="#skills"
-          className="absolute bottom-10 right-10 animate-bounce cursor-pointer p-3 rounded-full bg-secondary/50 border border-border/50 hover:bg-primary/20 hover:border-primary/40 transition-all"
-          aria-label="Scroll to next section"
-        >
-          <ChevronDown className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
-        </a>
       </div>
     </section>
   )
