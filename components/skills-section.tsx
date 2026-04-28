@@ -1,114 +1,116 @@
 "use client"
 
-import { useState } from "react"
-import { Tag, Shield, Users, Rocket } from "lucide-react"
+import { Tag, Shield, Code2, Rocket, Globe } from "lucide-react"
 
-const consultingCategories = [
+const specialties = [
   {
-    id: "core",
-    title: "Core Consulting Specialties",
     icon: Tag,
-    items: [
-      "Tag Management Systems (Google, Adobe, Tealium) – client‑side & server‑side implementation, optimization, and governance",
-      "GDPR & privacy compliance architecture – consent management, data layer design, and regulatory technical implementation",
-      "Data layer strategy & custom JavaScript debugging – resolving complex tracking issues and ensuring data integrity",
-      "Production issue resolution & root cause analysis – rapid diagnosis of analytics failures and restoration of reliable data",
-      "Advertising analytics support – event creation, implementation audits, and technical recommendations for campaign tracking",
-    ],
+    title: "Tag Management",
+    tagline: "Zero data loss. Total control.",
+    description:
+      "End-to-end implementation, migration, and governance across client-side and server-side tag management environments.",
+    chips: ["Client-side", "Server-Side"],
+    image: "/specialty-tag-management.png",
   },
   {
-    id: "technical",
-    title: "Technical Implementation",
     icon: Shield,
-    items: [
-      "Custom JavaScript (ES6+) for tracking solutions, debugging, and data layer fixes",
-      "API integrations, webhooks, and distributed systems debugging",
-      "Advertising technical consulting: event creation, implementation audits, and optimization recommendations",
-      "Automation frameworks: Selenium, WebdriverIO, n8n for testing and workflow orchestration",
-      "Cloud environments & server-side tagging infrastructure (GTM SS, Adobe Launch)",
-    ]
+    title: "Privacy & Compliance",
+    tagline: "GDPR-ready from day one.",
+    description:
+      "Consent architecture, data layer design, and regulatory implementation so your analytics stays compliant without sacrificing insight.",
+    chips: ["GDPR", "Consent Management", "Data Layer"],
+    image: "/specialty-privacy-compliance.png",
   },
   {
-    id: "client-facing",
-    title: "Client-Facing Capabilities",
-    icon: Users,
-    items: [
-      "Technical Requirements Gathering & Documentation",
-      "Cross-functional Team Coordination (Engineering, Marketing, Legal)",
-      "Stakeholder Communication & Translation of Complex Concepts",
-      "Project Management: Jira, Salesforce, Looker, Apps Script",
-    ],
+    icon: Code2,
+    title: "TypeScript & Tracking",
+    tagline: "Fix what others can't find.",
+    description:
+      "Deep-dive production tracking audits, custom TypeScript solutions, and data integrity fixes that turn broken implementations into reliable pipelines.",
+    chips: ["TypeScript", "Data Layer", "Tracking Audits", "Root Cause"],
+    image: "/specialty-typescript-tracking.png",
   },
   {
-    id: "expansion",
-    title: "Current Expansion Areas",
     icon: Rocket,
-    items: [
-      "AI‑driven automation & workflow orchestration (n8n, custom scripts)",
-      "Modern web development for analytics tooling (React, Node.js, APIs)",
-      "Blockchain fundamentals & smart contract development",
-      "LLM operations & MCP server development",
-      "Vibe coding: AI‑assisted development & rapid prototyping",
-    ],
+    title: "Growth & Automation",
+    tagline: "Analytics that scales with you.",
+    description:
+      "AI-assisted workflows and automation tooling that reduce manual overhead and accelerate your analytics operations.",
+    chips: ["AI Workflows", "Automation"],
+    image: "/specialty-automation.png",
+  },
+  {
+    icon: Globe,
+    title: "Full Stack Development",
+    tagline: "From idea to production.",
+    description:
+      "Modern full-stack applications built with React, Next.js, MongoDB, and REST APIs — from architecture to deployment.",
+    chips: ["React", "Next.js", "MongoDB", "APIs"],
+    image: "/specialty-fullstack.png",
   },
 ]
 
 export function SkillsSection() {
-  const [activeCategory, setActiveCategory] = useState("core")
-  const activeGroup = consultingCategories.find((cat) => cat.id === activeCategory)
-
   return (
     <section id="skills" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+
+        {/* Header */}
+        <div className="text-center mb-14">
+          <p className="text-xs font-mono text-primary uppercase tracking-widest mb-3">What I bring</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Specialties</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            A comprehensive overview of my consulting capabilities across analytics, compliance, and enterprise data infrastructure.
+          <p className="text-muted-foreground max-w-xl mx-auto text-sm leading-relaxed">
+            Precision analytics consulting — from implementation to audit — built for enterprise teams that can't afford blind spots.
           </p>
         </div>
 
-        {/* Category Tabs */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {consultingCategories.map((category) => {
-            const Icon = category.icon
-            const isActive = activeCategory === category.id
-            return (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`p-4 rounded-xl border transition-all duration-300 text-left ${isActive
-                  ? "bg-primary/10 border-primary shadow-lg shadow-primary/10"
-                  : "bg-card border-border hover:border-primary/50"
-                  }`}
-              >
-                <Icon className={`h-6 w-6 mb-2 ${isActive ? "text-primary" : "text-muted-foreground"}`} />
-                <p className={`font-medium text-sm ${isActive ? "text-primary" : "text-foreground"}`}>
-                  {category.title}
-                </p>
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Skills Display */}
-        <div className="bg-card rounded-2xl border border-border p-8">
-          {activeGroup && (
-            <>
-              <div className="flex items-center gap-3 mb-8">
-                <activeGroup.icon className="h-6 w-6 text-primary" />
-                <h3 className="text-xl font-semibold">{activeGroup.title}</h3>
+        {/* Cards — 5 columns on xl, 3 on lg, 2 on sm */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 max-w-7xl mx-auto">
+          {specialties.map(({ icon: Icon, title, tagline, description, chips, image }) => (
+            <div
+              key={title}
+              className="group relative flex flex-col rounded-2xl bg-card border border-border overflow-hidden transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5"
+            >
+              {/* Image banner */}
+              <div className="relative h-40 overflow-hidden flex-shrink-0">
+                <img
+                  src={image}
+                  alt={title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
               </div>
 
-              <ul className="space-y-4">
-                {activeGroup.items.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <span className="mt-1.5 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-                    <span className="text-muted-foreground leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
+              {/* Card body */}
+              <div className="flex flex-col gap-4 flex-1 p-5 pt-3">
+                {/* Icon */}
+                <div className="p-2.5 rounded-xl bg-primary/10 w-fit">
+                  <Icon className="h-5 w-5 text-primary" />
+                </div>
+
+                {/* Text */}
+                <div className="flex flex-col gap-1.5 flex-1">
+                  <h3 className="font-semibold text-base group-hover:text-primary transition-colors duration-200">
+                    {title}
+                  </h3>
+                  <p className="text-xs font-mono text-primary/70">{tagline}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1">{description}</p>
+                </div>
+
+                {/* Chips */}
+                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-border/50">
+                  {chips.map((chip) => (
+                    <span
+                      key={chip}
+                      className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-primary/8 text-primary/80 border border-primary/12"
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

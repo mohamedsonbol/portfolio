@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 const navLinks = [
   { href: "#skills", label: "Expertise" },
   { href: "#engagements", label: "Engagements" },
-  { href: "#contact", label: "Contact" },
+  { href: "/projects", label: "Projects" },
 ]
 
 export function Navigation() {
@@ -31,7 +31,7 @@ export function Navigation() {
       <nav className="container mx-auto px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 text-primary font-mono font-bold text-lg">
           <Terminal className="h-5 w-5" />
-          <span>Mo Ezzat</span>
+          <span>Mohamed Sonbol</span>
         </Link>
 
         {/* Desktop Navigation */}

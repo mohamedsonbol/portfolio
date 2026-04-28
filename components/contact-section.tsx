@@ -1,95 +1,269 @@
 "use client"
 
-import { MessageCircle, Github, Linkedin } from "lucide-react"
+import { useState } from "react"
+import { Github, Linkedin, Mail, ArrowUpRight, CheckCircle2, Send, Loader2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
-const socialLinks = [
-  { icon: Github, href: "https://github.com/mohamedsonbol", label: "GitHub" },
-  { icon: Linkedin, href: "https://www.linkedin.com/in/mohamedsonbol", label: "LinkedIn" },
-  { icon: MessageCircle, href: "https://wa.me/48732785743", label: "WhatsApp" },
+const services = [
+  "Tag management implementation & audit",
+  "Tagging solution design & governance",
+  "Data analytics audits & QA",
+  "GDPR & consent architecture",
+  "Production tracking issue resolution",
+  "Full-stack analytics tooling",
 ]
 
+const quickLinks = [
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    description: "Professional enquiries",
+    href: "https://www.linkedin.com/in/mohamedsonbol",
+    accent: "#0A66C2",
+    accentBg: "rgba(10,102,194,0.08)",
+    accentBorder: "rgba(10,102,194,0.2)",
+    cta: "Connect",
+  },
+  {
+    icon: Github,
+    label: "GitHub",
+    description: "See my code",
+    href: "https://github.com/mohamedsonbol",
+    accent: "hsl(var(--primary))",
+    accentBg: "hsl(var(--primary) / 0.08)",
+    accentBorder: "hsl(var(--primary) / 0.2)",
+    cta: "View profile",
+  },
+]
+
+type FormStatus = "idle" | "loading" | "success" | "error"
+
 export function ContactSection() {
-  const whatsappLink = "https://wa.me/48732785743?text=Hi%20Mohamed%2C%20I'd%20like%20to%20discuss%20a%20potential%20engagement."
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [message, setMessage] = useState("")
+  const [status, setStatus] = useState<FormStatus>("idle")
+  const [errorMsg, setErrorMsg] = useState("")
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setStatus("loading")
+    setErrorMsg("")
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      })
+
+      if (res.ok) {
+        setStatus("success")
+        setName("")
+        setEmail("")
+        setMessage("")
+      } else {
+        const data = await res.json().catch(() => ({}))
+        setErrorMsg(data?.error ?? "Something went wrong. Please try again.")
+        setStatus("error")
+      }
+    } catch {
+      setErrorMsg("Network error. Please check your connection.")
+      setStatus("error")
+    }
+  }
 
   return (
-    <section id="contact" className="py-24">
+    <section id="contact" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Contact</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            {"Need an expert who understands enterprise analytics infrastructure?"}
+
+        {/* Header */}
+        <div className="text-center mb-14">
+          <p className="text-xs font-mono text-primary uppercase tracking-widest mb-3">Get in touch</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Let's Work Together</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto text-sm leading-relaxed">
+            I take on a limited number of consulting engagements. If you need precise, reliable analytics implementation — let's talk.
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto space-y-8">
-          {/* Consulting engagements card */}
-          <div className="glass rounded-2xl p-8">
-            <h3 className="text-xl font-semibold mb-4">
-              I take on a limited number of consulting engagements for clients who need:
-            </h3>
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 items-start">
 
-            <ul className="space-y-2 mb-6 text-muted-foreground text-sm">
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                Tag management implementation or audit (Google, Adobe, Tealium)
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                GDPR compliance technical architecture
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                Production debugging for tracking and data layer issues
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                Technical project management for analytics initiatives
-              </li>
-            </ul>
+          {/* ── Left: What I help with + quick links ── */}
+          <div className="flex flex-col gap-5">
 
-            <div className="mt-8 pt-8 border-t border-border">
-              <p className="text-sm text-muted-foreground mb-4">Connect with me:</p>
-              <div className="flex gap-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3 rounded-xl bg-secondary hover:bg-primary/10 hover:text-primary transition-all"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="h-5 w-5" />
-                  </a>
-                ))}
+            {/* Services card */}
+            <div className="rounded-2xl bg-card border border-border p-7 flex flex-col gap-5">
+              <div>
+                <h3 className="text-lg font-semibold mb-1">What I help with</h3>
+                <p className="text-sm text-muted-foreground">Specialised consulting for enterprise analytics teams.</p>
               </div>
+
+              <ul className="flex flex-col gap-3">
+                {services.map((service) => (
+                  <li key={service} className="flex items-start gap-3">
+                    <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-muted-foreground leading-snug">{service}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Quick links */}
+            <div className="flex flex-col gap-3">
+              {quickLinks.map(({ icon: Icon, label, description, href, accent, accentBg, accentBorder, cta }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 px-4 py-4 rounded-xl border transition-all duration-200 hover:-translate-y-0.5"
+                  style={{ background: "transparent", borderColor: "hsl(var(--border))" }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement
+                    el.style.background = accentBg
+                    el.style.borderColor = accentBorder
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement
+                    el.style.background = "transparent"
+                    el.style.borderColor = "hsl(var(--border))"
+                  }}
+                >
+                  <div className="p-2.5 rounded-xl flex-shrink-0" style={{ background: accentBg }}>
+                    <Icon className="h-5 w-5" style={{ color: accent }} />
+                  </div>
+                  <div className="flex flex-col flex-1">
+                    <span className="text-sm font-semibold">{label}</span>
+                    <span className="text-xs text-muted-foreground">{description}</span>
+                  </div>
+                  <span
+                    className="text-xs font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                    style={{ color: accent }}
+                  >
+                    {cta}
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </span>
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Availability + WhatsApp row */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 glass rounded-2xl p-5">
-            <div className="flex items-center gap-3">
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-accent" />
-              </span>
-              <p className="text-sm">
-                Currently <span className="text-accent font-medium">available</span> for opportunities.
+          {/* ── Right: Email contact form ── */}
+          <div className="rounded-2xl bg-card border border-border p-7 flex flex-col gap-6">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <Mail className="h-5 w-5 text-primary" />
+                <h3 className="text-lg font-semibold">Send a message</h3>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Replies from{" "}
+                <span className="font-mono text-primary text-xs">ezzat@exceptionalgrp.com</span>{" "}
+                within 24 hours.
               </p>
             </div>
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#25D366/90] text-white text-sm font-medium transition-colors"
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Message on WhatsApp
-            </a>
+
+            {status === "success" ? (
+              <div className="flex flex-col items-center justify-center gap-3 py-10 text-center">
+                <div className="p-3 rounded-full bg-primary/10">
+                  <CheckCircle2 className="h-8 w-8 text-primary" />
+                </div>
+                <p className="font-semibold text-sm">Message sent!</p>
+                <p className="text-xs text-muted-foreground">I'll get back to you within 24 hours.</p>
+                <button
+                  onClick={() => setStatus("idle")}
+                  className="mt-2 text-xs text-primary underline underline-offset-2"
+                >
+                  Send another
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4" id="contact-form">
+
+                {/* Name */}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="contact-name" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    Name
+                  </label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    required
+                    placeholder="Your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full rounded-xl border border-border bg-secondary/40 px-4 py-2.5 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors"
+                  />
+                </div>
+
+                {/* Email */}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="contact-email" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    Email
+                  </label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    required
+                    placeholder="you@company.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full rounded-xl border border-border bg-secondary/40 px-4 py-2.5 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors"
+                  />
+                </div>
+
+                {/* Message */}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="contact-message" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    required
+                    rows={4}
+                    placeholder="Tell me about your project..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="w-full rounded-xl border border-border bg-secondary/40 px-4 py-2.5 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors resize-none"
+                  />
+                </div>
+
+                {/* Error */}
+                {status === "error" && (
+                  <p className="text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
+                    {errorMsg}
+                  </p>
+                )}
+
+                {/* Submit */}
+                <Button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="w-full gap-2 font-semibold"
+                  id="contact-submit"
+                >
+                  {status === "loading" ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      Send Message
+                    </>
+                  )}
+                </Button>
+              </form>
+            )}
           </div>
+
         </div>
+
+        {/* Response time note */}
+        <p className="text-center text-xs text-muted-foreground/60 font-mono mt-8">
+          Typical response time: &lt; 24 hours
+        </p>
+
       </div>
     </section>
   )

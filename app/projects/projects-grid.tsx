@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { ExternalLink, Github, Code2, Globe, FolderGit2, PenSquare } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
+import { ExternalLink, Github, Code2, Globe, FolderGit2, PenSquare, Star, ArrowUpRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 const githubProjects = [
@@ -13,8 +13,9 @@ const githubProjects = [
     tags: ["React", "Next.js", "Routing"],
     github: "https://github.com/mohamedsonbol/routing-app",
     live: "https://routing-app-two.vercel.app",
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/routing-app",
+    image: "/developer-portfolio-website-dark-theme-modern.jpg",
     source: "github" as const,
+    featured: true,
   },
   {
     id: 2,
@@ -24,8 +25,9 @@ const githubProjects = [
     tags: ["Node.js", "Express", "MongoDB", "EJS"],
     github: "https://github.com/mohamedsonbol/moBlog",
     live: "https://blogapp-f2xu.onrender.com/blogs",
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/moBlog",
+    image: "/ai-content-generation-interface-dark.jpg",
     source: "github" as const,
+    featured: false,
   },
   {
     id: 3,
@@ -35,8 +37,9 @@ const githubProjects = [
     tags: ["React", "Material-UI", "API"],
     github: "https://github.com/mohamedsonbol/react-gallery",
     live: null,
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/react-gallery",
+    image: "/cloud-collaboration-dashboard-dark-theme.jpg",
     source: "github" as const,
+    featured: false,
   },
   {
     id: 4,
@@ -46,8 +49,9 @@ const githubProjects = [
     tags: ["Express", "MongoDB", "REST API", "Auth"],
     github: "https://github.com/mohamedsonbol/yelp-camp-refactored",
     live: null,
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/yelp-camp-refactored",
+    image: "/ecommerce-shopping-website-dark-theme.jpg",
     source: "github" as const,
+    featured: false,
   },
   {
     id: 5,
@@ -57,8 +61,9 @@ const githubProjects = [
     tags: ["React", "Node.js", "Express", "CSS"],
     github: "https://github.com/mohamedsonbol/moPortfolio",
     live: "https://moportfolio-4ezb.onrender.com",
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/moPortfolio",
+    image: "/developer-portfolio-website-dark-theme-modern.jpg",
     source: "github" as const,
+    featured: false,
   },
   {
     id: 6,
@@ -68,8 +73,9 @@ const githubProjects = [
     tags: ["Selenium", "Node.js", "Testing"],
     github: "https://github.com/mohamedsonbol/selenium-demo-js",
     live: null,
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/selenium-demo-js",
+    image: "/developer-metrics-analytics-dashboard.jpg",
     source: "github" as const,
+    featured: false,
   },
   {
     id: 7,
@@ -79,8 +85,9 @@ const githubProjects = [
     tags: ["HTML5", "CSS3", "Responsive"],
     github: "https://github.com/mohamedsonbol/websitePractice",
     live: null,
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/websitePractice",
+    image: "/sustainability-eco-tracker-app-green.jpg",
     source: "github" as const,
+    featured: false,
   },
   {
     id: 8,
@@ -90,8 +97,9 @@ const githubProjects = [
     tags: ["HTML5", "CSS3", "Responsive"],
     github: "https://github.com/mohamedsonbol/The-Gym",
     live: null,
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/The-Gym",
+    image: "/task-manager-kanban-board-dark-theme.jpg",
     source: "github" as const,
+    featured: false,
   },
   {
     id: 9,
@@ -101,8 +109,9 @@ const githubProjects = [
     tags: ["TypeScript", "Analytics", "Data"],
     github: "https://github.com/mohamedsonbol/data-layer-reviewer",
     live: null,
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/data-layer-reviewer",
+    image: "/developer-metrics-analytics-dashboard.jpg",
     source: "github" as const,
+    featured: false,
   },
   {
     id: 10,
@@ -112,8 +121,9 @@ const githubProjects = [
     tags: ["JavaScript", "Testing", "Automation"],
     github: "https://github.com/mohamedsonbol/saucetechtest",
     live: null,
-    image: "https://opengraph.githubassets.com/default/mohamedsonbol/saucetechtest",
+    image: "/kanban-project-management-dark-theme.jpg",
     source: "github" as const,
+    featured: false,
   },
 ]
 
@@ -124,8 +134,9 @@ const codepenProjects = [
     description: "An interactive game to practice and master CSS selectors through hands-on challenges.",
     tags: ["CSS", "Game", "Interactive"],
     codepen: "https://codepen.io/mowhocodes/pen/bGevVxb",
-    image: "https://shots.codepen.io/mowhocodes/pen/bGevVxb-1280.jpg",
+    image: "/weather-dashboard-app-dark-theme-modern.jpg",
     source: "codepen" as const,
+    featured: false,
   },
   {
     id: 102,
@@ -133,8 +144,9 @@ const codepenProjects = [
     description: "Playable drum kit using keyboard inputs and Web Audio API to produce drum sounds.",
     tags: ["JavaScript", "Audio", "Web API"],
     codepen: "https://codepen.io/mowhocodes/pen/JjGZVZy",
-    image: "https://shots.codepen.io/mowhocodes/pen/JjGZVZy-1280.jpg",
+    image: "/chat-messaging-app-dark-theme-modern.jpg",
     source: "codepen" as const,
+    featured: false,
   },
   {
     id: 103,
@@ -142,8 +154,9 @@ const codepenProjects = [
     description: "A beautifully styled analog clock built with pure CSS and JavaScript showing real time.",
     tags: ["CSS", "JavaScript", "Time"],
     codepen: "https://codepen.io/mowhocodes/pen/MWpELXa",
-    image: "https://shots.codepen.io/mowhocodes/pen/MWpELXa-1280.jpg",
+    image: "/kanban-project-management-dark-theme.jpg",
     source: "codepen" as const,
+    featured: false,
   },
   {
     id: 104,
@@ -151,8 +164,9 @@ const codepenProjects = [
     description: "Generate and tweet random inspirational quotes with this responsive single-page application.",
     tags: ["JavaScript", "API", "Quotes"],
     codepen: "https://codepen.io/mowhocodes/pen/eYrPGzz",
-    image: "https://shots.codepen.io/mowhocodes/pen/eYrPGzz-1280.jpg",
+    image: "/ai-content-generation-interface-dark.jpg",
     source: "codepen" as const,
+    featured: false,
   },
   {
     id: 105,
@@ -160,8 +174,9 @@ const codepenProjects = [
     description: "Live markdown editor with instant preview supporting GitHub-flavored markdown syntax.",
     tags: ["JavaScript", "Markdown", "Editor"],
     codepen: "https://codepen.io/mowhocodes/pen/jOLWBMd",
-    image: "https://shots.codepen.io/mowhocodes/pen/jOLWBMd-1280.jpg",
+    image: "/cloud-collaboration-dashboard-dark-theme.jpg",
     source: "codepen" as const,
+    featured: false,
   },
   {
     id: 106,
@@ -169,8 +184,9 @@ const codepenProjects = [
     description: "Productivity timer with customizable work and break intervals featuring audio notifications.",
     tags: ["JavaScript", "Productivity", "Timer"],
     codepen: "https://codepen.io/mowhocodes/pen/wvajjdb",
-    image: "https://shots.codepen.io/mowhocodes/pen/wvajjdb-1280.jpg",
+    image: "/task-manager-kanban-board-dark-theme.jpg",
     source: "codepen" as const,
+    featured: false,
   },
   {
     id: 107,
@@ -178,8 +194,9 @@ const codepenProjects = [
     description: "Fully functional calculator with keyboard support and a clean, modern interface.",
     tags: ["JavaScript", "Calculator", "Math"],
     codepen: "https://codepen.io/mowhocodes/pen/xxOBepg",
-    image: "https://shots.codepen.io/mowhocodes/pen/xxOBepg-1280.jpg",
+    image: "/password-manager-security-app-dark.jpg",
     source: "codepen" as const,
+    featured: false,
   },
   {
     id: 108,
@@ -187,35 +204,194 @@ const codepenProjects = [
     description: "Classic Tic Tac Toe game with AI opponent, multiple difficulty levels, and score tracking.",
     tags: ["JavaScript", "Game", "AI"],
     codepen: "https://codepen.io/mowhocodes/pen/bGevjWv",
-    image: "https://shots.codepen.io/mowhocodes/pen/bGevjWv-1280.jpg",
+    image: "/ecommerce-shopping-website-dark-theme.jpg",
     source: "codepen" as const,
+    featured: false,
   },
 ]
 
 type Project = (typeof githubProjects)[number] | (typeof codepenProjects)[number]
 type FilterType = "all" | "github" | "codepen"
 
-const languageColors: Record<string, string> = {
-  JavaScript: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  TypeScript: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  HTML: "bg-orange-500/20 text-orange-400 border-orange-500/30",
-  EJS: "bg-green-500/20 text-green-400 border-green-500/30",
-  CSS: "bg-pink-500/20 text-pink-400 border-pink-500/30",
+const languageColors: Record<string, { bg: string; text: string; border: string; dot: string }> = {
+  JavaScript: { bg: "rgba(234,179,8,0.12)", text: "#eab308", border: "rgba(234,179,8,0.25)", dot: "#eab308" },
+  TypeScript: { bg: "rgba(59,130,246,0.12)", text: "#60a5fa", border: "rgba(59,130,246,0.25)", dot: "#60a5fa" },
+  HTML:       { bg: "rgba(249,115,22,0.12)", text: "#fb923c", border: "rgba(249,115,22,0.25)", dot: "#fb923c" },
+  EJS:        { bg: "rgba(34,197,94,0.12)",  text: "#4ade80", border: "rgba(34,197,94,0.25)",  dot: "#4ade80" },
+  CSS:        { bg: "rgba(236,72,153,0.12)", text: "#f472b6", border: "rgba(236,72,153,0.25)", dot: "#f472b6" },
 }
 
+function useIntersectionObserver(threshold = 0.1) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true) }, { threshold })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [threshold])
+  return { ref, visible }
+}
+
+/* ─── Individual card ─────────────────────────────────────────── */
+function ProjectCard({ project, index, featured = false }: { project: Project; index: number; featured?: boolean }) {
+  const isGithub = project.source === "github"
+  const lang = "language" in project ? project.language : undefined
+  const langStyle = lang ? languageColors[lang] : null
+  const { ref, visible } = useIntersectionObserver(0.05)
+
+  return (
+    <div
+      ref={ref}
+      className={`group relative rounded-2xl bg-card border border-border overflow-hidden flex flex-col transition-all duration-500 cursor-pointer${featured ? " md:col-span-2 md:flex-row" : ""}`}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(24px)",
+        transition: `opacity 500ms ease ${index * 60}ms, transform 500ms ease ${index * 60}ms, border-color 300ms ease, box-shadow 300ms ease`,
+        boxShadow: "0 0 0 0 transparent",
+      }}
+      onMouseEnter={(e) => {
+        ;(e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--primary) / 0.35)"
+        ;(e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 32px -8px hsl(var(--primary) / 0.15), 0 0 0 1px hsl(var(--primary) / 0.08)"
+      }}
+      onMouseLeave={(e) => {
+        ;(e.currentTarget as HTMLDivElement).style.borderColor = ""
+        ;(e.currentTarget as HTMLDivElement).style.boxShadow = "0 0 0 0 transparent"
+      }}
+    >
+      {/* Image */}
+      <div className={`relative overflow-hidden flex-shrink-0${featured ? " md:w-[42%] h-52 md:h-auto" : " h-44"}`}>
+        <img
+          src={project.image}
+          alt={`${project.title} preview`}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+          onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
+        />
+        {/* Dark overlay */}
+        <div className={`absolute inset-0 bg-gradient-to-t from-card/90 via-card/20 to-transparent${featured ? " md:bg-gradient-to-r md:from-transparent md:to-card/60" : ""}`} />
+
+        {/* Badges row */}
+        <div className="absolute top-3 left-3 flex items-center gap-2">
+          {/* Source badge */}
+          <span
+            className={`inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2 py-1 rounded-md border backdrop-blur-sm ${
+              isGithub
+                ? "bg-black/70 text-white border-white/10"
+                : "bg-[#1e1e2e]/80 text-[#58a6ff] border-[#58a6ff]/20"
+            }`}
+          >
+            {isGithub ? <Github className="h-3 w-3" /> : <Code2 className="h-3 w-3" />}
+            {isGithub ? "GitHub" : "CodePen"}
+          </span>
+
+          {/* Featured star */}
+          {featured && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold px-2 py-1 rounded-md border backdrop-blur-sm bg-amber-500/20 text-amber-400 border-amber-500/25">
+              <Star className="h-2.5 w-2.5 fill-amber-400" />
+              Featured
+            </span>
+          )}
+        </div>
+
+        {/* Language badge */}
+        {langStyle && (
+          <div className="absolute top-3 right-3">
+            <span
+              className="inline-flex items-center gap-1.5 text-[11px] font-mono px-2 py-1 rounded-md border"
+              style={{ background: langStyle.bg, color: langStyle.text, borderColor: langStyle.border }}
+            >
+              <span className="h-1.5 w-1.5 rounded-full inline-block" style={{ background: langStyle.dot }} />
+              {lang}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Body */}
+      <div className={`p-5 flex flex-col flex-1 gap-3${featured ? " md:py-8 md:px-7" : ""}`}>
+        {/* Title row */}
+        <div className="flex items-start justify-between gap-2">
+          <h3 className={`font-semibold leading-tight group-hover:text-primary transition-colors duration-200${featured ? " text-lg" : " text-base"}`}>
+            {project.title}
+          </h3>
+          <a
+            href={isGithub ? (project as typeof githubProjects[0]).github : (project as typeof codepenProjects[0]).codepen}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-shrink-0 p-1.5 rounded-lg text-muted-foreground/40 hover:text-primary hover:bg-primary/8 transition-all duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
+        </div>
+
+        <p className={`text-sm text-muted-foreground leading-relaxed flex-1${featured ? " line-clamp-3" : " line-clamp-2"}`}>
+          {project.description}
+        </p>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1.5">
+          {project.tags.map((tag) => (
+            <Badge
+              key={tag}
+              variant="secondary"
+              className="bg-primary/8 text-primary/80 border-primary/12 hover:bg-primary/15 text-[10px] font-mono px-2 py-0.5 h-auto"
+            >
+              {tag}
+            </Badge>
+          ))}
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex items-center gap-2 pt-3 mt-auto border-t border-border/40">
+          <a
+            href={isGithub ? (project as typeof githubProjects[0]).github : (project as typeof codepenProjects[0]).codepen}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/60 hover:bg-secondary transition-all duration-200 text-xs font-medium hover:text-foreground"
+          >
+            {isGithub ? <Github className="h-3.5 w-3.5" /> : <Code2 className="h-3.5 w-3.5" />}
+            {isGithub ? "Source" : "View Pen"}
+          </a>
+
+          {"live" in project && project.live && (
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 text-xs font-medium"
+            >
+              <Globe className="h-3.5 w-3.5" />
+              Live Demo
+            </a>
+          )}
+
+          {isGithub && !("live" in project && (project as typeof githubProjects[0]).live) && (
+            <span className="text-[11px] text-muted-foreground/30 font-mono italic ml-auto">no live demo</span>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Main grid ───────────────────────────────────────────────── */
 export function ProjectsGrid() {
   const [filter, setFilter] = useState<FilterType>("all")
-  const [visible, setVisible] = useState(true)
+  const [animKey, setAnimKey] = useState(0)
+  const [transitioning, setTransitioning] = useState(false)
 
   const allProjects = [...githubProjects, ...codepenProjects]
 
   const handleFilterChange = (newFilter: FilterType) => {
     if (newFilter === filter) return
-    setVisible(false)
+    setTransitioning(true)
     setTimeout(() => {
       setFilter(newFilter)
-      setVisible(true)
-    }, 150)
+      setAnimKey((k) => k + 1)
+      setTransitioning(false)
+    }, 180)
   }
 
   const filteredProjects =
@@ -227,220 +403,115 @@ export function ProjectsGrid() {
     codepen: codepenProjects.length,
   }
 
+  const filters: { key: FilterType; label: string; Icon: React.ElementType }[] = [
+    { key: "all",     label: "All Work", Icon: FolderGit2 },
+    { key: "github",  label: "GitHub",   Icon: Github     },
+    { key: "codepen", label: "CodePen",  Icon: Code2      },
+  ]
+
   return (
     <section className="pt-28 pb-24 px-6">
       <div className="container mx-auto max-w-6xl">
 
-        {/* ── Hero Header ── */}
-        <div className="relative rounded-2xl border border-border bg-card overflow-hidden mb-8">
-          {/* Background grid */}
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
-            }}
-          />
-          {/* Gradient accent */}
-          <div className="absolute top-0 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+        {/* ── Page Header ── */}
+        <div className="mb-10">
+          {/* Terminal breadcrumb */}
+          <div className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground bg-secondary/40 border border-border rounded-md px-3 py-1.5 mb-5">
+            <span className="text-primary">~/portfolio</span>
+            <span className="text-muted-foreground/40">›</span>
+            <span className="text-chart-4">projects</span>
+          </div>
 
-          <div className="relative px-6 py-8 md:px-10 md:py-10">
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            {/* Title block */}
+            <div className="space-y-3 max-w-xl">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+                Featured{" "}
+                <span
+                  className="text-transparent bg-clip-text"
+                  style={{ backgroundImage: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--chart-4)) 100%)" }}
+                >
+                  Projects
+                </span>
+              </h1>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                A curated collection of GitHub repositories and CodePen experiments — spanning full-stack applications, analytics tooling, and interactive front-end demos.
+              </p>
 
-              {/* Left — Terminal-style label + heading */}
-              <div className="space-y-3 max-w-lg">
-                <div className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground bg-secondary/60 border border-border rounded px-3 py-1.5">
-                  <span className="text-primary">~/portfolio</span>
-                  <span className="text-chart-4">ls ./projects</span>
+              {/* Stat pills */}
+              <div className="flex items-center gap-3 pt-1 flex-wrap">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/50 border border-border text-xs font-mono">
+                  <FolderGit2 className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="font-semibold">{counts.github}</span>
+                  <span className="text-muted-foreground">repos</span>
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-                  Featured{" "}
-                  <span className="text-primary">Projects</span>
-                </h1>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  A curated collection of GitHub repositories and CodePen experiments — spanning full-stack applications, analytics tooling, and interactive front-end demos.
-                </p>
-
-                {/* Inline stats */}
-                <div className="flex items-center gap-5">
-                  <div className="flex items-center gap-2">
-                    <FolderGit2 className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground font-mono">
-                      <span className="text-foreground font-semibold">{counts.github}</span> repositories
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <PenSquare className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground font-mono">
-                      <span className="text-foreground font-semibold">{counts.codepen}</span> pens
-                    </span>
-                  </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/50 border border-border text-xs font-mono">
+                  <PenSquare className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="font-semibold">{counts.codepen}</span>
+                  <span className="text-muted-foreground">pens</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/8 border border-primary/15 text-xs font-mono text-primary">
+                  <Star className="h-3 w-3 fill-current opacity-70" />
+                  <span className="font-semibold">{counts.all}</span>
+                  <span className="opacity-70">total</span>
                 </div>
               </div>
+            </div>
 
-              {/* Right — Filter toggle */}
-              <div className="flex-shrink-0">
-                <div className="flex flex-col gap-1 p-1 rounded-lg bg-secondary/40 border border-border">
-                  {(["all", "github", "codepen"] as FilterType[]).map((f) => {
-                    const isActive = filter === f
-                    const Icon = f === "github" ? Github : f === "codepen" ? Code2 : FolderGit2
-                    return (
-                      <button
-                        key={f}
-                        onClick={() => handleFilterChange(f)}
-                        className={`
-                          flex items-center gap-2 px-3 py-2 rounded-md font-medium text-sm transition-all duration-200
-                          ${isActive
-                            ? "bg-primary text-primary-foreground shadow-sm"
-                            : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
-                          }
-                        `}
+            {/* Filter tabs — horizontal pills */}
+            <div className="flex-shrink-0">
+              <div className="flex items-center gap-1 p-1 rounded-xl bg-secondary/30 border border-border backdrop-blur-sm">
+                {filters.map(({ key, label, Icon }) => {
+                  const isActive = filter === key
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => handleFilterChange(key)}
+                      className={`relative flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${
+                        isActive
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                      }`}
+                    >
+                      <Icon className="h-3.5 w-3.5" />
+                      {label}
+                      <span
+                        className={`text-[10px] font-mono tabular-nums transition-opacity ${
+                          isActive ? "opacity-60" : "opacity-40"
+                        }`}
                       >
-                        <Icon className="h-3.5 w-3.5" />
-                        {f === "all" ? "All Work" : f === "github" ? "GitHub" : "CodePen"}
-                        <span className={`ml-auto font-mono text-xs ${isActive ? "opacity-70" : "opacity-50"}`}>
-                          {counts[f]}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
+                        {counts[key]}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </div>
           </div>
         </div>
 
+        {/* ── Divider ── */}
+        <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-8" />
+
         {/* ── Projects Grid ── */}
         <div
+          key={animKey}
           className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
           style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(8px)",
-            transition: "opacity 150ms ease, transform 150ms ease",
+            opacity: transitioning ? 0 : 1,
+            transform: transitioning ? "translateY(6px)" : "translateY(0)",
+            transition: "opacity 180ms ease, transform 180ms ease",
           }}
         >
           {filteredProjects.map((project, i) => {
-            const isGithub = project.source === "github"
-            const langColorClass = "language" in project && project.language
-              ? languageColors[project.language] ?? "bg-secondary/60 text-muted-foreground border-border"
-              : "bg-secondary/60 text-muted-foreground border-border"
-
+            const isFeatured = "featured" in project && project.featured && i === 0 && filter !== "codepen"
             return (
-              <div
+              <ProjectCard
                 key={project.id}
-                className="group relative rounded-2xl bg-card border border-border overflow-hidden flex flex-col transition-all duration-300 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5"
-                style={{ animationDelay: `${i * 40}ms` }}
-              >
-                {/* Image */}
-                <div className="relative overflow-hidden h-40 flex-shrink-0">
-                  <img
-                    src={project.image}
-                    alt={`${project.title} preview`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 group-hover:saturate-[1.1]"
-                    onError={(e) => {
-                      ;(e.target as HTMLImageElement).src = "/placeholder.svg"
-                    }}
-                  />
-                  {/* gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
-
-                  {/* Source badge */}
-                  <div className="absolute top-3 left-3">
-                    <span
-                      className={`inline-flex items-center gap-1.5 text-xs font-mono font-medium px-2.5 py-1 rounded-md border backdrop-blur-sm ${
-                        isGithub
-                          ? "bg-black/75 text-white border-black/40"
-                          : "bg-blue-600/80 text-white border-blue-500/40"
-                      }`}
-                    >
-                      {isGithub ? <Github className="h-3 w-3" /> : <Code2 className="h-3 w-3" />}
-                      {isGithub ? "GitHub" : "CodePen"}
-                    </span>
-                  </div>
-
-                  {/* Language badge */}
-                  {"language" in project && project.language && (
-                    <div className="absolute top-3 right-3">
-                      <span className={`inline-flex text-xs font-mono px-2 py-0.5 rounded-md border ${langColorClass}`}>
-                        {project.language}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Card body */}
-                <div className="p-5 flex flex-col flex-1 gap-3">
-                  <h3 className="text-base font-semibold group-hover:text-primary transition-colors duration-200 leading-tight">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 flex-1">
-                    {project.description}
-                  </p>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tags.map((tag) => (
-                      <Badge
-                        key={tag}
-                        variant="secondary"
-                        className="bg-primary/8 text-primary border-primary/15 hover:bg-primary/15 text-[11px] font-mono"
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  {/* Footer actions */}
-                  <div className="flex items-center gap-2 pt-1 border-t border-border/50 mt-auto">
-                    <a
-                      href={isGithub ? project.github : project.codepen}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/70 hover:bg-secondary transition-colors text-xs font-medium"
-                    >
-                      <Github className="h-3.5 w-3.5" />
-                      Source
-                    </a>
-                    {"live" in project && project.live && (
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-colors text-xs font-medium"
-                      >
-                        <Globe className="h-3.5 w-3.5" />
-                        Live
-                      </a>
-                    )}
-                    {isGithub && !("live" in project && project.live) && (
-                      <span className="text-xs text-muted-foreground/40 font-mono italic ml-auto pr-1">
-                        no live demo
-                      </span>
-                    )}
-                    {isGithub && "live" in project && project.live && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ml-auto inline-flex items-center gap-1 text-xs text-muted-foreground/50 hover:text-primary transition-colors font-mono"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    )}
-                    {!isGithub && (
-                      <a
-                        href={project.codepen}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ml-auto inline-flex items-center gap-1 text-xs text-muted-foreground/50 hover:text-primary transition-colors font-mono"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
+                project={project}
+                index={i}
+                featured={isFeatured}
+              />
             )
           })}
         </div>
@@ -448,8 +519,8 @@ export function ProjectsGrid() {
         {/* Empty state */}
         {filteredProjects.length === 0 && (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="p-4 rounded-full bg-secondary/40 mb-4">
-              <FolderGit2 className="h-8 w-8 text-muted-foreground" />
+            <div className="p-5 rounded-2xl bg-secondary/30 border border-border mb-4">
+              <FolderGit2 className="h-8 w-8 text-muted-foreground/40" />
             </div>
             <p className="text-muted-foreground font-mono text-sm">No projects found for this filter.</p>
           </div>

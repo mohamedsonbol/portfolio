@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Github, Linkedin, Mail, ChevronDown } from "lucide-react"
+import { Github, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const terminalLines = [
@@ -23,7 +23,6 @@ export function HeroSection() {
       setIsTyping(false)
       return
     }
-
     const currentLine = terminalLines[currentLineIndex]
     const timeout = setTimeout(
       () => {
@@ -37,7 +36,6 @@ export function HeroSection() {
       },
       currentLine.isOutput ? 30 : 50,
     )
-
     return () => clearTimeout(timeout)
   }, [currentLineIndex, currentText, displayedLines])
 
@@ -56,33 +54,41 @@ export function HeroSection() {
       />
 
       <div className="container mx-auto px-6 relative z-10">
-        {/* All content centered in a single column */}
-        <div className="flex flex-col items-center text-center max-w-2xl mx-auto space-y-8">
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-7">
+
+          {/* ── Avatar portrait ── */}
+          <div className="relative">
+            <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-primary/30 shadow-xl ring-4 ring-primary/8">
+              <img
+                src="/avatar-portrait.jpg"
+                alt="Mohamed Sonbol"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Online indicator */}
+            <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-background shadow-sm" />
+          </div>
+
+          {/* Name + title */}
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold tracking-tight">Mohamed Sonbol</h1>
+            <p className="text-sm text-primary font-mono">Web Developer</p>
+          </div>
 
           {/* Tagline */}
-          <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
-            <span className="text-primary font-medium">I'm an experienced Technical Consultant</span> specializing in{" "}
-            <span className="text-primary font-medium">Analytics Implementation, Tag Management, and Enterprise SaaS Technical consulting</span>
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
+            I make your{" "}
+            <span className="text-primary font-medium">data actually work.</span>
+            {" "}Your tracking is probably broken in ways your team hasn't found yet —{" "}
+            <span className="text-primary font-medium">I find them, fix them, and make sure they stay fixed.</span>
+            {" "}100+ enterprise clients. GDPR-ready implementations. Zero guessing.
           </p>
 
-          {/* Description */}
-          <p className="text-base text-muted-foreground leading-relaxed max-w-xl">
-            I help enterprise clients collect accurate data, maintain GDPR compliance, and solve complex production
-            issues that standard development teams {"can't"} resolve.
-          </p>
-
-          {/* Buttons */}
+          {/* Buttons + socials */}
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
               <a href="/projects">Projects</a>
             </Button>
-            <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
-              <a href="/resume">Resume</a>
-            </Button>
-          </div>
-
-          {/* Social icons */}
-          <div className="flex items-center gap-3">
             <a
               href="https://github.com/mohamedsonbol"
               target="_blank"
@@ -104,7 +110,6 @@ export function HeroSection() {
           {/* Terminal */}
           <div className="w-full max-w-xl animate-float">
             <div className="bg-card rounded-2xl border border-border shadow-2xl overflow-hidden animate-glow">
-              {/* Terminal header */}
               <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-destructive/60" />
@@ -113,18 +118,14 @@ export function HeroSection() {
                 </div>
                 <span className="text-xs text-muted-foreground font-mono ml-2">~/enterprise-consulting</span>
               </div>
-
-              {/* Terminal content */}
-              <div className="p-6 font-mono text-sm space-y-2 min-h-[240px]">
+              <div className="p-6 font-mono text-sm space-y-2 min-h-[200px]">
                 {displayedLines.map((line, index) => (
                   <div key={index} className={line.isOutput ? "text-accent pl-4" : "text-muted-foreground"}>
                     {line.text}
                   </div>
                 ))}
                 {currentLineIndex < terminalLines.length && (
-                  <div
-                    className={terminalLines[currentLineIndex]?.isOutput ? "text-accent pl-4" : "text-muted-foreground"}
-                  >
+                  <div className={terminalLines[currentLineIndex]?.isOutput ? "text-accent pl-4" : "text-muted-foreground"}>
                     {currentText}
                     <span className="animate-terminal-blink text-primary">▌</span>
                   </div>
@@ -137,16 +138,8 @@ export function HeroSection() {
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Scroll indicator */}
-        <a
-          href="#skills"
-          className="absolute bottom-10 right-10 animate-bounce cursor-pointer p-3 rounded-full bg-secondary/50 border border-border/50 hover:bg-primary/20 hover:border-primary/40 transition-all"
-          aria-label="Scroll to next section"
-        >
-          <ChevronDown className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
-        </a>
+        </div>
       </div>
     </section>
   )
