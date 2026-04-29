@@ -9,17 +9,19 @@ $CONTAINER_CONFIG = "aWQ9R1RNLU03UExITUhKJmVudj0yJmF1dGg9Z3FleUNFcGJhRDVrLVRPd0l
 $RUN_AS_PREVIEW_SERVER = "true"
 $PORT = "8080"
 
+$GCLOUD = "$env:LOCALAPPDATA\Google\Cloud SDK\google-cloud-sdk\bin\gcloud.cmd"
+
 Write-Host "Setting active GCP project to $PROJECT_ID..." -ForegroundColor Cyan
-gcloud config set project $PROJECT_ID
+& $GCLOUD config set project $PROJECT_ID
 
 Write-Host "`nEnabling required APIs (run.googleapis.com, artifactregistry.googleapis.com)..." -ForegroundColor Cyan
-gcloud services enable run.googleapis.com artifactregistry.googleapis.com
+& $GCLOUD services enable run.googleapis.com artifactregistry.googleapis.com
 
 Write-Host "`nDeploying GTM Server-Side to Cloud Run..." -ForegroundColor Cyan
 Write-Host "Service Name: $SERVICE_NAME"
 Write-Host "Image: $IMAGE"
 
-gcloud run deploy $SERVICE_NAME `
+& $GCLOUD run deploy $SERVICE_NAME `
   --image=$IMAGE `
   --region=$REGION `
   --platform=managed `

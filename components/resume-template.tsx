@@ -84,7 +84,19 @@ export const CustomResumeTemplate = React.forwardRef<HTMLDivElement, CustomTempl
     };
 
     return (
-      <div ref={ref} className="font-serif w-[210mm] min-h-[297mm] bg-white text-[#4a4a4a] grid grid-cols-12 mx-auto shadow-sm overflow-hidden" style={{ fontSize: '11px' }}>
+      <div ref={ref} className="font-serif w-[210mm] min-h-[297mm] bg-white text-[#4a4a4a] grid grid-cols-12 mx-auto shadow-sm overflow-hidden relative" style={{ fontSize: '11px' }}>
+        <style dangerouslySetInnerHTML={{__html: `
+          @media print {
+            @page {
+              margin: 0;
+              size: A4 portrait;
+            }
+            body {
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
+          }
+        `}} />
         
         {/* Left Column */}
         <div className="col-span-8 px-10 py-12 flex flex-col gap-8">

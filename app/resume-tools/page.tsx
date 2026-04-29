@@ -56,10 +56,20 @@ export default function ResumeToolsPage() {
       }
       reader.readAsArrayBuffer(file)
     } else if (file.type === 'application/pdf') {
-      // PDF text extraction is complex on the client without heavy libraries.
-      // We will show the visual upload, but prompt the user.
-      alert("PDF uploaded successfully. Note: Auto-extracting text from PDF might be limited. For best analysis, please use a .docx file or paste your text.")
-      setResumeText("PDF Uploaded: " + file.name + "\n\n(Text extraction for PDF is visually simulated here. Please paste text for actual analysis or use DOCX.)")
+      try {
+        const formData = new FormData()
+        formData.append('file', file)
+        const res = await fetch('/api/parse-pdf', {
+          method: 'POST',
+          body: formData,
+        })
+        if (!res.ok) throw new Error('Failed to parse PDF')
+        const data = await res.json()
+        setResumeText(data.text)
+      } catch (error) {
+        console.error("Error parsing PDF:", error)
+        alert("Failed to extract text from PDF. Please use DOCX or paste text.")
+      }
     } else if (file.type === 'text/plain') {
       const text = await file.text()
       setResumeText(text)
@@ -138,8 +148,11 @@ export default function ResumeToolsPage() {
     return {
       overallScore: totalScore,
       keywordMatch: 70 + (hasSkills ? 20 : 0),
+      keywordDetails: hasSkills ? "Good coverage of technical skills." : "Add a dedicated 'Skills' section with relevant keywords like JavaScript, React, Node.js.",
       actionVerbs: verbsScore * 5,
+      actionVerbsDetails: verbsFound > 3 ? "Strong use of action verbs." : "Include more impactful verbs like 'led', 'architected', 'optimized'.",
       formatting: regionScore * 5,
+      formattingDetails: reg === 'eu' ? "Ensure CV follows modern European blind CV norms." : "Strictly remove photos and format with standard headers.",
       feedback: feedback,
       parsedData: mockParsed
     }
@@ -362,36 +375,47 @@ export default function ResumeToolsPage() {
                       <CardDescription>Advanced analysis based on {targetCompany} standards.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="flex items-center">
-                            Keyword Match 
-                            <Tooltip>
-                              <TooltipTrigger><HelpCircle className="w-3 h-3 ml-1 text-muted-foreground" /></TooltipTrigger>
-                              <TooltipContent>How well your skills match industry standard keywords.</TooltipContent>
-                            </Tooltip>
-                          </span>
-                          <span className="font-medium">{analysisData.keywordMatch}%</span>
+                      <div className="space-y-4">
+                        <div className="flex flex-col gap-1 border-b border-border/50 pb-3">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="flex items-center font-semibold text-foreground">
+                              Keyword Match 
+                              <Tooltip>
+                                <TooltipTrigger><HelpCircle className="w-3 h-3 ml-1 text-muted-foreground" /></TooltipTrigger>
+                                <TooltipContent>How well your skills match industry standard keywords.</TooltipContent>
+                              </Tooltip>
+                            </span>
+                            <span className="font-bold text-primary">{analysisData.keywordMatch}%</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">{analysisData.keywordDetails || "Details pending..."}</p>
                         </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="flex items-center">
-                            Action Verbs
-                            <Tooltip>
-                              <TooltipTrigger><HelpCircle className="w-3 h-3 ml-1 text-muted-foreground" /></TooltipTrigger>
-                              <TooltipContent>Presence of strong verbs like 'led', 'architected', 'optimized'.</TooltipContent>
-                            </Tooltip>
-                          </span>
-                          <span className="font-medium">{analysisData.actionVerbs}%</span>
+                        
+                        <div className="flex flex-col gap-1 border-b border-border/50 pb-3">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="flex items-center font-semibold text-foreground">
+                              Action Verbs
+                              <Tooltip>
+                                <TooltipTrigger><HelpCircle className="w-3 h-3 ml-1 text-muted-foreground" /></TooltipTrigger>
+                                <TooltipContent>Presence of strong verbs like 'led', 'architected', 'optimized'.</TooltipContent>
+                              </Tooltip>
+                            </span>
+                            <span className="font-bold text-primary">{analysisData.actionVerbs}%</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">{analysisData.actionVerbsDetails || "Details pending..."}</p>
                         </div>
-                        <div className="flex items-center justify-between text-sm">
-                          <span className="flex items-center">
-                            Formatting ({region.toUpperCase()})
-                            <Tooltip>
-                              <TooltipTrigger><HelpCircle className="w-3 h-3 ml-1 text-muted-foreground" /></TooltipTrigger>
-                              <TooltipContent>Adherence to regional header conventions and photo rules.</TooltipContent>
-                            </Tooltip>
-                          </span>
-                          <span className="font-medium">{analysisData.formatting}%</span>
+                        
+                        <div className="flex flex-col gap-1 pb-1">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="flex items-center font-semibold text-foreground">
+                              Formatting ({region.toUpperCase()})
+                              <Tooltip>
+                                <TooltipTrigger><HelpCircle className="w-3 h-3 ml-1 text-muted-foreground" /></TooltipTrigger>
+                                <TooltipContent>Adherence to regional header conventions and photo rules.</TooltipContent>
+                              </Tooltip>
+                            </span>
+                            <span className="font-bold text-primary">{analysisData.formatting}%</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">{analysisData.formattingDetails || "Details pending..."}</p>
                         </div>
                       </div>
                       
