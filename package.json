@@ -5,7 +5,6 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbopack",
-    "dev:all": "concurrently \"pnpm run dev\" \"cd python-ats && pip install -r requirements.txt && python -m spacy download en_core_web_sm && python src/app.py\"",
     "lint": "eslint .",
     "start": "next start"
   },

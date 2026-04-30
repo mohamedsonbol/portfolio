@@ -10,7 +10,6 @@ const navLinks = [
   { href: "#skills", label: "Expertise" },
   { href: "#engagements", label: "Engagements" },
   { href: "/projects", label: "Projects" },
-  { href: "/resume-tools", label: "ATS Scorer" },
 ]
 
 export function Navigation() {

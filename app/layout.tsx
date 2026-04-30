@@ -29,25 +29,22 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script id="gtm-script" strategy="afterInteractive">
+        <Script
+          src="https://sst.exceptionalgrp.com/gtag/js?id=G-4898X9MEDR"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://sst.exceptionalgrp.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-PMCQ6NCG');
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-4898X9MEDR', {
+              'server_container_url': 'https://sst.exceptionalgrp.com'
+            });
           `}
         </Script>
       </head>
       <body className={`font-sans antialiased`}>
-        <noscript>
-          <iframe
-            src="https://sst.exceptionalgrp.com/ns.html?id=GTM-PMCQ6NCG"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <TooltipProvider>
             {children}
