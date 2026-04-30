@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
+    "dev:all": "concurrently \"pnpm run dev\" \"cd python-ats && pip install -r requirements.txt && python -m spacy download en_core_web_sm && python src/app.py\"",
     "lint": "eslint .",
     "start": "next start"
   },
@@ -78,6 +79,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
     "postcss": "^8.5",
     "tailwindcss": "^4.1.9",
     "tw-animate-css": "1.3.3",

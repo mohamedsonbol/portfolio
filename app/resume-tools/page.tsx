@@ -17,7 +17,8 @@ import { Switch } from "@/components/ui/switch"
 import mammoth from "mammoth"
 import confetti from "canvas-confetti"
 import { useReactToPrint } from "react-to-print"
-import { CustomResumeTemplate, ParsedResumeData } from "@/components/resume-template"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { CustomResumeTemplate, ClassicResumeTemplate, MinimalistResumeTemplate, ParsedResumeData } from "@/components/resume-template"
 
 export default function ResumeToolsPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
@@ -26,15 +27,18 @@ export default function ResumeToolsPage() {
   
   const [targetCompany, setTargetCompany] = useState("linkedin")
   const [region, setRegion] = useState("eu")
+  const [engine, setEngine] = useState("openai")
   const [resumeText, setResumeText] = useState("")
   const [uploadedFile, setUploadedFile] = useState<{ name: string; type: string } | null>(null)
   
   const [analysisData, setAnalysisData] = useState<any>(null)
   const [parsedData, setParsedData] = useState<ParsedResumeData | null>(null)
   const [includePhoto, setIncludePhoto] = useState(false)
+  const [selectedTemplate, setSelectedTemplate] = useState<'modern' | 'classic' | 'minimalist'>('modern')
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   
   const customRef = useRef<HTMLDivElement>(null)
-  const printCustom = useReactToPrint({ contentRef: customRef, documentTitle: "Resume_Custom" })
+  const printCustom = useReactToPrint({ contentRef: customRef, documentTitle: `Resume_${selectedTemplate}` })
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -59,16 +63,16 @@ export default function ResumeToolsPage() {
       try {
         const formData = new FormData()
         formData.append('file', file)
-        const res = await fetch('/api/parse-pdf', {
+        const res = await fetch('http://127.0.0.1:5000/extract-pdf', {
           method: 'POST',
           body: formData,
         })
-        if (!res.ok) throw new Error('Failed to parse PDF')
+        if (!res.ok) throw new Error('Failed to parse PDF via Python engine')
         const data = await res.json()
         setResumeText(data.text)
       } catch (error) {
-        console.error("Error parsing PDF:", error)
-        alert("Failed to extract text from PDF. Please use DOCX or paste text.")
+        console.error("Error parsing PDF via Python backend:", error)
+        alert("Failed to extract text from PDF. Make sure Python ATS backend is running on port 5000 (dev:all script).")
       }
     } else if (file.type === 'text/plain') {
       const text = await file.text()
@@ -129,12 +133,25 @@ export default function ResumeToolsPage() {
 
     const totalScore = Math.min(headersScore + impactScore + verbsScore + regionScore + 15, 98)
 
+    // Basic Regex Extraction for Mock Fallback
+    const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+    const phoneMatch = text.match(/(\+\d{1,3}[- ]?)?\(?\d{3}\)?[- .]?\d{3}[- .]?\d{4}/);
+    
+    // Approximate name (first two words)
+    const lines = text.split('\n').filter(l => l.trim().length > 0);
+    const possibleName = lines.length > 0 ? lines[0].split(' ').slice(0, 2).join(' ') : "Your Name";
+
     // Mock Parsed Data for the Template
     const mockParsed: ParsedResumeData = {
-      name: "Your Name",
+      name: possibleName || "Your Name",
       title: "Software Engineer",
       summary: text ? text.substring(0, 150) + '...' : "An experienced professional.",
-      contact: { email: "email@example.com", phone: "+1234567890", location: "City, Country", linkedin: "linkedin.com/in/user" },
+      contact: { 
+        email: emailMatch ? emailMatch[0] : "email@example.com", 
+        phone: phoneMatch ? phoneMatch[0] : "+1234567890", 
+        location: "City, Country", 
+        linkedin: "linkedin.com/in/user" 
+      },
       experience: [
         { company: "Example Corp", role: "Developer", date: "Jan 2021\nPresent", location: "Remote", bullets: ["Built scalable systems.", "Improved performance by 20%."] }
       ],
@@ -149,8 +166,11 @@ export default function ResumeToolsPage() {
       overallScore: totalScore,
       keywordMatch: 70 + (hasSkills ? 20 : 0),
       keywordDetails: hasSkills ? "Good coverage of technical skills." : "Add a dedicated 'Skills' section with relevant keywords like JavaScript, React, Node.js.",
+      foundKeywords: ["JavaScript", "React"],
+      missingKeywords: ["Node.js", "TypeScript"],
       actionVerbs: verbsScore * 5,
       actionVerbsDetails: verbsFound > 3 ? "Strong use of action verbs." : "Include more impactful verbs like 'led', 'architected', 'optimized'.",
+      foundActionVerbs: ["Developed", "Improved"],
       formatting: regionScore * 5,
       formattingDetails: reg === 'eu' ? "Ensure CV follows modern European blind CV norms." : "Strictly remove photos and format with standard headers.",
       feedback: feedback,
@@ -173,15 +193,45 @@ export default function ResumeToolsPage() {
     }, 200)
 
     try {
-      const res = await fetch('/api/analyze-resume', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: resumeText, targetCompany, region })
-      })
+      let res;
+      let openAiData = null;
+
+      if (engine === 'classical') {
+        // Run both! Classical for scores, OpenAI for PDF data extraction
+        const [resClassical, resOpenAI] = await Promise.all([
+          fetch('http://127.0.0.1:5000/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ resume_text: resumeText, targetCompany })
+          }).catch(() => null),
+          fetch('/api/analyze-resume', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: resumeText, targetCompany, region })
+          }).catch(() => null)
+        ])
+        
+        if (resClassical && resClassical.ok) {
+          res = resClassical;
+        }
+        if (resOpenAI && resOpenAI.ok) {
+          openAiData = await resOpenAI.json();
+        }
+      } else {
+        res = await fetch('/api/analyze-resume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: resumeText, targetCompany, region })
+        })
+      }
       
       let data;
-      if (res.ok) {
+      if (res && res.ok) {
         data = await res.json()
+        // If we got parsedData from OpenAI background fetch, inject it
+        if (openAiData && openAiData.parsedData) {
+          data.parsedData = openAiData.parsedData;
+        }
       } else {
         console.warn("API failed, falling back to local mock logic.")
         data = runLocalMockLogic(resumeText, targetCompany, region)
@@ -255,6 +305,16 @@ export default function ResumeToolsPage() {
                         <SelectItem value="amazon">Amazon (Internal ATS)</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+                  <div className="space-y-2 pt-2 border-t">
+                    <Label htmlFor="engine" className="flex items-center justify-between">
+                      Analysis Engine
+                      <span className="text-xs text-muted-foreground">{engine === 'openai' ? 'OpenAI (Generative AI)' : 'Python (Classical ML)'}</span>
+                    </Label>
+                    <div className="flex items-center space-x-2 mt-2">
+                      <Switch id="engine" checked={engine === 'classical'} onCheckedChange={(c) => setEngine(c ? 'classical' : 'openai')} />
+                      <Label htmlFor="engine" className="text-sm font-normal cursor-pointer">Use Classical ML (Python repo)</Label>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="region">Target Region Requirements</Label>
@@ -388,6 +448,16 @@ export default function ResumeToolsPage() {
                             <span className="font-bold text-primary">{analysisData.keywordMatch}%</span>
                           </div>
                           <p className="text-xs text-muted-foreground">{analysisData.keywordDetails || "Details pending..."}</p>
+                          {(analysisData.foundKeywords?.length > 0 || analysisData.missingKeywords?.length > 0 || analysisData.matched_skills?.length > 0) && (
+                            <div className="flex flex-wrap gap-1 mt-2">
+                              {(analysisData.foundKeywords || analysisData.matched_skills || []).map((kw: string, i: number) => (
+                                <span key={i} className="text-[10px] px-2 py-0.5 bg-green-100 text-green-700 rounded-full border border-green-200">{kw}</span>
+                              ))}
+                              {(analysisData.missingKeywords || analysisData.missing_skills || []).map((kw: string, i: number) => (
+                                <span key={i} className="text-[10px] px-2 py-0.5 bg-red-100 text-red-700 rounded-full border border-red-200">{kw}</span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                         
                         <div className="flex flex-col gap-1 border-b border-border/50 pb-3">
@@ -402,6 +472,13 @@ export default function ResumeToolsPage() {
                             <span className="font-bold text-primary">{analysisData.actionVerbs}%</span>
                           </div>
                           <p className="text-xs text-muted-foreground">{analysisData.actionVerbsDetails || "Details pending..."}</p>
+                          {analysisData.foundActionVerbs?.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-2">
+                              {analysisData.foundActionVerbs.map((verb: string, i: number) => (
+                                <span key={i} className="text-[10px] px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full border border-blue-200">{verb}</span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                         
                         <div className="flex flex-col gap-1 pb-1">
@@ -475,9 +552,90 @@ export default function ResumeToolsPage() {
                       </div>
                       
                       <div className="p-4 border-t bg-card text-center">
-                        <Button className="w-full" onClick={() => printCustom()}>
-                          <Download className="w-4 h-4 mr-2" /> Print & Download PDF
-                        </Button>
+                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                          <DialogTrigger asChild>
+                            <Button className="w-full">
+                              <Download className="w-4 h-4 mr-2" /> Download / Print PDF
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-3xl">
+                            <DialogHeader>
+                              <DialogTitle>Select Resume Template</DialogTitle>
+                              <DialogDescription>
+                                Choose a design for your generated PDF. All templates use the extracted data from your ATS analysis.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid grid-cols-3 gap-4 py-4">
+                              {/* Modern Template Option */}
+                              <div 
+                                className={`cursor-pointer rounded-lg border-2 p-2 ${selectedTemplate === 'modern' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}
+                                onClick={() => setSelectedTemplate('modern')}
+                              >
+                                <div className="aspect-[1/1.4] bg-white shadow-sm border mb-2 relative overflow-hidden flex">
+                                  <div className="w-2/3 p-2 flex flex-col gap-1 border-r">
+                                    <div className="h-1 w-3/4 bg-gray-400"></div>
+                                    <div className="h-0.5 w-1/2 bg-gray-300 mb-1"></div>
+                                    <div className="h-0.5 w-full bg-gray-200"></div>
+                                    <div className="h-0.5 w-full bg-gray-200"></div>
+                                  </div>
+                                  <div className="w-1/3 bg-[#949b8f]"></div>
+                                </div>
+                                <h4 className="text-center font-semibold text-sm">Modern</h4>
+                                <p className="text-center text-[10px] text-muted-foreground">Two-column layout</p>
+                              </div>
+
+                              {/* Classic Template Option */}
+                              <div 
+                                className={`cursor-pointer rounded-lg border-2 p-2 ${selectedTemplate === 'classic' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}
+                                onClick={() => setSelectedTemplate('classic')}
+                              >
+                                <div className="aspect-[1/1.4] bg-white shadow-sm border mb-2 relative overflow-hidden flex flex-col items-center p-2">
+                                  <div className="h-1.5 w-1/2 bg-gray-600 mb-1"></div>
+                                  <div className="h-0.5 w-3/4 bg-gray-400 mb-2 border-b"></div>
+                                  <div className="h-0.5 w-full bg-gray-300 mt-1"></div>
+                                  <div className="h-0.5 w-full bg-gray-300 mt-0.5"></div>
+                                  <div className="h-0.5 w-full bg-gray-300 mt-2"></div>
+                                  <div className="h-0.5 w-full bg-gray-300 mt-0.5"></div>
+                                </div>
+                                <h4 className="text-center font-semibold text-sm">Classic</h4>
+                                <p className="text-center text-[10px] text-muted-foreground">Strict ATS / Single column</p>
+                              </div>
+
+                              {/* Minimalist Template Option */}
+                              <div 
+                                className={`cursor-pointer rounded-lg border-2 p-2 ${selectedTemplate === 'minimalist' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}
+                                onClick={() => setSelectedTemplate('minimalist')}
+                              >
+                                <div className="aspect-[1/1.4] bg-white shadow-sm border mb-2 relative overflow-hidden p-2">
+                                  <div className="h-1.5 w-1/3 bg-gray-800 mb-1"></div>
+                                  <div className="h-0.5 w-1/4 bg-blue-500 mb-3"></div>
+                                  <div className="flex gap-2">
+                                    <div className="w-2/3 flex flex-col gap-1">
+                                      <div className="h-0.5 w-full bg-gray-300"></div>
+                                      <div className="h-0.5 w-full bg-gray-300"></div>
+                                    </div>
+                                    <div className="w-1/3 flex flex-col gap-1">
+                                      <div className="h-0.5 w-full bg-gray-300"></div>
+                                      <div className="h-0.5 w-full bg-gray-200"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <h4 className="text-center font-semibold text-sm">Minimalist</h4>
+                                <p className="text-center text-[10px] text-muted-foreground">Clean & spacious</p>
+                              </div>
+                            </div>
+                            <DialogFooter>
+                              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                              <Button onClick={() => {
+                                setIsDialogOpen(false);
+                                setTimeout(() => printCustom(), 100);
+                              }}>
+                                <Download className="w-4 h-4 mr-2" />
+                                Download PDF ({selectedTemplate})
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
                       </div>
                     </Card>
                   </div>
@@ -498,7 +656,9 @@ export default function ResumeToolsPage() {
       
       {/* Hidden Print Template */}
       <div className="hidden">
-        <CustomResumeTemplate ref={customRef} data={parsedData} showPhoto={includePhoto} />
+        {selectedTemplate === 'modern' && <CustomResumeTemplate ref={customRef} data={parsedData} showPhoto={includePhoto} />}
+        {selectedTemplate === 'classic' && <ClassicResumeTemplate ref={customRef} data={parsedData} showPhoto={includePhoto} />}
+        {selectedTemplate === 'minimalist' && <MinimalistResumeTemplate ref={customRef} data={parsedData} showPhoto={includePhoto} />}
       </div>
       
       <Footer />

@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $PROJECT_ID = "gtm-tnp59m8-yjyxz"
 $REGION = "us-central1" # Default region, can be changed
 $SERVICE_NAME = "server-side-tagging"
-$IMAGE = "gcr.io/cloud-tagging-free/google-tag-manager"
+$IMAGE = "gcr.io/cloud-tagging-10302018/gtm-cloud-image:stable"
 
 $CONTAINER_CONFIG = "aWQ9R1RNLU03UExITUhKJmVudj0yJmF1dGg9Z3FleUNFcGJhRDVrLVRPd0lLZVR4dw=="
 $RUN_AS_PREVIEW_SERVER = "true"
@@ -30,7 +30,7 @@ Write-Host "Image: $IMAGE"
   --min-instances=1 `
   --max-instances=5 `
   --no-cpu-throttling `
-  --set-env-vars="CONTAINER_CONFIG=$CONTAINER_CONFIG,RUN_AS_PREVIEW_SERVER=$RUN_AS_PREVIEW_SERVER,PORT=$PORT"
+  --set-env-vars="CONTAINER_CONFIG=$CONTAINER_CONFIG,RUN_AS_PREVIEW_SERVER=$RUN_AS_PREVIEW_SERVER"
 
 Write-Host "`nDeployment completed!" -ForegroundColor Green
 Write-Host "Check the output above for the Service URL to use in your GTM Server Container settings." -ForegroundColor Yellow

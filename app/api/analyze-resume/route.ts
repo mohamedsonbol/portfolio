@@ -22,8 +22,11 @@ export async function POST(req: Request) {
         overallScore: z.number().describe("The overall ATS score out of 100."),
         keywordMatch: z.number().describe("Score for keyword matching out of 100."),
         keywordDetails: z.string().describe("Specific missing keywords or what needs to be added (e.g. 'Add React, Node.js')."),
+        foundKeywords: z.array(z.string()).describe("List of 3-5 specific matching keywords found in the resume."),
+        missingKeywords: z.array(z.string()).describe("List of 3-5 specific missing keywords that should be added."),
         actionVerbs: z.number().describe("Score for action verbs out of 100."),
         actionVerbsDetails: z.string().describe("Specific action verbs that are missing or what should be added."),
+        foundActionVerbs: z.array(z.string()).describe("List of 3-5 specific strong action verbs found in the resume."),
         formatting: z.number().describe("Score for formatting out of 100 based on region/company."),
         formattingDetails: z.string().describe("Explanation of formatting issues or what to change for the target region."),
         feedback: z.array(z.string()).describe("List of 3 to 4 specific feedback points based on the target company and region."),
@@ -65,6 +68,7 @@ export async function POST(req: Request) {
       - Look for quantifiable impact (e.g., percentages %, dollar signs $).
       - For EU region, note if there are missing/extra details that are customary.
       - For Google/US, emphasize the X-Y-Z formula and strict no-photo policy.
+      - Extract exactly 3-5 'foundKeywords', 3-5 'missingKeywords', and 3-5 'foundActionVerbs' for the UI badges based on the target company.
       - Return a realistic overall score and breakdown metrics.
       - Provide 3-4 highly specific, actionable feedback points.
 
