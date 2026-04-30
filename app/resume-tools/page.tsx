@@ -16,9 +16,7 @@ import { Footer } from "@/components/footer"
 import { Switch } from "@/components/ui/switch"
 import mammoth from "mammoth"
 import confetti from "canvas-confetti"
-import { useReactToPrint } from "react-to-print"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { CustomResumeTemplate, ClassicResumeTemplate, MinimalistResumeTemplate, ParsedResumeData } from "@/components/resume-template"
+import { ParsedResumeData } from "@/components/resume-template"
 
 export default function ResumeToolsPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
@@ -33,12 +31,6 @@ export default function ResumeToolsPage() {
   
   const [analysisData, setAnalysisData] = useState<any>(null)
   const [parsedData, setParsedData] = useState<ParsedResumeData | null>(null)
-  const [includePhoto, setIncludePhoto] = useState(false)
-  const [selectedTemplate, setSelectedTemplate] = useState<'modern' | 'classic' | 'minimalist'>('modern')
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  
-  const customRef = useRef<HTMLDivElement>(null)
-  const printCustom = useReactToPrint({ contentRef: customRef, documentTitle: `Resume_${selectedTemplate}` })
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -513,132 +505,7 @@ export default function ResumeToolsPage() {
                     </CardContent>
                   </Card>
 
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-xl font-bold flex items-center">
-                        <LayoutTemplate className="w-5 h-5 mr-2" />
-                        Generated PDF Template
-                      </h3>
-                      <div className="flex items-center gap-2">
-                        <Switch id="photo" checked={includePhoto} onCheckedChange={setIncludePhoto} />
-                        <Label htmlFor="photo" className="text-xs">Include Photo</Label>
-                      </div>
-                    </div>
-                    
-                    <Card className="overflow-hidden p-0 bg-muted/30">
-                      {/* Mini Preview of the Custom Template */}
-                      <div className="p-4 flex justify-center">
-                        <div className="w-full max-w-[200px] aspect-[1/1.4] bg-white shadow-md grid grid-cols-12 overflow-hidden border border-border">
-                          <div className="col-span-8 p-2 flex flex-col gap-1 border-r border-gray-100">
-                            <div className="h-1 w-2/3 bg-gray-400"></div>
-                            <div className="h-0.5 w-1/3 bg-gray-300 mb-2"></div>
-                            <div className="h-0.5 w-1/4 bg-gray-300"></div>
-                            <div className="flex gap-1 mt-1">
-                              <div className="h-4 w-0.5 bg-gray-200"></div>
-                              <div className="w-full h-4 bg-gray-100"></div>
-                            </div>
-                            <div className="flex gap-1">
-                              <div className="h-4 w-0.5 bg-gray-200"></div>
-                              <div className="w-full h-4 bg-gray-100"></div>
-                            </div>
-                          </div>
-                          <div className="col-span-4 bg-[#949b8f] p-1 flex flex-col gap-1 items-center">
-                            {includePhoto ? <div className="w-full aspect-square bg-gray-600 mb-1"></div> : <div className="w-full aspect-square bg-transparent mb-1"></div>}
-                            <div className="h-0.5 w-full bg-white/50"></div>
-                            <div className="h-0.5 w-full bg-white/50"></div>
-                            <div className="h-0.5 w-full bg-white/50"></div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="p-4 border-t bg-card text-center">
-                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                          <DialogTrigger asChild>
-                            <Button className="w-full">
-                              <Download className="w-4 h-4 mr-2" /> Download / Print PDF
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-3xl">
-                            <DialogHeader>
-                              <DialogTitle>Select Resume Template</DialogTitle>
-                              <DialogDescription>
-                                Choose a design for your generated PDF. All templates use the extracted data from your ATS analysis.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <div className="grid grid-cols-3 gap-4 py-4">
-                              {/* Modern Template Option */}
-                              <div 
-                                className={`cursor-pointer rounded-lg border-2 p-2 ${selectedTemplate === 'modern' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}
-                                onClick={() => setSelectedTemplate('modern')}
-                              >
-                                <div className="aspect-[1/1.4] bg-white shadow-sm border mb-2 relative overflow-hidden flex">
-                                  <div className="w-2/3 p-2 flex flex-col gap-1 border-r">
-                                    <div className="h-1 w-3/4 bg-gray-400"></div>
-                                    <div className="h-0.5 w-1/2 bg-gray-300 mb-1"></div>
-                                    <div className="h-0.5 w-full bg-gray-200"></div>
-                                    <div className="h-0.5 w-full bg-gray-200"></div>
-                                  </div>
-                                  <div className="w-1/3 bg-[#949b8f]"></div>
-                                </div>
-                                <h4 className="text-center font-semibold text-sm">Modern</h4>
-                                <p className="text-center text-[10px] text-muted-foreground">Two-column layout</p>
-                              </div>
 
-                              {/* Classic Template Option */}
-                              <div 
-                                className={`cursor-pointer rounded-lg border-2 p-2 ${selectedTemplate === 'classic' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}
-                                onClick={() => setSelectedTemplate('classic')}
-                              >
-                                <div className="aspect-[1/1.4] bg-white shadow-sm border mb-2 relative overflow-hidden flex flex-col items-center p-2">
-                                  <div className="h-1.5 w-1/2 bg-gray-600 mb-1"></div>
-                                  <div className="h-0.5 w-3/4 bg-gray-400 mb-2 border-b"></div>
-                                  <div className="h-0.5 w-full bg-gray-300 mt-1"></div>
-                                  <div className="h-0.5 w-full bg-gray-300 mt-0.5"></div>
-                                  <div className="h-0.5 w-full bg-gray-300 mt-2"></div>
-                                  <div className="h-0.5 w-full bg-gray-300 mt-0.5"></div>
-                                </div>
-                                <h4 className="text-center font-semibold text-sm">Classic</h4>
-                                <p className="text-center text-[10px] text-muted-foreground">Strict ATS / Single column</p>
-                              </div>
-
-                              {/* Minimalist Template Option */}
-                              <div 
-                                className={`cursor-pointer rounded-lg border-2 p-2 ${selectedTemplate === 'minimalist' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'}`}
-                                onClick={() => setSelectedTemplate('minimalist')}
-                              >
-                                <div className="aspect-[1/1.4] bg-white shadow-sm border mb-2 relative overflow-hidden p-2">
-                                  <div className="h-1.5 w-1/3 bg-gray-800 mb-1"></div>
-                                  <div className="h-0.5 w-1/4 bg-blue-500 mb-3"></div>
-                                  <div className="flex gap-2">
-                                    <div className="w-2/3 flex flex-col gap-1">
-                                      <div className="h-0.5 w-full bg-gray-300"></div>
-                                      <div className="h-0.5 w-full bg-gray-300"></div>
-                                    </div>
-                                    <div className="w-1/3 flex flex-col gap-1">
-                                      <div className="h-0.5 w-full bg-gray-300"></div>
-                                      <div className="h-0.5 w-full bg-gray-200"></div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <h4 className="text-center font-semibold text-sm">Minimalist</h4>
-                                <p className="text-center text-[10px] text-muted-foreground">Clean & spacious</p>
-                              </div>
-                            </div>
-                            <DialogFooter>
-                              <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                              <Button onClick={() => {
-                                setIsDialogOpen(false);
-                                setTimeout(() => printCustom(), 100);
-                              }}>
-                                <Download className="w-4 h-4 mr-2" />
-                                Download PDF ({selectedTemplate})
-                              </Button>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    </Card>
-                  </div>
                 </div>
               )}
 
@@ -654,12 +521,7 @@ export default function ResumeToolsPage() {
         </div>
       </main>
       
-      {/* Hidden Print Template */}
-      <div className="hidden">
-        {selectedTemplate === 'modern' && <CustomResumeTemplate ref={customRef} data={parsedData} showPhoto={includePhoto} />}
-        {selectedTemplate === 'classic' && <ClassicResumeTemplate ref={customRef} data={parsedData} showPhoto={includePhoto} />}
-        {selectedTemplate === 'minimalist' && <MinimalistResumeTemplate ref={customRef} data={parsedData} showPhoto={includePhoto} />}
-      </div>
+
       
       <Footer />
     </div>
