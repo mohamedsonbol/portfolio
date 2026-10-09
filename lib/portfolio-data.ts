@@ -36,6 +36,64 @@ export const featuredProjects = [
   },
 ] as const
 
+export const resumeTechnologies = [
+  "JavaScript",
+  "TypeScript",
+  "Python",
+  "React",
+  "Next.js",
+  "Node.js",
+  "MongoDB",
+  "PostgreSQL",
+  "WordPress",
+  "WooCommerce",
+  "Shopify",
+  "Git/GitHub",
+  "REST APIs",
+  "Google Tag Manager",
+  "GA4",
+  "Adobe Analytics",
+  "Adobe Launch",
+  "Tealium",
+] as const
+
+export const resumeSkills = [
+  { name: "Project Management", percentage: 100 },
+  { name: "Critical Thinking", percentage: 90 },
+  { name: "Communication", percentage: 90 },
+  { name: "Technical Solutions", percentage: 90 },
+  { name: "Research", percentage: 90 },
+  { name: "Debugging", percentage: 90 },
+  { name: "Full-Stack Development", percentage: null },
+  { name: "Digital Analytics", percentage: null },
+] as const
+
+export const resumeExperience = [
+  {
+    company: "Samsung SDS",
+    dates: "2024–Present",
+    location: "Warsaw, Poland",
+    role: "Technical Project Manager",
+    description:
+      "Coordinate technical project delivery across cross-functional teams, including Adobe Analytics, Adobe Launch, and Google Tag Manager implementations across client-side and server-side environments. Lead implementation planning, data-quality reviews, debugging, and delivery alignment with business requirements.",
+  },
+  {
+    company: "Accenture",
+    dates: "2021–2024",
+    location: "Warsaw, Poland",
+    role: "Digital Technical Analyst / Technical Support Specialist",
+    description:
+      "Supported clients with technical requirements, JavaScript debugging, API integrations, and digital analytics implementations. Investigated website and tracking issues, translated technical findings into practical guidance, and collaborated with teams on reliable client delivery.",
+  },
+] as const
+
+export const resumeEducation = {
+  institution: "Al Shola Private School",
+  dates: "2010–2013",
+  location: "Sharjah, United Arab Emirates",
+  qualification: "High School Diploma (Mathematics)",
+} as const
+
 export const technologyGroups = [
   { label: "Frontend", items: ["JavaScript", "TypeScript", "React", "Next.js", "HTML", "CSS", "Tailwind"] },
   { label: "Backend", items: ["Node.js", "REST APIs", "PostgreSQL", "MongoDB", "Supabase"] },
