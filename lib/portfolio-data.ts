@@ -37,62 +37,84 @@ export const featuredProjects = [
 ] as const
 
 export const resumeTechnologies = [
-  "JavaScript",
-  "TypeScript",
-  "Python",
-  "React",
-  "Next.js",
-  "Node.js",
-  "MongoDB",
-  "PostgreSQL",
-  "WordPress",
-  "WooCommerce",
-  "Shopify",
-  "Git/GitHub",
-  "REST APIs",
-  "Google Tag Manager",
-  "GA4",
-  "Adobe Analytics",
-  "Adobe Launch",
-  "Tealium",
+  "JavaScript", "TypeScript", "Python", "React", "Next.js", "Node.js", "MongoDB", "PostgreSQL",
+  "HTML", "CSS", "WordPress", "WooCommerce", "Shopify", "Git/GitHub", "REST APIs", "Selenium",
+  "WebdriverIO", "Appium", "Google Tag Manager", "GA4", "Adobe Analytics", "Adobe Launch", "Tealium",
+  "Looker", "Jira", "Salesforce", "GDPR compliance",
 ] as const
 
 export const resumeSkills = [
   { name: "Project Management", percentage: 100 },
   { name: "Critical Thinking", percentage: 90 },
   { name: "Communication", percentage: 90 },
+  { name: "Pressure Handling", percentage: 90 },
   { name: "Technical Solutions", percentage: 90 },
-  { name: "Research", percentage: 90 },
+  { name: "Researching", percentage: 90 },
   { name: "Debugging", percentage: 90 },
-  { name: "Full-Stack Development", percentage: null },
-  { name: "Digital Analytics", percentage: null },
+] as const
+
+export const resumeExpertise = [
+  "Full-Stack Development", "Digital Analytics", "Quality Assurance", "Technical Support", "Project Delivery",
 ] as const
 
 export const resumeExperience = [
   {
+    company: "Sauce Labs",
+    dates: "Jul 2025 – Oct 2025",
+    location: "Warsaw, Poland",
+    role: "Support Engineer",
+    description: "Provided technical support for customers using web and mobile testing tools. Investigated issues, reproduced defects, analyzed test behavior, and communicated practical resolutions across customer and engineering teams.",
+  },
+  {
     company: "Samsung SDS",
-    dates: "2024–Present",
+    dates: "Apr 2024 – Jul 2025",
     location: "Warsaw, Poland",
     role: "Technical Project Manager",
-    description:
-      "Coordinate technical project delivery across cross-functional teams, including Adobe Analytics, Adobe Launch, and Google Tag Manager implementations across client-side and server-side environments. Lead implementation planning, data-quality reviews, debugging, and delivery alignment with business requirements.",
+    description: "Coordinated technical project delivery across cross-functional teams and supported Adobe Analytics, Adobe Launch, and Google Tag Manager implementations across client-side and server-side environments. Led implementation planning, data-quality reviews, debugging, and delivery alignment with business requirements.",
   },
   {
     company: "Accenture",
-    dates: "2021–2024",
+    dates: "Jan 2021 – Apr 2024",
     location: "Warsaw, Poland",
-    role: "Digital Technical Analyst / Technical Support Specialist",
-    description:
-      "Supported clients with technical requirements, JavaScript debugging, API integrations, and digital analytics implementations. Investigated website and tracking issues, translated technical findings into practical guidance, and collaborated with teams on reliable client delivery.",
+    role: "Technical Support Specialist",
+    description: "Provided technical support for clients with JavaScript, APIs, websites, and digital analytics requirements. Debugged implementations, analyzed issues, shared technical guidance, and collaborated with team members on client delivery.",
+  },
+  {
+    company: "Adel Abalkhail Real Estate",
+    dates: "Oct 2018 – Jan 2020",
+    location: "Dubai",
+    role: "Technical Marketer",
+    description: "Supported digital marketing activity and technical requirements for real estate campaigns, combining marketing coordination with website, analytics, and online content work.",
+  },
+  {
+    company: "Bebcard",
+    dates: "Dec 2017 – Mar 2018",
+    location: "",
+    role: "Frontend Developer",
+    description: "Developed and maintained frontend interfaces, translating product requirements into responsive web experiences and supporting implementation fixes across the application.",
   },
 ] as const
 
-export const resumeEducation = {
-  institution: "Al Shola Private School",
-  dates: "2010–2013",
-  location: "Sharjah, United Arab Emirates",
-  qualification: "High School Diploma (Mathematics)",
-} as const
+export const resumeEducation = [
+  {
+    institution: "University of the People",
+    dates: "Jan 2021 – Present",
+    location: "",
+    qualification: "Computer Science",
+  },
+  {
+    institution: "Al Shola Private High School",
+    dates: "2010 – 2013",
+    location: "Sharjah, United Arab Emirates",
+    qualification: "High School Diploma (Mathematics)",
+  },
+] as const
+
+export const resumeLanguages = [
+  { name: "English", level: "Native" },
+  { name: "Arabic", level: "Native" },
+  { name: "Polish", level: "Intermediate" },
+] as const
 
 export const technologyGroups = [
   { label: "Frontend", items: ["JavaScript", "TypeScript", "React", "Next.js", "HTML", "CSS", "Tailwind"] },
