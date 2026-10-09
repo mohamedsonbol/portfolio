@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowDownRight, ArrowUpRight, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { portfolio } from "@/lib/portfolio-data"
@@ -26,7 +27,7 @@ export function HeroSection() {
         <div className="relative mx-auto w-full max-w-sm lg:mb-4">
           <div className="absolute -inset-5 rounded-[2rem] border border-primary/10" />
           <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-2xl shadow-primary/10">
-            <img src="/avatar-portrait.jpg" alt="Professional portrait of Mohamed Sonbol" className="aspect-[4/5] w-full object-cover" />
+            <Image src="/images/profile/portfolio-portrait-1.png" alt="Mohamed Sonbol in a patterned shirt against a teal background" width={600} height={800} priority sizes="(min-width: 1024px) 34vw, 88vw" className="aspect-[4/5] w-full object-cover object-[center_18%]" />
             <div className="flex items-center justify-between border-t border-border bg-card/95 px-5 py-4">
               <div><p className="text-sm font-semibold">Building with intent.</p><p className="mt-1 text-xs text-muted-foreground">Technology · Analytics · Delivery</p></div>
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_theme(colors.emerald.400)]" aria-label="Available for selected engagements" />

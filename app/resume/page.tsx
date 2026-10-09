@@ -26,8 +26,8 @@ export default function ResumePage() {
           <header className="grid gap-7 border-b border-slate-200 pb-9 md:grid-cols-[230px_minmax(0,1fr)] md:items-start md:gap-9 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-12">
             <div className="flex justify-center md:justify-start">
               <Image
-                src="/avatar-portrait.jpg"
-                alt="Portrait of Mohamed Sonbol"
+                src="/images/profile/portfolio-portrait-2.png"
+                alt="Mohamed Sonbol wearing a suit and paisley tie"
                 width={280}
                 height={280}
                 priority

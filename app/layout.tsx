@@ -14,8 +14,11 @@ export const metadata: Metadata = {
   description: "Technical Consultant specializing in Analytics Implementation, Tag Management, and Enterprise Data Infrastructure",
   generator: "v0.app",
   icons: {
-    icon: "/icon.png",
-    apple: "/icon.png",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: "/icon.svg",
   },
 }
 
