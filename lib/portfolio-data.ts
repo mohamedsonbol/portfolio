@@ -36,7 +36,7 @@ export const featuredProjects = [
   },
 ] as const
 
-export const resumeTechnologies = [
+const resumeTechnologies = [
   "JavaScript",
   "TypeScript",
   "Python",
@@ -138,6 +138,8 @@ export const resumeLanguages = [
   { name: "Arabic", level: "Native" },
   { name: "Polish", level: "Intermediate" },
 ] as const
+
+export { resumeTechnologies }
 
 export const technologyGroups = [
   { label: "Frontend", items: ["JavaScript", "TypeScript", "React", "Next.js", "HTML", "CSS", "Tailwind"] },
