@@ -37,10 +37,33 @@ export const featuredProjects = [
 ] as const
 
 export const resumeTechnologies = [
-  "JavaScript", "TypeScript", "Python", "React", "Next.js", "Node.js", "MongoDB", "PostgreSQL",
-  "HTML", "CSS", "WordPress", "WooCommerce", "Shopify", "Git/GitHub", "REST APIs", "Selenium",
-  "WebdriverIO", "Appium", "Google Tag Manager", "GA4", "Adobe Analytics", "Adobe Launch", "Tealium",
-  "Looker", "Jira", "Salesforce", "GDPR compliance",
+  "JavaScript",
+  "TypeScript",
+  "Python",
+  "React",
+  "Next.js",
+  "Node.js",
+  "MongoDB",
+  "PostgreSQL",
+  "HTML",
+  "CSS",
+  "WordPress",
+  "WooCommerce",
+  "Shopify",
+  "Git/GitHub",
+  "REST APIs",
+  "Selenium",
+  "WebdriverIO",
+  "Appium",
+  "Google Tag Manager",
+  "GA4",
+  "Adobe Analytics",
+  "Adobe Launch",
+  "Tealium",
+  "Looker",
+  "Jira",
+  "Salesforce",
+  "GDPR compliance",
 ] as const
 
 export const resumeSkills = [
