@@ -3,34 +3,10 @@
 import { useState } from "react"
 import { ExternalLink, Github, ArrowUpRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-
-const projects = [
-  {
-    id: 1,
-    title: "MoPortfolio",
-    description:
-      "A personal portfolio website showcasing my projects, skills, and experience. Built with modern web technologies and deployed on Render.",
-    image: "/developer-portfolio-website-dark-theme-modern.jpg",
-    tags: ["React", "Node.js", "Express", "CSS"],
-    github: "https://github.com/mohamedsonbol",
-    live: "https://moportfolio-4ezb.onrender.com",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Blog Application",
-    description:
-      "A full-stack blog platform built from scratch with user authentication, responsive design, and CRUD operations for blog posts.",
-    image: "/images/image.png",
-    tags: ["Node.js", "EJS", "MongoDB", "Express"],
-    github: "https://github.com/mohamedsonbol",
-    live: "https://blogapp-f2xu.onrender.com/blogs",
-    featured: true,
-  },
-]
+import { featuredProjects } from "@/lib/portfolio-data"
 
 export function ProjectsSection() {
-  const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
 
   return (
     <section id="projects" className="py-24 relative">
@@ -46,18 +22,18 @@ export function ProjectsSection() {
 
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {projects.map((project) => (
+          {featuredProjects.map((project) => (
             <div
-              key={project.id}
+              key={project.name}
               className="group relative rounded-2xl bg-card border border-border overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
-              onMouseEnter={() => setHoveredId(project.id)}
+              onMouseEnter={() => setHoveredId(project.name)}
               onMouseLeave={() => setHoveredId(null)}
             >
               {/* Project Image */}
               <div className="relative overflow-hidden h-56">
                 <img
                   src={project.image || "/placeholder.svg"}
-                  alt={project.title}
+                  alt={project.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent opacity-60" />
@@ -66,16 +42,16 @@ export function ProjectsSection() {
               {/* Content */}
               <div className="p-6 space-y-4">
                 <div className="flex items-start justify-between">
-                  <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">{project.title}</h3>
+                  <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">{project.name}</h3>
                   <div className="flex gap-2">
                     <a
-                      href={project.github}
+                      href="https://github.com/mohamedsonbol"
                       className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
                     >
                       <Github className="h-4 w-4" />
                     </a>
                     <a
-                      href={project.live}
+                      href="/projects"
                       className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
                     >
                       <ExternalLink className="h-4 w-4" />
@@ -85,10 +61,10 @@ export function ProjectsSection() {
 
                 {/* Description - shown on hover or always on mobile */}
                 <p
-                  className={`text-sm text-muted-foreground leading-relaxed transition-all duration-300 ${hoveredId === project.id ? "opacity-100 max-h-20" : "opacity-70 max-h-12 line-clamp-2"
+                  className={`text-sm text-muted-foreground leading-relaxed transition-all duration-300 ${hoveredId === project.name ? "opacity-100 max-h-20" : "opacity-70 max-h-12 line-clamp-2"
                     }`}
                 >
-                  {project.description}
+                  {project.summary}
                 </p>
 
                 {/* Tags */}
@@ -107,7 +83,7 @@ export function ProjectsSection() {
 
               {/* Hover arrow indicator */}
               <div
-                className={`absolute top-4 right-4 p-2 rounded-full bg-primary text-primary-foreground transition-all duration-300 ${hoveredId === project.id ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
+                className={`absolute top-4 right-4 p-2 rounded-full bg-primary text-primary-foreground transition-all duration-300 ${hoveredId === project.name ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
                   }`}
               >
                 <ArrowUpRight className="h-4 w-4" />

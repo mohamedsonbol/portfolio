@@ -1,144 +1,37 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { Github, Linkedin } from "lucide-react"
+import Link from "next/link"
+import { ArrowDownRight, ArrowUpRight, Linkedin } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const terminalLines = [
-  { text: "$ tell about-me.mo", delay: 0 },
-  { text: "> 100+ enterprise clients supported across Accenture, Samsung SDS, and Sauce Labs", delay: 800, isOutput: true },
-  { text: "> GDPR compliance lead for initiatives spanning multiple European markets", delay: 1600, isOutput: true },
-  { text: "> Tag management expert across Google, Adobe, and Tealium platforms (client-side and server-side)", delay: 2400, isOutput: true },
-  { text: "> JavaScript specialist with web development and debugging experience", delay: 3200, isOutput: true },
-]
+import { portfolio } from "@/lib/portfolio-data"
 
 export function HeroSection() {
-  const [displayedLines, setDisplayedLines] = useState<typeof terminalLines>([])
-  const [currentLineIndex, setCurrentLineIndex] = useState(0)
-  const [currentText, setCurrentText] = useState("")
-  const [isTyping, setIsTyping] = useState(true)
-
-  useEffect(() => {
-    if (currentLineIndex >= terminalLines.length) {
-      setIsTyping(false)
-      return
-    }
-    const currentLine = terminalLines[currentLineIndex]
-    const timeout = setTimeout(
-      () => {
-        if (currentText.length < currentLine.text.length) {
-          setCurrentText(currentLine.text.slice(0, currentText.length + 1))
-        } else {
-          setDisplayedLines([...displayedLines, currentLine])
-          setCurrentText("")
-          setCurrentLineIndex(currentLineIndex + 1)
-        }
-      },
-      currentLine.isOutput ? 30 : 50,
-    )
-    return () => clearTimeout(timeout)
-  }, [currentLineIndex, currentText, displayedLines])
-
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-
-      {/* Grid pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
-        }}
-      />
-
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto space-y-7">
-
-          {/* ── Avatar portrait ── */}
-          <div className="relative">
-            <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-primary/30 shadow-xl ring-4 ring-primary/8">
-              <img
-                src="/avatar-portrait.jpg"
-                alt="Mohamed Sonbol"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {/* Online indicator */}
-            <span className="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-background shadow-sm" />
+    <section className="relative overflow-hidden pb-24 pt-36 md:pb-32 md:pt-48">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,oklch(0.7_0.16_180_/_0.12),transparent_30%),linear-gradient(135deg,transparent_45%,oklch(0.7_0.2_220_/_0.06))]" />
+      <div className="container relative mx-auto grid max-w-6xl items-end gap-12 px-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div>
+          <p className="mb-6 font-mono text-xs font-semibold tracking-[0.22em] text-primary">{portfolio.eyebrow}</p>
+          <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-[-0.05em] md:text-7xl">Engineering digital experiences <span className="text-primary">that deliver results.</span></h1>
+          <p className="mt-8 max-w-2xl text-lg leading-8 text-muted-foreground">I&apos;m Mohamed Sonbol, a Technical Project Manager and Full-Stack Developer based in {portfolio.location}. {portfolio.intro}</p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Button asChild size="lg"><Link href="/#work">Explore my work <ArrowDownRight className="ml-2 h-4 w-4" /></Link></Button>
+            <Button asChild variant="outline" size="lg"><Link href="/resume">View resume</Link></Button>
+            <Button asChild variant="ghost" size="lg"><Link href="/#contact">Let&apos;s connect <ArrowUpRight className="ml-2 h-4 w-4" /></Link></Button>
           </div>
-
-          {/* Name + title */}
-          <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight">Mohamed Sonbol</h1>
-            <p className="text-sm text-primary font-mono">Web Developer</p>
+          <div className="mt-12 flex items-center gap-5 text-sm text-muted-foreground">
+            <span className="h-px w-12 bg-border" />
+            <span>Warsaw · Europe</span>
+            <a href={portfolio.social.linkedin} target="_blank" rel="noreferrer" className="transition-colors hover:text-primary" aria-label="LinkedIn profile"><Linkedin className="h-4 w-4" /></a>
           </div>
-
-          {/* Tagline */}
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
-            I make your{" "}
-            <span className="text-primary font-medium">data actually work.</span>
-            {" "}Your tracking is probably broken in ways your team hasn't found yet —{" "}
-            <span className="text-primary font-medium">I find them, fix them, and make sure they stay fixed.</span>
-            {" "}100+ enterprise clients. GDPR-ready implementations. Zero guessing.
-          </p>
-
-          {/* Buttons + socials */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Button variant="outline" className="border-border hover:bg-primary/20 hover:border-primary/50 hover:text-primary text-foreground" asChild>
-              <a href="/projects">Projects</a>
-            </Button>
-            <a
-              href="https://github.com/mohamedsonbol"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
-            >
-              <Github className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/mohamedsonbol"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2.5 rounded-lg bg-secondary/50 hover:bg-primary/10 border border-border/50 hover:border-primary/30 transition-all"
-            >
-              <Linkedin className="h-5 w-5 text-muted-foreground hover:text-foreground" />
-            </a>
-          </div>
-
-          {/* Terminal */}
-          <div className="w-full max-w-xl animate-float">
-            <div className="bg-card rounded-2xl border border-border shadow-2xl overflow-hidden animate-glow">
-              <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-destructive/60" />
-                  <div className="w-3 h-3 rounded-full bg-chart-4/60" />
-                  <div className="w-3 h-3 rounded-full bg-accent/60" />
-                </div>
-                <span className="text-xs text-muted-foreground font-mono ml-2">~/enterprise-consulting</span>
-              </div>
-              <div className="p-6 font-mono text-sm space-y-2 min-h-[200px]">
-                {displayedLines.map((line, index) => (
-                  <div key={index} className={line.isOutput ? "text-accent pl-4" : "text-muted-foreground"}>
-                    {line.text}
-                  </div>
-                ))}
-                {currentLineIndex < terminalLines.length && (
-                  <div className={terminalLines[currentLineIndex]?.isOutput ? "text-accent pl-4" : "text-muted-foreground"}>
-                    {currentText}
-                    <span className="animate-terminal-blink text-primary">▌</span>
-                  </div>
-                )}
-                {!isTyping && (
-                  <div className="text-muted-foreground">
-                    $ <span className="animate-terminal-blink text-primary">▌</span>
-                  </div>
-                )}
-              </div>
+        </div>
+        <div className="relative mx-auto w-full max-w-sm lg:mb-4">
+          <div className="absolute -inset-5 rounded-[2rem] border border-primary/10" />
+          <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-2xl shadow-primary/10">
+            <img src="/avatar-portrait.jpg" alt="Professional portrait of Mohamed Sonbol" className="aspect-[4/5] w-full object-cover" />
+            <div className="flex items-center justify-between border-t border-border bg-card/95 px-5 py-4">
+              <div><p className="text-sm font-semibold">Building with intent.</p><p className="mt-1 text-xs text-muted-foreground">Technology · Analytics · Delivery</p></div>
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_theme(colors.emerald.400)]" aria-label="Available for selected engagements" />
             </div>
           </div>
-
         </div>
       </div>
     </section>
