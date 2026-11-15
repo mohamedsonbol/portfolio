@@ -1,4 +1,7 @@
 import React from "react";
+import Image from "next/image";
+import { portfolioConfig } from "@/lib/portfolio-config";
+import { resumeEducation, resumeExperience, resumeLanguages, resumeSkills } from "@/lib/portfolio-data";
 
 export interface ParsedResumeData {
   name: string;
@@ -34,54 +37,36 @@ interface CustomTemplateProps {
   showPhoto?: boolean;
 }
 
+const fallbackResume: ParsedResumeData = {
+  name: portfolioConfig.name.toUpperCase(),
+  title: portfolioConfig.professionalTitle,
+  summary: portfolioConfig.professionalSummary,
+  contact: {
+    email: portfolioConfig.email,
+    phone: portfolioConfig.phone,
+    location: portfolioConfig.location,
+    linkedin: portfolioConfig.linkedin.replace(/^https?:\/\//, ""),
+  },
+  experience: resumeExperience.map(({ company, role, dates, location, bullets }) => ({
+    company,
+    role,
+    date: dates,
+    location,
+    bullets: [...(bullets ?? [])],
+  })),
+  education: resumeEducation.map(({ qualification, institution, dates }) => ({
+    degree: qualification,
+    institution,
+    date: dates,
+  })),
+  skills: [...resumeSkills],
+  languages: resumeLanguages.map(({ name, level }) => ({ language: name, proficiency: level })),
+};
+
 export const CustomResumeTemplate = React.forwardRef<HTMLDivElement, CustomTemplateProps>(
   ({ data, showPhoto }, ref) => {
     // Provide sensible defaults if data is still loading
-    const resume = data || {
-      name: "MOHAMED SONBOL",
-      title: "Technical Specialist",
-      summary: "A seasoned professional with expertise in JavaScript, Tag Management Systems, and Analytical platforms. Bridging the gap between technical implementation and client-facing strategy.",
-      contact: {
-        email: "mhmdezzat.eng@gmail.com",
-        phone: "+48 732 785 743",
-        location: "Warsaw, Poland",
-        linkedin: "linkedin.com/in/mohamedsonbol"
-      },
-      experience: [
-        {
-          company: "Sauce Labs | Warsaw",
-          role: "SUPPORT ENGINEER",
-          date: "Jul 2025\nOct 2025",
-          location: "",
-          bullets: [
-            "Developed automated test architectures using Selenium to ensure code quality.",
-            "Collaborated on cross-platform test suite designs to streamline QA."
-          ]
-        },
-        {
-          company: "Samsung SDS | Warsaw",
-          role: "TECHNICAL PROJECT MANAGER",
-          date: "Apr 2024\nJul 2025",
-          location: "",
-          bullets: [
-            "Orchestrated first-party tag implementations using Adobe Launch.",
-            "Optimized data accuracy and reliability by aligning technical requirements."
-          ]
-        }
-      ],
-      education: [
-        {
-          degree: "COMPUTER SCIENCE",
-          institution: "University of the People",
-          date: "Jan 2021\nPresent"
-        }
-      ],
-      skills: ["Tag Management", "Google Tag Manager", "JavaScript", "React"],
-      languages: [
-        { language: "English", proficiency: "Native" },
-        { language: "Arabic", proficiency: "Native" }
-      ]
-    };
+    const resume = data || fallbackResume;
 
     return (
       <div ref={ref} className="font-serif w-[210mm] bg-white text-[#4a4a4a] grid grid-cols-12 mx-auto shadow-sm relative before:content-[''] before:absolute before:inset-0 before:left-[66.666667%] before:bg-[#949b8f] before:z-0" style={{ fontSize: '11px' }}>
@@ -150,7 +135,7 @@ export const CustomResumeTemplate = React.forwardRef<HTMLDivElement, CustomTempl
           
           {showPhoto && (
             <div className="w-full aspect-square bg-gray-200 overflow-hidden shadow-md">
-              <img src="/images/profile/portfolio-portrait-2.png" alt="Mohamed Sonbol wearing a suit and paisley tie" className="w-full h-full object-cover object-[center_22%]" />
+              <Image src="/images/profile/portfolio-portrait-2.png" alt="Mohamed Sonbol wearing a suit and paisley tie" width={480} height={480} className="w-full h-full object-cover object-[center_22%]" />
             </div>
           )}
 
@@ -204,17 +189,8 @@ export const CustomResumeTemplate = React.forwardRef<HTMLDivElement, CustomTempl
 CustomResumeTemplate.displayName = "CustomResumeTemplate";
 
 export const ClassicResumeTemplate = React.forwardRef<HTMLDivElement, CustomTemplateProps>(
-  ({ data, showPhoto }, ref) => {
-    const resume = data || {
-      name: "MOHAMED SONBOL",
-      title: "Technical Specialist",
-      summary: "A seasoned professional with expertise in JavaScript, Tag Management Systems, and Analytical platforms.",
-      contact: { email: "email@example.com", phone: "+48 732 785 743", location: "Warsaw, Poland", linkedin: "linkedin.com/in/mohamedsonbol" },
-      experience: [{ company: "Samsung SDS", role: "TECHNICAL PROJECT MANAGER", date: "Apr 2024 - Jul 2025", location: "", bullets: ["Orchestrated first-party tag implementations."] }],
-      education: [{ degree: "COMPUTER SCIENCE", institution: "University of the People", date: "Jan 2021 - Present" }],
-      skills: ["Tag Management", "JavaScript", "React"],
-      languages: [{ language: "English", proficiency: "Native" }]
-    };
+  ({ data }, ref) => {
+    const resume = data || fallbackResume;
 
     return (
       <div ref={ref} className="font-serif w-[210mm] bg-white text-black mx-auto shadow-sm p-12" style={{ fontSize: '11px', lineHeight: '1.5' }}>
@@ -283,17 +259,8 @@ export const ClassicResumeTemplate = React.forwardRef<HTMLDivElement, CustomTemp
 ClassicResumeTemplate.displayName = "ClassicResumeTemplate";
 
 export const MinimalistResumeTemplate = React.forwardRef<HTMLDivElement, CustomTemplateProps>(
-  ({ data, showPhoto }, ref) => {
-    const resume = data || {
-      name: "MOHAMED SONBOL",
-      title: "Technical Specialist",
-      summary: "A seasoned professional with expertise in JavaScript, Tag Management Systems, and Analytical platforms.",
-      contact: { email: "email@example.com", phone: "+48 732 785 743", location: "Warsaw, Poland", linkedin: "linkedin.com/in/mohamedsonbol" },
-      experience: [{ company: "Samsung SDS", role: "TECHNICAL PROJECT MANAGER", date: "Apr 2024 - Jul 2025", location: "", bullets: ["Orchestrated first-party tag implementations."] }],
-      education: [{ degree: "COMPUTER SCIENCE", institution: "University of the People", date: "Jan 2021 - Present" }],
-      skills: ["Tag Management", "JavaScript", "React"],
-      languages: [{ language: "English", proficiency: "Native" }]
-    };
+  ({ data }, ref) => {
+    const resume = data || fallbackResume;
 
     return (
       <div ref={ref} className="font-sans w-[210mm] bg-white text-gray-800 mx-auto shadow-sm p-12" style={{ fontSize: '11px', lineHeight: '1.6' }}>

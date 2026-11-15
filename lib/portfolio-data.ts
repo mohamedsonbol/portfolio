@@ -1,24 +1,19 @@
+import { portfolioConfig } from "@/lib/portfolio-config"
+
 export const portfolio = {
-  name: "Mohamed Sonbol",
-  location: "Warsaw, Poland",
-  title: "Technical Project Manager & Full-Stack Developer",
-  eyebrow: "TECHNICAL PROJECT MANAGER · FULL-STACK DEVELOPER",
-  intro:
-    "I build digital products, implement analytics systems, and connect business requirements with reliable technology.",
-  social: {
-    linkedin: "https://www.linkedin.com/in/mohamedsonbol/",
-    instagram: "https://www.instagram.com/rastezzy/",
-    github: "https://github.com/mohamedsonbol",
-  },
+  ...portfolioConfig,
+  title: portfolioConfig.professionalTitle,
+  eyebrow: "TECHNICAL SUPPORT ENGINEER · JAVASCRIPT · INTEGRATIONS",
+  intro: portfolioConfig.professionalSummary,
 } as const
 
 export const featuredProjects = [
   {
     name: "DR. CHOICE",
     category: "E-Commerce",
-    summary: "Bilingual e-commerce experience with product catalog, WooCommerce integration, and OMPAY checkout.",
+    summary: "Bilingual e-commerce experience with product catalog, WooCommerce integration, and OmPay checkout.",
     image: "/ecommerce-shopping-website-dark-theme.jpg",
-    tags: ["WooCommerce", "JavaScript", "OMPAY"],
+    tags: ["WooCommerce", "JavaScript", "OmPay"],
   },
   {
     name: "Pioneera",
@@ -37,113 +32,130 @@ export const featuredProjects = [
 ] as const
 
 const resumeTechnologies = [
-  "JavaScript",
-  "TypeScript",
-  "Python",
-  "React",
-  "Next.js",
-  "Node.js",
-  "MongoDB",
-  "PostgreSQL",
-  "HTML",
-  "CSS",
-  "WordPress",
-  "WooCommerce",
-  "Shopify",
-  "Git/GitHub",
-  "REST APIs",
-  "Selenium",
-  "WebdriverIO",
-  "Appium",
-  "Google Tag Manager",
-  "GA4",
-  "Adobe Analytics",
-  "Adobe Launch",
-  "Tealium",
-  "Looker",
+  "JavaScript debugging",
+  "Browser console",
+  "Network inspection",
+  "Postman",
+  "Terminal",
+  "Root cause analysis",
+  "SLA-driven incident management",
+  "Google tagging",
+  "Adobe data collection",
+  "Server-side API validation",
+  "Contentsquare",
+  "Awin",
   "Jira",
   "Salesforce",
-  "GDPR compliance",
+  "Zendesk",
+  "Google Apps Script",
+  "Python",
+  "WordPress",
 ] as const
 
 export const resumeSkills = [
-  { name: "Project Management", percentage: 100 },
-  { name: "Critical Thinking", percentage: 90 },
-  { name: "Communication", percentage: 90 },
-  { name: "Pressure Handling", percentage: 90 },
-  { name: "Technical Solutions", percentage: 90 },
-  { name: "Researching", percentage: 90 },
-  { name: "Debugging", percentage: 90 },
+  "JavaScript debugging",
+  "Browser console",
+  "Network inspection",
+  "Postman",
+  "Terminal",
+  "Root cause analysis",
+  "SLA-driven incident management",
+  "Google tagging",
+  "Adobe data collection",
+  "Server-side API validation",
+  "Contentsquare",
+  "Awin",
+  "Jira",
+  "Salesforce",
+  "Zendesk",
+  "Google Apps Script",
+  "Python",
+  "WordPress",
 ] as const
 
 export const resumeExpertise = [
-  "Full-Stack Development", "Digital Analytics", "Quality Assurance", "Technical Support", "Project Delivery",
+  "Debugging and support",
+  "Tracking and integrations",
+  "Tools and automation",
 ] as const
 
 export const resumeExperience = [
   {
-    company: "Sauce Labs",
-    dates: "Jul 2025 – Oct 2025",
+    company: "Freelance Web Developer",
+    dates: "July 2025 – Present",
     location: "Warsaw, Poland",
-    role: "Support Engineer",
-    description: "Provided technical support for customers using web and mobile testing tools. Investigated issues, reproduced defects, analyzed test behavior, and communicated practical resolutions across customer and engineering teams.",
+    role: "Freelance Web Developer",
+    description: "Built client websites linking frontends to backend APIs with AI-assisted development. DR. CHOICE (dr-choice.com), Oman e-commerce: built a bilingual WordPress/WooCommerce store and integrated the OmPay payment gateway.",
+    bullets: [
+      "Built client websites linking frontends to backend APIs with AI-assisted development.",
+      "Built DR. CHOICE, a bilingual WordPress/WooCommerce store for Oman, and integrated the OmPay payment gateway.",
+    ],
   },
   {
     company: "Samsung SDS",
-    dates: "Apr 2024 – Jul 2025",
+    dates: "April 2024 – July 2025",
     location: "Warsaw, Poland",
-    role: "Technical Project Manager",
-    description: "Coordinated technical project delivery across cross-functional teams and supported Adobe Analytics, Adobe Launch, and Google Tag Manager implementations across client-side and server-side environments. Led implementation planning, data-quality reviews, debugging, and delivery alignment with business requirements.",
+    role: "Technical Project Manager (Web Analytics & Integrations)",
+    description: "Performed QA on first-party tagging across 500+ pages in multiple languages across the EU for multiple flagship product launches, using Python. Owned technical sign-off, debugging, validation, and coordination across implementation and business teams.",
+    bullets: [
+      "Performed QA on first-party tagging across 500+ pages in multiple languages across the EU for multiple flagship product launches, using Python.",
+      "Approved technical implementations, mainly for Contentsquare, and handed them to the tagging team to build; owned the sign-off step.",
+      "Debugged Google and Adobe data collection implementations and troubleshot live third-party integrations, including Contentsquare and Awin, using the terminal and vendor debugging extensions.",
+      "Validated data with stakeholders and third-party vendors, ensuring correct data flow between Contentsquare and Samsung.",
+      "Coordinated technical and business teams, resolved delivery blockers, and improved KPI reporting.",
+    ],
   },
   {
     company: "Accenture",
-    dates: "Jan 2021 – Apr 2024",
+    dates: "January 2021 – April 2024",
     location: "Warsaw, Poland",
-    role: "Technical Support Specialist",
-    description: "Provided technical support for clients with JavaScript, APIs, websites, and digital analytics requirements. Debugged implementations, analyzed issues, shared technical guidance, and collaborated with team members on client delivery.",
+    role: "Customer Support Representative",
+    description: "Delivered technical support to enterprise clients, managing critical incidents within strict SLA targets and debugging tagging, data collection, and API implementations.",
+    bullets: [
+      "Delivered technical support to enterprise clients, managing critical incidents within strict SLA targets using Jira, Salesforce, and Zendesk.",
+      "Debugged Google tagging and Adobe data collection implementations using the browser console, network tab, terminal, and Postman, recommending JavaScript fixes.",
+      "Validated server-side API implementations (Convergent API), testing against client documentation and investigating data discrepancies.",
+      "Built a Google Sheets tool for the support team using Google Apps Script and Gmail to filter, track, and distribute ticket data, plus a browser extension that sped up troubleshooting.",
+      "Led root cause analysis on recurring incidents and worked with cross-functional teams to reduce repeat issues and raise client satisfaction.",
+    ],
   },
   {
     company: "Adel Abalkhail Real Estate",
-    dates: "Oct 2018 – Jan 2020",
+    dates: "2018 – 2020",
     location: "Dubai",
-    role: "Technical Marketer",
-    description: "Supported digital marketing activity and technical requirements for real estate campaigns, combining marketing coordination with website, analytics, and online content work.",
+    role: "Sales and Marketing Specialist",
+    description: "Earlier experience in sales and marketing.",
+    bullets: [],
   },
   {
     company: "Bebcard",
-    dates: "Dec 2017 – Mar 2018",
-    location: "",
+    dates: "2015 – 2017",
+    location: "Kuwait",
     role: "Frontend Developer",
-    description: "Developed and maintained frontend interfaces, translating product requirements into responsive web experiences and supporting implementation fixes across the application.",
+    description: "Earlier frontend development experience focused on WordPress websites.",
+    bullets: [],
   },
 ] as const
 
 export const resumeEducation = [
   {
-    institution: "University of the People",
-    dates: "Jan 2021 – Present",
+    institution: "Al Shola Private High School for Boys",
+    dates: "2009 – 2013",
     location: "",
-    qualification: "Computer Science",
-  },
-  {
-    institution: "Al Shola Private High School",
-    dates: "2010 – 2013",
-    location: "Sharjah, United Arab Emirates",
-    qualification: "High School Diploma (Mathematics)",
+    qualification: "High School Diploma",
   },
 ] as const
 
 export const resumeLanguages = [
   { name: "English", level: "Native" },
   { name: "Arabic", level: "Native" },
-  { name: "Polish", level: "Intermediate" },
+  { name: "Polish", level: "Beginner" },
 ] as const
 
 export { resumeTechnologies }
 
 export const technologyGroups = [
-  { label: "Frontend", items: ["JavaScript", "TypeScript", "React", "Next.js", "HTML", "CSS", "Tailwind"] },
-  { label: "Backend", items: ["Node.js", "REST APIs", "PostgreSQL", "MongoDB", "Supabase"] },
-  { label: "Analytics", items: ["GA4", "GTM", "Server-Side GTM", "Adobe Analytics", "Adobe Launch", "Tealium"] },
-  { label: "Delivery", items: ["Git", "GitHub", "Docker", "Jira", "Vercel"] },
+  { label: "Debugging and support", items: ["JavaScript debugging", "Browser console", "Network inspection", "Postman", "Terminal", "Root cause analysis", "SLA-driven incident management"] },
+  { label: "Tracking and integrations", items: ["Google tagging", "Adobe data collection", "Server-side API validation", "Contentsquare", "Awin"] },
+  { label: "Tools", items: ["Jira", "Salesforce", "Zendesk", "Google Apps Script", "Python", "WordPress"] },
 ] as const

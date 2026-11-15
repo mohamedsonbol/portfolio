@@ -1,16 +1,75 @@
 import { z } from 'zod';
 import { generateObject } from 'ai';
 import { openai } from '@ai-sdk/openai';
+import { checkRateLimit, getClientAddress, readJsonBody, RequestBodyTooLargeError } from '@/lib/api-security';
 
 export const maxDuration = 30;
 
-export async function POST(req: Request) {
-  try {
-    const { text, targetCompany, region } = await req.json();
+const MAX_BODY_BYTES = 64 * 1024;
+const requestSchema = z.object({
+  text: z.string().trim().min(1, 'No resume text provided.').max(50_000, 'Resume text is too long.'),
+  targetCompany: z.string().trim().max(120).optional().default('Not specified'),
+  region: z.string().trim().max(80).optional().default('Not specified'),
+}).strict();
 
-    if (!text || text.trim() === '') {
-      return Response.json({ error: 'No resume text provided.' }, { status: 400 });
+const analysisSchema = z.object({
+  overallScore: z.number().min(0).max(100),
+  keywordMatch: z.number().min(0).max(100),
+  keywordDetails: z.string().max(2_000),
+  foundKeywords: z.array(z.string().max(120)).max(10),
+  missingKeywords: z.array(z.string().max(120)).max(10),
+  actionVerbs: z.number().min(0).max(100),
+  actionVerbsDetails: z.string().max(2_000),
+  foundActionVerbs: z.array(z.string().max(120)).max(10),
+  formatting: z.number().min(0).max(100),
+  formattingDetails: z.string().max(2_000),
+  feedback: z.array(z.string().max(1_000)).max(6),
+  parsedData: z.object({
+    name: z.string().max(200),
+    title: z.string().max(200),
+    summary: z.string().max(2_000),
+    contact: z.object({
+      email: z.string().max(254),
+      phone: z.string().max(40),
+      location: z.string().max(200),
+      linkedin: z.string().max(300),
+    }),
+    experience: z.array(z.object({
+      company: z.string().max(200),
+      role: z.string().max(200),
+      date: z.string().max(100),
+      location: z.string().max(200),
+      bullets: z.array(z.string().max(1_000)).max(20),
+    })).max(30),
+    education: z.array(z.object({
+      degree: z.string().max(200),
+      institution: z.string().max(250),
+      date: z.string().max(100),
+    })).max(20),
+    skills: z.array(z.string().max(120)).max(50),
+    languages: z.array(z.object({
+      language: z.string().max(100),
+      proficiency: z.string().max(100),
+    })).max(20),
+  }),
+});
+
+export async function POST(req: Request) {
+  const rateLimit = checkRateLimit(`analyze-resume:${getClientAddress(req)}`, 5, 10 * 60 * 1000);
+  if (!rateLimit.allowed) {
+    return Response.json(
+      { error: 'Too many analysis requests. Please try again later.' },
+      { status: 429, headers: { 'Retry-After': String(rateLimit.retryAfterSeconds) } },
+    );
+  }
+
+  try {
+    if (!req.headers.get('content-type')?.toLowerCase().includes('application/json')) {
+      return Response.json({ error: 'Content-Type must be application/json.' }, { status: 415 });
     }
+
+    const payload = await readJsonBody<unknown>(req, MAX_BODY_BYTES);
+    const { text, targetCompany, region } = requestSchema.parse(payload);
 
     if (!process.env.OPENAI_API_KEY) {
       return Response.json({ error: 'OpenAI API key not configured.' }, { status: 500 });
@@ -18,47 +77,7 @@ export async function POST(req: Request) {
 
     const { object } = await generateObject({
       model: openai('gpt-4o-mini'),
-      schema: z.object({
-        overallScore: z.number().describe("The overall ATS score out of 100."),
-        keywordMatch: z.number().describe("Score for keyword matching out of 100."),
-        keywordDetails: z.string().describe("Specific missing keywords or what needs to be added (e.g. 'Add React, Node.js')."),
-        foundKeywords: z.array(z.string()).describe("List of 3-5 specific matching keywords found in the resume."),
-        missingKeywords: z.array(z.string()).describe("List of 3-5 specific missing keywords that should be added."),
-        actionVerbs: z.number().describe("Score for action verbs out of 100."),
-        actionVerbsDetails: z.string().describe("Specific action verbs that are missing or what should be added."),
-        foundActionVerbs: z.array(z.string()).describe("List of 3-5 specific strong action verbs found in the resume."),
-        formatting: z.number().describe("Score for formatting out of 100 based on region/company."),
-        formattingDetails: z.string().describe("Explanation of formatting issues or what to change for the target region."),
-        feedback: z.array(z.string()).describe("List of 3 to 4 specific feedback points based on the target company and region."),
-        parsedData: z.object({
-          name: z.string().describe("The candidate's full name."),
-          title: z.string().describe("The candidate's current or target job title."),
-          summary: z.string().describe("A professional summary or objective statement."),
-          contact: z.object({
-            email: z.string(),
-            phone: z.string(),
-            location: z.string(),
-            linkedin: z.string()
-          }),
-          experience: z.array(z.object({
-            company: z.string(),
-            role: z.string(),
-            date: z.string().describe("e.g. 'Jan 2021 - Present'"),
-            location: z.string().describe("City, Country if available"),
-            bullets: z.array(z.string()).describe("Bullet points describing achievements and responsibilities")
-          })),
-          education: z.array(z.object({
-            degree: z.string(),
-            institution: z.string(),
-            date: z.string().describe("e.g. '2010 - 2013' or 'Present'")
-          })),
-          skills: z.array(z.string()),
-          languages: z.array(z.object({
-            language: z.string(),
-            proficiency: z.string().describe("e.g. 'Native', 'Intermediate'")
-          }))
-        }).describe("Structured data extracted from the resume text.")
-      }),
+      schema: analysisSchema,
       prompt: `Analyze the following resume text for ATS (Applicant Tracking System) compatibility and carefully extract the structured data.
       Target Company: ${targetCompany}
       Target Region: ${region}
@@ -81,13 +100,28 @@ export async function POST(req: Request) {
       - Extract languages and proficiency levels. Make sure to guess proficiency if not explicitly stated (e.g. 'English' -> 'Native' or 'Fluent').
       
       Resume Text:
-      ${text.substring(0, 5000)}
+      ${text.substring(0, 12_000)}
       `,
     });
 
-    return Response.json(object);
+    const validatedResult = analysisSchema.safeParse(object);
+    if (!validatedResult.success) {
+      console.error("Resume analysis provider returned invalid output")
+      return Response.json({ error: 'Resume analysis is temporarily unavailable.' }, { status: 502 });
+    }
+
+    return Response.json(validatedResult.data);
   } catch (error) {
-    console.error("Error analyzing resume:", error);
-    return Response.json({ error: 'Failed to analyze resume.' }, { status: 500 });
+    if (error instanceof RequestBodyTooLargeError) {
+      return Response.json({ error: 'Request body is too large.' }, { status: 413 });
+    }
+    if (error instanceof SyntaxError) {
+      return Response.json({ error: 'Invalid JSON body.' }, { status: 400 });
+    }
+    if (error instanceof z.ZodError) {
+      return Response.json({ error: error.issues[0]?.message ?? 'Invalid request.' }, { status: 400 });
+    }
+    console.error("Error analyzing resume:", error instanceof Error ? error.message : "unknown error");
+    return Response.json({ error: 'Resume analysis is temporarily unavailable.' }, { status: 502 });
   }
 }

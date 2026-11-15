@@ -5,11 +5,12 @@ import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "./theme-toggle"
+import { portfolioConfig } from "@/lib/portfolio-config"
 
 const navLinks = [
   { href: "/#work", label: "Work" },
   { href: "/resume", label: "Resume" },
-  { href: "/#about", label: "About" },
+  { href: "/#experience", label: "Experience" },
   { href: "/#contact", label: "Contact" },
 ]
 
@@ -28,7 +29,7 @@ export function Navigation() {
       <nav className="container mx-auto flex items-center justify-between px-6" aria-label="Primary navigation">
         <Link href="/" className="group flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
           <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 font-mono text-sm font-bold text-primary">MS</span>
-          <span className="hidden text-sm font-semibold tracking-tight sm:block">Mohamed Sonbol</span>
+          <span className="hidden text-sm font-semibold tracking-tight sm:block">{portfolioConfig.name}</span>
         </Link>
 
         <div className="hidden items-center gap-7 md:flex">

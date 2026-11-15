@@ -1,94 +1,61 @@
-"use client"
-
-import { useState } from "react"
-import { ExternalLink, Github, ArrowUpRight } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
+import { ArrowUpRight, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { featuredProjects } from "@/lib/portfolio-data"
 
 export function ProjectsSection() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const primaryProject = featuredProjects[0]
+  const otherProjects = featuredProjects.slice(1)
 
   return (
-    <section id="projects" className="py-24 relative">
+    <section id="work" className="py-24">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-16">
+        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold">Projects</h2>
+            <p className="eyebrow">Selected work</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Projects built around real integrations.</h2>
           </div>
-          <p className="text-muted-foreground max-w-md">
-            A collection of projects that showcase my skills in building modern, scalable applications.
-          </p>
+          <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
+            View all projects <ArrowUpRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {featuredProjects.map((project) => (
-            <div
-              key={project.name}
-              className="group relative rounded-2xl bg-card border border-border overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
-              onMouseEnter={() => setHoveredId(project.name)}
-              onMouseLeave={() => setHoveredId(null)}
-            >
-              {/* Project Image */}
-              <div className="relative overflow-hidden h-56">
-                <img
-                  src={project.image || "/placeholder.svg"}
-                  alt={project.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent opacity-60" />
-              </div>
-
-              {/* Content */}
-              <div className="p-6 space-y-4">
-                <div className="flex items-start justify-between">
-                  <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">{project.name}</h3>
-                  <div className="flex gap-2">
-                    <a
-                      href="https://github.com/mohamedsonbol"
-                      className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
-                    >
-                      <Github className="h-4 w-4" />
-                    </a>
-                    <a
-                      href="/projects"
-                      className="p-2 rounded-lg bg-secondary hover:bg-secondary/80 transition-colors"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  </div>
-                </div>
-
-                {/* Description - shown on hover or always on mobile */}
-                <p
-                  className={`text-sm text-muted-foreground leading-relaxed transition-all duration-300 ${hoveredId === project.name ? "opacity-100 max-h-20" : "opacity-70 max-h-12 line-clamp-2"
-                    }`}
-                >
-                  {project.summary}
-                </p>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="secondary"
-                      className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 text-xs font-mono"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              {/* Hover arrow indicator */}
-              <div
-                className={`absolute top-4 right-4 p-2 rounded-full bg-primary text-primary-foreground transition-all duration-300 ${hoveredId === project.name ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
-                  }`}
-              >
-                <ArrowUpRight className="h-4 w-4" />
-              </div>
+        <article className="grid overflow-hidden rounded-3xl border border-border bg-card lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="relative min-h-[280px] overflow-hidden lg:min-h-[430px]">
+            <Image src={primaryProject.image} alt="DR. CHOICE e-commerce storefront" fill sizes="(min-width: 1024px) 52vw, 100vw" className="h-full w-full object-cover transition-transform duration-700 hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-card via-card/10 to-transparent" />
+            <span className="absolute left-6 top-6 rounded-full border border-primary/40 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-primary">Primary case study</span>
+          </div>
+          <div className="flex flex-col justify-center p-7 md:p-10">
+            <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">E-commerce · Integration</p>
+            <h3 className="mt-4 text-3xl font-semibold tracking-tight">DR. CHOICE</h3>
+            <p className="mt-5 text-base leading-7 text-muted-foreground">Bilingual e-commerce storefront built with WordPress and WooCommerce, including OmPay payment gateway integration and the frontend/backend connection required to support the customer journey.</p>
+            <div className="mt-7 flex flex-wrap gap-2">
+              {primaryProject.tags.map((tag) => <Badge key={tag} variant="secondary" className="border-primary/20 bg-primary/10 font-mono text-xs text-primary">{tag}</Badge>)}
             </div>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <a href="https://dr-choice.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">Visit project <ExternalLink className="h-4 w-4" /></a>
+              <Link href="/projects" className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:border-primary/60 hover:text-primary">Explore projects <ArrowUpRight className="h-4 w-4" /></Link>
+            </div>
+          </div>
+        </article>
+
+        <div className="mt-5 grid gap-5 md:grid-cols-2">
+          {otherProjects.map((project) => (
+            <article key={project.name} className="group rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/50">
+              <div className="relative h-48 overflow-hidden rounded-xl">
+                <Image src={project.image} alt={project.name} fill sizes="(min-width: 768px) 50vw, 100vw" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              </div>
+              <div className="mt-5 flex items-start justify-between gap-4">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{project.category}</p>
+                  <h3 className="mt-2 text-xl font-semibold">{project.name}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{project.summary}</p>
+                </div>
+                <ArrowUpRight className="h-5 w-5 shrink-0 text-primary opacity-60 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+              </div>
+            </article>
           ))}
         </div>
       </div>

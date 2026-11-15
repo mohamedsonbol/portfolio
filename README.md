@@ -1,30 +1,84 @@
-# Developer portfolio dashboard
+# Mohamed Sonbol portfolio
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+Personal portfolio for Mohamed Ezzat (Sonbol), a Technical Support Engineer focused on JavaScript and integrations.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/mohamedsonbols-projects/v0-dev-portfolio)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/hmlhQJ2v2LL)
+The site is built with Next.js 16, React 19, TypeScript, and Tailwind CSS v4. It includes a responsive portfolio homepage, project browser, HTML resume, contact form, PDF parsing endpoint, and optional AI-powered resume analysis.
 
-## Overview
+## Local development
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+Requirements:
 
-## Deployment
+- Node.js compatible with the project dependencies
+- pnpm
 
-Your project is live at:
+Install dependencies and start the development server:
 
-**[https://vercel.com/mohamedsonbols-projects/v0-dev-portfolio](https://vercel.com/mohamedsonbols-projects/v0-dev-portfolio)**
+```bash
+pnpm install
+pnpm dev
+```
 
-## Build your app
+The site will be available at `http://localhost:3000`.
 
-Continue building your app on:
+Available scripts:
 
-**[https://v0.app/chat/hmlhQJ2v2LL](https://v0.app/chat/hmlhQJ2v2LL)**
+- `pnpm dev` — start Next.js in development mode
+- `pnpm build` — create a production build
+- `pnpm start` — serve the production build
+- `pnpm lint` — run ESLint
 
-## How It Works
+## Environment variables
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+The contact endpoint requires SMTP credentials:
+
+```env
+SMTP_HOST=
+SMTP_PORT=465
+SMTP_USER=
+SMTP_PASS=
+```
+
+Telegram notifications are optional:
+
+```env
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+```
+
+Resume analysis requires an OpenAI key:
+
+```env
+OPENAI_API_KEY=
+```
+
+The repository also contains an unused Supabase browser client, which requires `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` only if that integration is enabled in the future.
+
+## Routes
+
+- `/` — portfolio homepage
+- `/projects` — GitHub and CodePen project collection
+- `/resume` — HTML resume
+- `/api/contact` — SMTP contact form endpoint with optional Telegram notification
+- `/api/parse-pdf` — PDF text extraction endpoint
+- `/api/analyze-resume` — AI-assisted ATS analysis endpoint
+
+## Analytics
+
+The application preserves the existing Vercel Analytics integration and Google Analytics configuration routed through the existing server-side GTM endpoint. GTM deployment and domain-mapping scripts are intentionally kept unchanged.
+
+## Security controls
+
+- Contact submissions require JSON input with bounded name, email, and message lengths. Email HTML is escaped, email header newlines are rejected, and the endpoint has a best-effort per-IP rate limit.
+- PDF parsing accepts only `.pdf` uploads with an `application/pdf` MIME type and `%PDF-` signature, limits uploads to 10 MB, caps extracted text, and returns safe errors for malformed files.
+- Resume analysis validates and bounds request fields, caps the request body and prompt input, keeps `OPENAI_API_KEY` server-side, limits analysis requests, and returns generic provider-failure responses.
+
+The rate limiter is process-local because no external stateful rate-limit service is configured; multiple server instances will not share counters. Run `pnpm audit --prod` in a network-enabled environment as part of dependency maintenance. No production environment variables are stored in the repository.
+
+## Identity
+
+- Website: https://mohamedsonbol.exceptionalgrp.com
+- Email: mhmdezzat.eng@gmail.com
+- LinkedIn: https://linkedin.com/in/mohamedsonbol
+- Location: Warsaw, Poland
+
+Deployment is intentionally not performed from this repository workflow.

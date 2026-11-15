@@ -1,36 +1,46 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowDownRight, ArrowUpRight, Linkedin } from "lucide-react"
+import { ArrowDownRight, ArrowUpRight, FileText, Linkedin, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { portfolio } from "@/lib/portfolio-data"
+import { portfolioConfig } from "@/lib/portfolio-config"
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden pb-24 pt-36 md:pb-32 md:pt-48">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,oklch(0.7_0.16_180_/_0.12),transparent_30%),linear-gradient(135deg,transparent_45%,oklch(0.7_0.2_220_/_0.06))]" />
-      <div className="container relative mx-auto grid max-w-6xl items-end gap-12 px-6 lg:grid-cols-[1.15fr_0.85fr]">
+    <section className="relative overflow-hidden pb-20 pt-36 md:pb-28 md:pt-48">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_14%,rgb(185_243_75_/_0.12),transparent_28%),linear-gradient(120deg,transparent_45%,rgb(185_243_75_/_0.04))]" />
+      <div className="container relative mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-[1.15fr_0.85fr]">
         <div>
-          <p className="mb-6 font-mono text-xs font-semibold tracking-[0.22em] text-primary">{portfolio.eyebrow}</p>
-          <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-[-0.05em] md:text-7xl">Engineering digital experiences <span className="text-primary">that deliver results.</span></h1>
-          <p className="mt-8 max-w-2xl text-lg leading-8 text-muted-foreground">I&apos;m Mohamed Sonbol, a Technical Project Manager and Full-Stack Developer based in {portfolio.location}. {portfolio.intro}</p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Button asChild size="lg"><Link href="/#work">Explore my work <ArrowDownRight className="ml-2 h-4 w-4" /></Link></Button>
-            <Button asChild variant="outline" size="lg"><Link href="/resume">View resume</Link></Button>
-            <Button asChild variant="ghost" size="lg"><Link href="/#contact">Let&apos;s connect <ArrowUpRight className="ml-2 h-4 w-4" /></Link></Button>
+          <p className="eyebrow">Technical Support Engineer</p>
+          <h1 className="mt-5 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] md:text-7xl">
+            Mohamed Ezzat <span className="text-primary">(Sonbol)</span>
+          </h1>
+          <p className="mt-6 text-lg font-medium text-foreground md:text-xl">
+            JavaScript <span className="text-primary">|</span> APIs <span className="text-primary">|</span> Integrations
+          </p>
+          <p className="mt-7 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
+            {portfolioConfig.professionalSummary}
+          </p>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Button asChild size="lg"><Link href="#experience">View My Experience <ArrowDownRight className="ml-2 h-4 w-4" /></Link></Button>
+            <Button asChild variant="outline" size="lg"><a href="/Resume.pdf" download>Download Resume <FileText className="ml-2 h-4 w-4" /></a></Button>
+            <Button asChild variant="ghost" size="lg"><Link href="#contact">Contact Me <ArrowUpRight className="ml-2 h-4 w-4" /></Link></Button>
           </div>
-          <div className="mt-12 flex items-center gap-5 text-sm text-muted-foreground">
-            <span className="h-px w-12 bg-border" />
-            <span>Warsaw · Europe</span>
-            <a href={portfolio.social.linkedin} target="_blank" rel="noreferrer" className="transition-colors hover:text-primary" aria-label="LinkedIn profile"><Linkedin className="h-4 w-4" /></a>
+          <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" />{portfolioConfig.location}</span>
+            <span className="hidden h-4 w-px bg-border sm:block" />
+            <span>Eligible to work in Poland without a permit.</span>
+            <a href={portfolioConfig.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-foreground transition-colors hover:text-primary">
+              <Linkedin className="h-4 w-4" /> LinkedIn
+            </a>
           </div>
         </div>
         <div className="relative mx-auto w-full max-w-sm lg:mb-4">
-          <div className="absolute -inset-5 rounded-[2rem] border border-primary/10" />
-          <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-2xl shadow-primary/10">
-            <Image src="/images/profile/portfolio-portrait-1.png" alt="Mohamed Sonbol in a patterned shirt against a teal background" width={600} height={800} priority sizes="(min-width: 1024px) 34vw, 88vw" className="aspect-[4/5] w-full object-cover object-[center_18%]" />
-            <div className="flex items-center justify-between border-t border-border bg-card/95 px-5 py-4">
-              <div><p className="text-sm font-semibold">Building with intent.</p><p className="mt-1 text-xs text-muted-foreground">Technology · Analytics · Delivery</p></div>
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_theme(colors.emerald.400)]" aria-label="Available for selected engagements" />
+          <div className="absolute -inset-4 rounded-[2rem] border border-primary/20" />
+          <div className="relative overflow-hidden rounded-[1.5rem] border border-border bg-card shadow-2xl shadow-primary/10">
+            <Image src="/images/profile/portfolio-portrait-1.png" alt="Mohamed Ezzat Sonbol" width={600} height={800} priority sizes="(min-width: 1024px) 34vw, 88vw" className="aspect-[4/5] w-full object-cover object-[center_18%] grayscale-[15%]" />
+            <div className="border-t border-border bg-card px-5 py-4">
+              <p className="text-sm font-semibold">Support the signal.</p>
+              <p className="mt-1 text-xs text-muted-foreground">Debugging · Integration · Delivery</p>
             </div>
           </div>
         </div>

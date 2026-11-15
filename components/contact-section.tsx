@@ -4,6 +4,7 @@ import Image from "next/image"
 import { useState } from "react"
 import { Github, Linkedin, Mail, ArrowUpRight, CheckCircle2, Send, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { portfolioConfig } from "@/lib/portfolio-config"
 
 const services = [
   "Tag management implementation & audit",
@@ -19,7 +20,7 @@ const quickLinks = [
     icon: Linkedin,
     label: "LinkedIn",
     description: "Professional enquiries",
-    href: "https://www.linkedin.com/in/mohamedsonbol",
+    href: portfolioConfig.linkedin,
     accent: "#0A66C2",
     accentBg: "rgba(10,102,194,0.08)",
     accentBorder: "rgba(10,102,194,0.2)",
@@ -30,9 +31,9 @@ const quickLinks = [
     label: "GitHub",
     description: "See my code",
     href: "https://github.com/mohamedsonbol",
-    accent: "hsl(var(--primary))",
-    accentBg: "hsl(var(--primary) / 0.08)",
-    accentBorder: "hsl(var(--primary) / 0.2)",
+    accent: "var(--primary)",
+    accentBg: "color-mix(in srgb, var(--primary) 8%, transparent)",
+    accentBorder: "color-mix(in srgb, var(--primary) 20%, transparent)",
     cta: "View profile",
   },
 ]
@@ -81,9 +82,9 @@ export function ContactSection() {
         {/* Header */}
         <div className="text-center mb-14">
           <p className="text-xs font-mono text-primary uppercase tracking-widest mb-3">Get in touch</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Let's Work Together</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Let&apos;s Work Together</h2>
           <p className="text-muted-foreground max-w-xl mx-auto text-sm leading-relaxed">
-            I take on a limited number of consulting engagements. If you need precise, reliable analytics implementation — let's talk.
+            I take on a limited number of consulting engagements. If you need precise, reliable analytics implementation — let&apos;s talk.
           </p>
         </div>
 
@@ -121,7 +122,7 @@ export function ContactSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-4 px-4 py-4 rounded-xl border transition-all duration-200 hover:-translate-y-0.5"
-                  style={{ background: "transparent", borderColor: "hsl(var(--border))" }}
+                  style={{ background: "transparent", borderColor: "var(--border)" }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLAnchorElement
                     el.style.background = accentBg
@@ -130,7 +131,7 @@ export function ContactSection() {
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLAnchorElement
                     el.style.background = "transparent"
-                    el.style.borderColor = "hsl(var(--border))"
+                    el.style.borderColor = "var(--border)"
                   }}
                 >
                   <div className="p-2.5 rounded-xl flex-shrink-0" style={{ background: accentBg }}>
@@ -161,9 +162,14 @@ export function ContactSection() {
               </div>
               <p className="text-sm text-muted-foreground">
                 Replies from{" "}
-                <span className="font-mono text-primary text-xs">ezzat@exceptionalgrp.com</span>{" "}
+                <span className="font-mono text-primary text-xs">{portfolioConfig.email}</span>{" "}
                 within 24 hours.
               </p>
+              <div className="mt-5 grid gap-2 border-t border-border/70 pt-4 text-sm text-muted-foreground sm:grid-cols-3">
+                <a className="transition-colors hover:text-primary" href={`mailto:${portfolioConfig.email}`}>{portfolioConfig.email}</a>
+                <a className="transition-colors hover:text-primary" href={`tel:${portfolioConfig.phone.replaceAll(" ", "")}`}>{portfolioConfig.phone}</a>
+                <span>{portfolioConfig.location}</span>
+              </div>
             </div>
 
             {status === "success" ? (
@@ -172,7 +178,7 @@ export function ContactSection() {
                   <CheckCircle2 className="h-8 w-8 text-primary" />
                 </div>
                 <p className="font-semibold text-sm">Message sent!</p>
-                <p className="text-xs text-muted-foreground">I'll get back to you within 24 hours.</p>
+                <p className="text-xs text-muted-foreground">I&apos;ll get back to you within 24 hours.</p>
                 <button
                   onClick={() => setStatus("idle")}
                   className="mt-2 text-xs text-primary underline underline-offset-2"

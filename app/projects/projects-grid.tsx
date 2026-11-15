@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ExternalLink, Github, Code2, Globe, FolderGit2, PenSquare, Star, ArrowUpRight } from "lucide-react"
+import Image from "next/image"
+import { Github, Code2, Globe, FolderGit2, PenSquare, Star, ArrowUpRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 const githubProjects = [
@@ -252,8 +253,8 @@ function ProjectCard({ project, index, featured = false }: { project: Project; i
         boxShadow: "0 0 0 0 transparent",
       }}
       onMouseEnter={(e) => {
-        ;(e.currentTarget as HTMLDivElement).style.borderColor = "hsl(var(--primary) / 0.35)"
-        ;(e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 32px -8px hsl(var(--primary) / 0.15), 0 0 0 1px hsl(var(--primary) / 0.08)"
+        ;(e.currentTarget as HTMLDivElement).style.borderColor = "color-mix(in srgb, var(--primary) 35%, transparent)"
+        ;(e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 32px -8px color-mix(in srgb, var(--primary) 15%, transparent), 0 0 0 1px color-mix(in srgb, var(--primary) 8%, transparent)"
       }}
       onMouseLeave={(e) => {
         ;(e.currentTarget as HTMLDivElement).style.borderColor = ""
@@ -262,9 +263,11 @@ function ProjectCard({ project, index, featured = false }: { project: Project; i
     >
       {/* Image */}
       <div className={`relative overflow-hidden flex-shrink-0${featured ? " md:w-[42%] h-52 md:h-auto" : " h-44"}`}>
-        <img
+        <Image
           src={project.image}
           alt={`${project.title} preview`}
+          fill
+          sizes="(min-width: 768px) 50vw, 100vw"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
           onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
         />
@@ -429,7 +432,7 @@ export function ProjectsGrid() {
                 Featured{" "}
                 <span
                   className="text-transparent bg-clip-text"
-                  style={{ backgroundImage: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--chart-4)) 100%)" }}
+                  style={{ backgroundImage: "linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)" }}
                 >
                   Projects
                 </span>
