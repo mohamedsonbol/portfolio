@@ -96,7 +96,7 @@ export function ContactSection() {
             {/* Services card */}
             <div className="rounded-2xl bg-card border border-border p-7 flex flex-col gap-5">
               <div className="mb-1 flex items-center gap-4">
-                <Image src="/images/profile/portfolio-portrait-5.png" alt="Mohamed Sonbol in a denim jacket" width={72} height={72} sizes="72px" className="h-16 w-16 shrink-0 rounded-xl object-cover object-[center_20%]" loading="lazy" />
+                <Image src="/images/profile/portfolio-portrait-1.png" alt="Mohamed Sonbol" width={72} height={72} sizes="72px" className="h-16 w-16 shrink-0 rounded-xl object-cover object-[center_20%]" loading="lazy" />
                 <div>
                   <h3 className="text-lg font-semibold">What I help with</h3>
                   <p className="text-sm text-muted-foreground">Specialised consulting for enterprise analytics teams.</p>

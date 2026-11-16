@@ -135,7 +135,7 @@ export const CustomResumeTemplate = React.forwardRef<HTMLDivElement, CustomTempl
           
           {showPhoto && (
             <div className="w-full aspect-square bg-gray-200 overflow-hidden shadow-md">
-              <Image src="/images/profile/portfolio-portrait-2.png" alt="Mohamed Sonbol wearing a suit and paisley tie" width={480} height={480} className="w-full h-full object-cover object-[center_22%]" />
+              <Image src="/images/profile/portfolio-portrait-1.png" alt="Mohamed Sonbol" width={480} height={480} className="w-full h-full object-cover object-[center_22%]" />
             </div>
           )}
 
