@@ -93,7 +93,7 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
         prev?.analytics === true &&
         next.analytics === false &&
         typeof window !== "undefined" &&
-        window.__gaInitialized === true
+        window.__gtmInitialized === true
 
       if (withdrewAnalyticsWithGaActive) {
         setConsentInStore(next)

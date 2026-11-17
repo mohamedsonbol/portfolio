@@ -52,8 +52,12 @@ The existing Supabase client uses `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SU
 
 Preserve all of the following exactly:
 
-- Google measurement ID: `G-4898X9MEDR` (client-side gtag.js from `googletagmanager.com`)
-- Google Consent Mode v2 defaults all denied before any analytics script load
+- GTM web container: `GTM-PMCQ6NCG` (loaded from `googletagmanager.com` only after analytics consent)
+- GA4 Measurement ID: `G-4898X9MEDR` (configured via the GTM Google tag, not direct gtag.js)
+- Google Consent Mode v2 defaults all denied inline before GTM initializes
+- Consent restored into the data layer before GTM initialization on repeat visits
+- Automatic page_view disabled (GA4 config `send_page_view` off, Enhanced Measurement URL-change off)
+- Exactly one manual `page_view` data-layer event per pathname change (no GTM History Change triggers)
 - No Google Analytics request, event, or cookie before analytics consent is granted
 - Consent stored in `localStorage` under `mgmt_consent_v1`
 - Vercel Analytics NOT initialized (`@vercel/analytics` dependency kept for future re-evaluation only)
@@ -69,7 +73,9 @@ The former server-side tagging requirements (`sst.exceptionalgrp.com`, `server_c
 - Page source contains canonical URLs under `mohamedsonbol.exceptionalgrp.com`.
 - Open Graph and Twitter metadata use the new domain and portrait image.
 - No request to `googletagmanager.com` occurs before analytics consent is granted.
-- After granting analytics consent, GA4 requests use `G-4898X9MEDR` against `googletagmanager.com` and `googleanalytics.com`-routed collect endpoints.
+- After granting analytics consent, GTM loads (`GTM-PMCQ6NCG`) and GA4 collect requests use `G-4898X9MEDR` against `googleanalytics.com`-routed endpoints.
+- Exactly one `page_view` collect hit per page load and per client-side navigation (`/`, `/projects`, `/resume`).
+- Custom events (`contact_form_submit`, `resume_download`, `outbound_click`) appear in GA4 DebugView.
 - Vercel Analytics remains absent from the rendered application.
 - Contact SMTP delivery and optional Telegram notifications work.
 - PDF parsing and resume analysis endpoints still respond correctly.

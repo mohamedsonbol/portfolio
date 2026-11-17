@@ -5,7 +5,7 @@ import Script from "next/script"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { ConsentProvider } from "@/components/consent-provider"
-import { GoogleAnalytics } from "@/components/google-analytics"
+import { GtmAnalytics } from "@/components/gtm-analytics"
 import { CookieBanner } from "@/components/cookie-banner"
 import { portfolioConfig } from "@/lib/portfolio-config"
 import "./globals.css"
@@ -80,7 +80,7 @@ export default function RootLayout({
               {children}
             </TooltipProvider>
           </ThemeProvider>
-          <GoogleAnalytics />
+          <GtmAnalytics />
           <CookieBanner />
         </ConsentProvider>
       </body>

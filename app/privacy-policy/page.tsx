@@ -25,7 +25,7 @@ const sections: { heading: string; body: string[] }[] = [
   {
     heading: "3. Google Analytics (consent required)",
     body: [
-      "When you give analytics consent, the site loads Google Analytics 4 (Google Ireland Limited), measurement ID G-4898X9MEDR, from Google's servers (googletagmanager.com). Google receives information about your visit, such as pages viewed, events you trigger (for example downloading the resume or using the contact form), and general device and browser information.",
+      "When you give analytics consent, the site loads Google Tag Manager (container GTM-PMCQ6NCG) and Google Analytics 4 (Google Ireland Limited), measurement ID G-4898X9MEDR, from Google's servers (googletagmanager.com). Google receives information about your visit, such as pages viewed, events you trigger (for example downloading the resume or using the contact form), and general device and browser information. Page views are recorded once per page and once per in-site navigation.",
       "When you have not given analytics consent, no Google Analytics script is loaded and no analytics data is transmitted. Google consent signals (ad_storage, ad_user_data, ad_personalization, analytics_storage) are set to “denied” by default.",
     ],
   },
