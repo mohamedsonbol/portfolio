@@ -53,10 +53,21 @@ export function trackEvent(
   return true
 }
 
-export function trackOutboundClick(url: string, label?: string): boolean {
-  return trackEvent("outbound_click", {
-    link_url: url,
-    ...(label ? { link_label: label } : {}),
+export function projectSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+}
+
+export function trackProjectClick(params: {
+  project_name: string
+  project_category: string
+}): boolean {
+  return trackEvent("project_click", {
+    project_name: params.project_name,
+    project_slug: projectSlug(params.project_name),
+    project_category: params.project_category,
   })
 }
 

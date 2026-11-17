@@ -4,12 +4,13 @@ import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { Github, Code2, Globe, FolderGit2, PenSquare, Star, ArrowUpRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { TrackedLink } from "@/components/tracked-link"
+import { trackProjectClick } from "@/lib/analytics"
 
 const githubProjects = [
   {
     id: 1,
     title: "routing-app",
+    category: "Web Development",
     description: "A routing application with dynamic navigation and state management, deployed on Vercel.",
     language: "JavaScript",
     tags: ["React", "Next.js", "Routing"],
@@ -22,6 +23,7 @@ const githubProjects = [
   {
     id: 2,
     title: "moBlog",
+    category: "Full-Stack",
     description: "A full-stack blog platform with user authentication, CRUD operations, and responsive design.",
     language: "EJS",
     tags: ["Node.js", "Express", "MongoDB", "EJS"],
@@ -34,6 +36,7 @@ const githubProjects = [
   {
     id: 3,
     title: "react-gallery",
+    category: "Web Development",
     description: "A React gallery app that fetches images from an API and displays them in a responsive grid using Material-UI.",
     language: "JavaScript",
     tags: ["React", "Material-UI", "API"],
@@ -46,6 +49,7 @@ const githubProjects = [
   {
     id: 4,
     title: "yelp-camp-refactored",
+    category: "Full-Stack",
     description: "Refactored YelpCamp project built with Express.js featuring authentication, authorization, and RESTful API design.",
     language: "JavaScript",
     tags: ["Express", "MongoDB", "REST API", "Auth"],
@@ -58,6 +62,7 @@ const githubProjects = [
   {
     id: 5,
     title: "moPortfolio",
+    category: "Web Development",
     description: "Personal portfolio website showcasing projects, skills, and experience with modern design and dark theme.",
     language: "JavaScript",
     tags: ["React", "Node.js", "Express", "CSS"],
@@ -70,6 +75,7 @@ const githubProjects = [
   {
     id: 6,
     title: "selenium-demo-js",
+    category: "Testing & Automation",
     description: "Repository containing examples using Node.js with Sauce Labs for automated browser testing.",
     language: "JavaScript",
     tags: ["Selenium", "Node.js", "Testing"],
@@ -82,6 +88,7 @@ const githubProjects = [
   {
     id: 7,
     title: "websitePractice",
+    category: "Web Development",
     description: "Clean coded responsive mobile-friendly HTML5 website for a fictional web design company.",
     language: "HTML",
     tags: ["HTML5", "CSS3", "Responsive"],
@@ -94,6 +101,7 @@ const githubProjects = [
   {
     id: 8,
     title: "The-Gym",
+    category: "Web Development",
     description: "Responsive website built for practicing HTML5 and CSS3 with modern layout techniques.",
     language: "JavaScript",
     tags: ["HTML5", "CSS3", "Responsive"],
@@ -106,6 +114,7 @@ const githubProjects = [
   {
     id: 9,
     title: "data-layer-reviewer",
+    category: "Web Development",
     description: "A data layer review and validation tool built with TypeScript for enterprise analytics implementations.",
     language: "TypeScript",
     tags: ["TypeScript", "Analytics", "Data"],
@@ -118,6 +127,7 @@ const githubProjects = [
   {
     id: 10,
     title: "saucetechtest",
+    category: "Testing & Automation",
     description: "Technical test project demonstrating automated testing skills with JavaScript and Sauce Labs.",
     language: "JavaScript",
     tags: ["JavaScript", "Testing", "Automation"],
@@ -133,6 +143,7 @@ const codepenProjects = [
   {
     id: 101,
     title: "CSS Selectors Game",
+    category: "Experiment",
     description: "An interactive game to practice and master CSS selectors through hands-on challenges.",
     tags: ["CSS", "Game", "Interactive"],
     codepen: "https://codepen.io/mowhocodes/pen/bGevVxb",
@@ -143,6 +154,7 @@ const codepenProjects = [
   {
     id: 102,
     title: "JavaScript Drum Kit",
+    category: "Experiment",
     description: "Playable drum kit using keyboard inputs and Web Audio API to produce drum sounds.",
     tags: ["JavaScript", "Audio", "Web API"],
     codepen: "https://codepen.io/mowhocodes/pen/JjGZVZy",
@@ -153,6 +165,7 @@ const codepenProjects = [
   {
     id: 103,
     title: "Analog Clock",
+    category: "Experiment",
     description: "A beautifully styled analog clock built with pure CSS and JavaScript showing real time.",
     tags: ["CSS", "JavaScript", "Time"],
     codepen: "https://codepen.io/mowhocodes/pen/MWpELXa",
@@ -163,6 +176,7 @@ const codepenProjects = [
   {
     id: 104,
     title: "Random Quote Machine",
+    category: "Experiment",
     description: "Generate and tweet random inspirational quotes with this responsive single-page application.",
     tags: ["JavaScript", "API", "Quotes"],
     codepen: "https://codepen.io/mowhocodes/pen/eYrPGzz",
@@ -173,6 +187,7 @@ const codepenProjects = [
   {
     id: 105,
     title: "Markdown Previewer",
+    category: "Experiment",
     description: "Live markdown editor with instant preview supporting GitHub-flavored markdown syntax.",
     tags: ["JavaScript", "Markdown", "Editor"],
     codepen: "https://codepen.io/mowhocodes/pen/jOLWBMd",
@@ -183,6 +198,7 @@ const codepenProjects = [
   {
     id: 106,
     title: "Pomodoro Clock",
+    category: "Experiment",
     description: "Productivity timer with customizable work and break intervals featuring audio notifications.",
     tags: ["JavaScript", "Productivity", "Timer"],
     codepen: "https://codepen.io/mowhocodes/pen/wvajjdb",
@@ -193,6 +209,7 @@ const codepenProjects = [
   {
     id: 107,
     title: "Calculator",
+    category: "Experiment",
     description: "Fully functional calculator with keyboard support and a clean, modern interface.",
     tags: ["JavaScript", "Calculator", "Math"],
     codepen: "https://codepen.io/mowhocodes/pen/xxOBepg",
@@ -203,6 +220,7 @@ const codepenProjects = [
   {
     id: 108,
     title: "Tic Tac Toe",
+    category: "Experiment",
     description: "Classic Tic Tac Toe game with AI opponent, multiple difficulty levels, and score tracking.",
     tags: ["JavaScript", "Game", "AI"],
     codepen: "https://codepen.io/mowhocodes/pen/bGevjWv",
@@ -246,6 +264,12 @@ function ProjectCard({ project, index, featured = false }: { project: Project; i
   return (
     <div
       ref={ref}
+      onClick={() =>
+        trackProjectClick({
+          project_name: project.title,
+          project_category: project.category,
+        })
+      }
       className={`group relative rounded-2xl bg-card border border-border overflow-hidden flex flex-col transition-all duration-500 cursor-pointer${featured ? " md:col-span-2 md:flex-row" : ""}`}
       style={{
         opacity: visible ? 1 : 0,
@@ -319,16 +343,14 @@ function ProjectCard({ project, index, featured = false }: { project: Project; i
           <h3 className={`font-semibold leading-tight group-hover:text-primary transition-colors duration-200${featured ? " text-lg" : " text-base"}`}>
             {project.title}
           </h3>
-          <TrackedLink
+          <a
             href={isGithub ? (project as typeof githubProjects[0]).github : (project as typeof codepenProjects[0]).codepen}
             target="_blank"
             rel="noopener noreferrer"
-            eventParams={{ link_label: `${project.title} – header link` }}
             className="flex-shrink-0 p-1.5 rounded-lg text-muted-foreground/40 hover:text-primary hover:bg-primary/8 transition-all duration-200"
-            onClick={(e) => e.stopPropagation()}
           >
             <ArrowUpRight className="h-4 w-4" />
-          </TrackedLink>
+          </a>
         </div>
 
         <p className={`text-sm text-muted-foreground leading-relaxed flex-1${featured ? " line-clamp-3" : " line-clamp-2"}`}>
@@ -350,28 +372,26 @@ function ProjectCard({ project, index, featured = false }: { project: Project; i
 
         {/* Action buttons */}
         <div className="flex items-center gap-2 pt-3 mt-auto border-t border-border/40">
-          <TrackedLink
+          <a
             href={isGithub ? (project as typeof githubProjects[0]).github : (project as typeof codepenProjects[0]).codepen}
             target="_blank"
             rel="noopener noreferrer"
-            eventParams={{ link_label: `${project.title} – ${isGithub ? "source" : "codepen"}` }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/60 hover:bg-secondary transition-all duration-200 text-xs font-medium hover:text-foreground"
           >
             {isGithub ? <Github className="h-3.5 w-3.5" /> : <Code2 className="h-3.5 w-3.5" />}
             {isGithub ? "Source" : "View Pen"}
-          </TrackedLink>
+          </a>
 
           {"live" in project && project.live && (
-            <TrackedLink
+            <a
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
-              eventParams={{ link_label: `${project.title} – live demo` }}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 text-xs font-medium"
             >
               <Globe className="h-3.5 w-3.5" />
               Live Demo
-            </TrackedLink>
+            </a>
           )}
 
           {isGithub && !("live" in project && (project as typeof githubProjects[0]).live) && (

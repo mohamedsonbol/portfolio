@@ -7,7 +7,7 @@ import { CookieBanner } from "@/components/cookie-banner"
 import { GtmAnalytics } from "@/components/gtm-analytics"
 import { CONSENT_VERSION, type StoredConsent } from "@/lib/consent"
 import { refreshConsentSnapshot } from "@/lib/consent-store"
-import { trackEvent, trackOutboundClick } from "@/lib/analytics"
+import { trackEvent } from "@/lib/analytics"
 
 const navigationState = { pathname: "/" }
 
@@ -271,15 +271,9 @@ describe("Custom event tracking through the data layer", () => {
   it("pushes object-form events after GTM initialization", () => {
     window.__gtmInitialized = true
     expect(trackEvent("contact_form_submit", { form_id: "contact-form" })).toBe(true)
-    expect(trackOutboundClick("https://github.com/mohamedsonbol", "GitHub")).toBe(true)
 
     const objects = dataLayerObjects()
     expect(objects).toContainEqual({ event: "contact_form_submit", form_id: "contact-form" })
-    expect(objects).toContainEqual({
-      event: "outbound_click",
-      link_url: "https://github.com/mohamedsonbol",
-      link_label: "GitHub",
-    })
   })
 })
 

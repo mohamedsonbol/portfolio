@@ -1,8 +1,11 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowUpRight, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { featuredProjects } from "@/lib/portfolio-data"
+import { trackProjectClick } from "@/lib/analytics"
 
 export function ProjectsSection() {
   const primaryProject = featuredProjects[0]
@@ -21,7 +24,15 @@ export function ProjectsSection() {
           </Link>
         </div>
 
-        <article className="grid overflow-hidden rounded-3xl border border-border bg-card lg:grid-cols-[1.05fr_0.95fr]">
+        <article
+          onClick={() =>
+            trackProjectClick({
+              project_name: primaryProject.name,
+              project_category: primaryProject.category,
+            })
+          }
+          className="grid overflow-hidden rounded-3xl border border-border bg-card lg:grid-cols-[1.05fr_0.95fr]"
+        >
           <div className="relative min-h-[280px] overflow-hidden lg:min-h-[430px]">
             <Image src={primaryProject.image} alt="DR. CHOICE e-commerce storefront" fill sizes="(min-width: 1024px) 52vw, 100vw" className="h-full w-full object-cover transition-transform duration-700 hover:scale-105" />
             <div className="absolute inset-0 bg-gradient-to-t from-card via-card/10 to-transparent" />
@@ -36,14 +47,23 @@ export function ProjectsSection() {
             </div>
             <div className="mt-9 flex flex-wrap gap-3">
               <a href="https://dr-choice.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">Visit project <ExternalLink className="h-4 w-4" /></a>
-              <Link href="/projects" className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:border-primary/60 hover:text-primary">Explore projects <ArrowUpRight className="h-4 w-4" /></Link>
+              <Link href="/projects" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:border-primary/60 hover:text-primary">Explore projects <ArrowUpRight className="h-4 w-4" /></Link>
             </div>
           </div>
         </article>
 
         <div className="mt-5 grid gap-5 md:grid-cols-2">
           {otherProjects.map((project) => (
-            <article key={project.name} className="group rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/50">
+            <article
+              key={project.name}
+              onClick={() =>
+                trackProjectClick({
+                  project_name: project.name,
+                  project_category: project.category,
+                })
+              }
+              className="group rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
+            >
               <div className="relative h-48 overflow-hidden rounded-xl">
                 <Image src={project.image} alt={project.name} fill sizes="(min-width: 768px) 50vw, 100vw" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               </div>
