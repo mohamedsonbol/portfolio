@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { Github, Code2, Globe, FolderGit2, PenSquare, Star, ArrowUpRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { TrackedLink } from "@/components/tracked-link"
 
 const githubProjects = [
   {
@@ -318,15 +319,16 @@ function ProjectCard({ project, index, featured = false }: { project: Project; i
           <h3 className={`font-semibold leading-tight group-hover:text-primary transition-colors duration-200${featured ? " text-lg" : " text-base"}`}>
             {project.title}
           </h3>
-          <a
+          <TrackedLink
             href={isGithub ? (project as typeof githubProjects[0]).github : (project as typeof codepenProjects[0]).codepen}
             target="_blank"
             rel="noopener noreferrer"
+            eventParams={{ link_label: `${project.title} – header link` }}
             className="flex-shrink-0 p-1.5 rounded-lg text-muted-foreground/40 hover:text-primary hover:bg-primary/8 transition-all duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <ArrowUpRight className="h-4 w-4" />
-          </a>
+          </TrackedLink>
         </div>
 
         <p className={`text-sm text-muted-foreground leading-relaxed flex-1${featured ? " line-clamp-3" : " line-clamp-2"}`}>
@@ -348,26 +350,28 @@ function ProjectCard({ project, index, featured = false }: { project: Project; i
 
         {/* Action buttons */}
         <div className="flex items-center gap-2 pt-3 mt-auto border-t border-border/40">
-          <a
+          <TrackedLink
             href={isGithub ? (project as typeof githubProjects[0]).github : (project as typeof codepenProjects[0]).codepen}
             target="_blank"
             rel="noopener noreferrer"
+            eventParams={{ link_label: `${project.title} – ${isGithub ? "source" : "codepen"}` }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/60 hover:bg-secondary transition-all duration-200 text-xs font-medium hover:text-foreground"
           >
             {isGithub ? <Github className="h-3.5 w-3.5" /> : <Code2 className="h-3.5 w-3.5" />}
             {isGithub ? "Source" : "View Pen"}
-          </a>
+          </TrackedLink>
 
           {"live" in project && project.live && (
-            <a
+            <TrackedLink
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
+              eventParams={{ link_label: `${project.title} – live demo` }}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 text-xs font-medium"
             >
               <Globe className="h-3.5 w-3.5" />
               Live Demo
-            </a>
+            </TrackedLink>
           )}
 
           {isGithub && !("live" in project && (project as typeof githubProjects[0]).live) && (

@@ -1,9 +1,12 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
+import Script from "next/script"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { ConsentProvider } from "@/components/consent-provider"
+import { GoogleAnalytics } from "@/components/google-analytics"
+import { CookieBanner } from "@/components/cookie-banner"
 import { portfolioConfig } from "@/lib/portfolio-config"
 import "./globals.css"
 
@@ -47,8 +50,6 @@ export const metadata: Metadata = {
   },
 }
 
-import Script from "next/script"
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -57,28 +58,31 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script
-          src="https://sst.exceptionalgrp.com/gtag/js?id=G-4898X9MEDR"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="consent-default" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-4898X9MEDR', {
-              'server_container_url': 'https://sst.exceptionalgrp.com'
+            gtag('consent', 'default', {
+              'ad_storage': 'denied',
+              'ad_user_data': 'denied',
+              'ad_personalization': 'denied',
+              'analytics_storage': 'denied',
+              'wait_for_update': 500
             });
+            gtag('set', 'ads_data_redaction', true);
           `}
         </Script>
       </head>
       <body className={`${_inter.variable} ${_jetbrainsMono.variable} font-sans antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <TooltipProvider>
-            {children}
-          </TooltipProvider>
-        </ThemeProvider>
-        <Analytics />
+        <ConsentProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+            <TooltipProvider>
+              {children}
+            </TooltipProvider>
+          </ThemeProvider>
+          <GoogleAnalytics />
+          <CookieBanner />
+        </ConsentProvider>
       </body>
     </html>
   )

@@ -64,7 +64,13 @@ The repository also contains an unused Supabase browser client, which requires `
 
 ## Analytics
 
-The application preserves the existing Vercel Analytics integration and Google Analytics configuration routed through the existing server-side GTM endpoint. GTM deployment and domain-mapping scripts are intentionally kept unchanged.
+Google Analytics 4 (`G-4898X9MEDR`) runs as a standard client-side gtag.js integration from `app/layout.tsx` and `components/google-analytics.tsx`. The script is requested only after the visitor grants analytics consent; Google Consent Mode v2 defaults are all denied and set before any tag can load (`components/consent-provider.tsx`, `lib/consent.ts`). Page views are tracked natively by gtag.js across App Router client navigation; custom events (`contact_form_submit`, `resume_download`, `outbound_click`) are pushed through `lib/analytics.ts` and are ignored until the Google tag is initialized.
+
+The former server-side tagging setup (TAGGRS / `sst.exceptionalgrp.com`, server-side GTM on Cloud Run) has been removed from the application. `deploy-gtm.ps1` and `map-custom-domain.ps1` were deleted.
+
+Vercel Analytics (`@vercel/analytics`) is not initialized. The dependency remains installed for possible future re-evaluation.
+
+Consent preferences are stored in `localStorage` under `mgmt_consent_v1`, can be changed any time via the footer "Cookie Settings" button, and withdrawing analytics consent stops collection and removes analytics cookies. Legal pages live at `/privacy-policy` and `/cookie-policy`.
 
 ## Security controls
 

@@ -4,6 +4,8 @@ import Image from "next/image"
 import { useState } from "react"
 import { Github, Linkedin, Mail, ArrowUpRight, CheckCircle2, Send, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { TrackedLink } from "@/components/tracked-link"
+import { trackEvent } from "@/lib/analytics"
 import { portfolioConfig } from "@/lib/portfolio-config"
 
 const services = [
@@ -60,6 +62,7 @@ export function ContactSection() {
       })
 
       if (res.ok) {
+        trackEvent("contact_form_submit", { form_id: "contact-form" })
         setStatus("success")
         setName("")
         setEmail("")
@@ -116,9 +119,10 @@ export function ContactSection() {
             {/* Quick links */}
             <div className="flex flex-col gap-3">
               {quickLinks.map(({ icon: Icon, label, description, href, accent, accentBg, accentBorder, cta }) => (
-                <a
+                <TrackedLink
                   key={label}
                   href={href}
+                  eventParams={{ link_label: label }}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-4 px-4 py-4 rounded-xl border transition-all duration-200 hover:-translate-y-0.5"
@@ -148,7 +152,7 @@ export function ContactSection() {
                     {cta}
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </span>
-                </a>
+                </TrackedLink>
               ))}
             </div>
           </div>

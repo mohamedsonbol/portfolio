@@ -6,5 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: portfolioConfig.websiteUrl, changeFrequency: "monthly", priority: 1 },
     { url: `${portfolioConfig.websiteUrl}/projects`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${portfolioConfig.websiteUrl}/resume`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${portfolioConfig.websiteUrl}/privacy-policy`, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${portfolioConfig.websiteUrl}/cookie-policy`, changeFrequency: "yearly", priority: 0.3 },
   ]
 }
