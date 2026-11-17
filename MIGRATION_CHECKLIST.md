@@ -75,7 +75,7 @@ The former server-side tagging requirements (`sst.exceptionalgrp.com`, `server_c
 - No request to `googletagmanager.com` occurs before analytics consent is granted.
 - After granting analytics consent, GTM loads (`GTM-PMCQ6NCG`) and GA4 collect requests use `G-4898X9MEDR` against `googleanalytics.com`-routed endpoints.
 - Exactly one `page_view` collect hit per page load and per client-side navigation (`/`, `/projects`, `/resume`).
-- Custom events (`contact_form_submit`, `resume_download`, `outbound_click`) appear in GA4 DebugView.
+- Custom events (`contact_form_submit`, `outbound_click`) appear in GA4 DebugView.
 - Vercel Analytics remains absent from the rendered application.
 - Contact SMTP delivery and optional Telegram notifications work.
 - PDF parsing and resume analysis endpoints still respond correctly.

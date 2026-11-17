@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowDownRight, ArrowUpRight, FileText, Linkedin, MapPin } from "lucide-react"
+import { ArrowDownRight, ArrowUpRight, Linkedin, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { portfolioConfig } from "@/lib/portfolio-config"
 
@@ -22,11 +22,6 @@ export function HeroSection() {
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Button asChild size="lg"><Link href="#experience">View My Experience <ArrowDownRight className="ml-2 h-4 w-4" /></Link></Button>
-            <Button asChild variant="outline" size="lg">
-              <a href="/Resume.pdf" download>
-                Download Resume <FileText className="ml-2 h-4 w-4" />
-              </a>
-            </Button>
             <Button asChild variant="ghost" size="lg"><Link href="#contact">Contact Me <ArrowUpRight className="ml-2 h-4 w-4" /></Link></Button>
           </div>
           <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted-foreground">

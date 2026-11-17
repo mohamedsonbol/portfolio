@@ -68,7 +68,7 @@ Analytics runs through Google Tag Manager (web container `GTM-PMCQ6NCG`, `compon
 
 Automatic page_view tracking is disabled: the GA4 Google tag must not send a page view on load and Enhanced Measurement URL-change tracking must be off in the GA4 stream. Page views are pushed manually as a single `page_view` data-layer event per pathname change (`pushPageView` in `lib/analytics.ts`), so initial loads and App Router client navigations each produce exactly one page view, with no GTM History Change triggers.
 
-Custom events (`contact_form_submit`, `resume_download`, `outbound_click`) are pushed in object form into the data layer and forwarded to GA4 by GTM tags. The former direct gtag.js implementation was removed; the former server-side tagging setup (TAGGRS / `sst.exceptionalgrp.com`, server-side GTM on Cloud Run) has been removed and `deploy-gtm.ps1` / `map-custom-domain.ps1` were deleted.
+Custom events (`contact_form_submit`, `outbound_click`) are pushed in object form into the data layer and forwarded to GA4 by GTM tags. The former direct gtag.js implementation was removed; the former server-side tagging setup (TAGGRS / `sst.exceptionalgrp.com`, server-side GTM on Cloud Run) has been removed and `deploy-gtm.ps1` / `map-custom-domain.ps1` were deleted.
 
 Vercel Analytics (`@vercel/analytics`) is not initialized. The dependency remains installed for possible future re-evaluation.
 

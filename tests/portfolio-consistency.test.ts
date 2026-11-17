@@ -5,7 +5,6 @@ import { resumeEducation, resumeExperience, resumeLanguages, resumeSkills } from
 
 const resumePage = readFileSync("app/resume/page.tsx", "utf8")
 const resumeTemplate = readFileSync("components/resume-template.tsx", "utf8")
-const hero = readFileSync("components/hero-section.tsx", "utf8")
 
 describe("portfolio and resume consistency", () => {
   it("uses the approved identity and contact details", () => {
@@ -39,12 +38,11 @@ describe("portfolio and resume consistency", () => {
     expect(resumeSkills).toContain("JavaScript debugging")
   })
 
-  it("has shared-data consumers and a consistent PDF download link", () => {
+  it("has shared-data consumers", () => {
     expect(resumePage).toContain("resumeExperience")
     expect(resumePage).toContain("resumeEducation")
     expect(resumePage).toContain("portfolioConfig.websiteUrl")
     expect(resumeTemplate).toContain("resumeExperience.map")
     expect(resumeTemplate).toContain("resumeEducation.map")
-    expect(hero).toContain('href="/Resume.pdf"')
   })
 })

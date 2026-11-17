@@ -4,7 +4,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 
 import { ProjectsSection } from "@/components/projects-section"
 import { ProjectsGrid } from "@/app/projects/projects-grid"
-import { HeroSection } from "@/components/hero-section"
 
 vi.mock("next/link", () => ({
   default: ({
@@ -217,27 +216,5 @@ describe("Homepage featured project_click tracking", () => {
     render(<ProjectsSection />)
     fireEvent.click(screen.getByText("DR. CHOICE"))
     expect(projectClicks().length).toBe(0)
-  })
-})
-
-describe("Resume download link", () => {
-  beforeEach(() => {
-    window.dataLayer = []
-    window.__gtmInitialized = true
-  })
-
-  afterEach(cleanup)
-
-  it("keeps the resume link and its download behavior", () => {
-    render(<HeroSection />)
-    const link = screen.getByRole("link", { name: /Download Resume/ })
-    expect(link.getAttribute("href")).toBe("/Resume.pdf")
-    expect(link.hasAttribute("download")).toBe(true)
-  })
-
-  it("does not generate any analytics events when clicked", () => {
-    render(<HeroSection />)
-    fireEvent.click(screen.getByRole("link", { name: /Download Resume/ }))
-    expect((window.dataLayer ?? []).length).toBe(0)
   })
 })
