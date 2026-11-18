@@ -9,7 +9,7 @@ export function CookieSettingsButton() {
       type="button"
       onClick={openPreferences}
       data-testid="cookie-settings-button"
-      className="font-mono text-sm text-muted-foreground transition-colors underline-offset-2 hover:text-primary hover:underline"
+      className="w-fit text-left text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
     >
       Cookie Settings
     </button>

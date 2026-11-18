@@ -4,24 +4,35 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowUpRight, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { featuredProjects } from "@/lib/portfolio-data"
+import { featuredProjects } from "@/lib/projects"
 import { trackProjectClick } from "@/lib/analytics"
 
 export function ProjectsSection() {
-  const primaryProject = featuredProjects[0]
-  const otherProjects = featuredProjects.slice(1)
+  const [primaryProject, ...otherProjects] = featuredProjects
 
   return (
-    <section id="work" className="py-24">
-      <div className="container mx-auto px-6">
-        <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
+    <section id="work" className="py-24 md:py-32">
+      <div className="site-container">
+        <div className="flex flex-col gap-8 border-b border-border pb-8 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-2xl">
             <p className="eyebrow">Selected work</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Projects built around real integrations.</h2>
+            <h2 className="mt-4 text-heading">
+              Work that connects storefronts, content and data.
+            </h2>
           </div>
-          <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
-            View all projects <ArrowUpRight className="h-4 w-4" />
-          </Link>
+          <div className="max-w-sm md:text-right">
+            <p className="text-sm leading-6 text-muted-foreground">
+              A focused selection of client builds and product experiments, from
+              commerce and publishing to AI-assisted tools.
+            </p>
+            <Link
+              href="/projects"
+              className="mt-4 inline-flex items-center gap-2 border-b border-primary/40 pb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-primary transition-colors hover:border-primary"
+            >
+              Explore projects
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </div>
         </div>
 
         <article
@@ -31,52 +42,148 @@ export function ProjectsSection() {
               project_category: primaryProject.category,
             })
           }
-          className="grid overflow-hidden rounded-3xl border border-border bg-card lg:grid-cols-[1.05fr_0.95fr]"
+          className="group grid gap-8 border-b border-border py-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:py-14"
         >
-          <div className="relative min-h-[280px] overflow-hidden lg:min-h-[430px]">
-            <Image src={primaryProject.image} alt="DR. CHOICE e-commerce storefront" fill sizes="(min-width: 1024px) 52vw, 100vw" className="h-full w-full object-cover transition-transform duration-700 hover:scale-105" />
-            <div className="absolute inset-0 bg-gradient-to-t from-card via-card/10 to-transparent" />
-            <span className="absolute left-6 top-6 rounded-full border border-primary/40 bg-background/80 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-primary">Primary case study</span>
-          </div>
-          <div className="flex flex-col justify-center p-7 md:p-10">
-            <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">E-commerce · Integration</p>
-            <h3 className="mt-4 text-3xl font-semibold tracking-tight">DR. CHOICE</h3>
-            <p className="mt-5 text-base leading-7 text-muted-foreground">Bilingual e-commerce storefront built with WordPress and WooCommerce, including OmPay payment gateway integration and the frontend/backend connection required to support the customer journey.</p>
-            <div className="mt-7 flex flex-wrap gap-2">
-              {primaryProject.tags.map((tag) => <Badge key={tag} variant="secondary" className="border-primary/20 bg-primary/10 font-mono text-xs text-primary">{tag}</Badge>)}
+          <div className="order-2 lg:order-1">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-card">
+              <Image
+                src={primaryProject.image}
+                alt="DR. CHOICE bilingual e-commerce storefront"
+                fill
+                sizes="(min-width: 1024px) 55vw, 100vw"
+                className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.035]"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+              <span className="absolute left-5 top-5 rounded-full border border-white/20 bg-black/45 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white/90 backdrop-blur-sm">
+                Primary case study
+              </span>
             </div>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <a href="https://dr-choice.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5">Visit project <ExternalLink className="h-4 w-4" /></a>
-              <Link href="/projects" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:border-primary/60 hover:text-primary">Explore projects <ArrowUpRight className="h-4 w-4" /></Link>
+            <div className="mt-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+              <span>Case study 01 / 03</span>
+              <span>{primaryProject.category}</span>
+            </div>
+          </div>
+
+          <div className="order-1 flex flex-col justify-center lg:order-2">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs font-semibold text-primary">01</span>
+              <span className="h-px w-8 bg-primary/50" aria-hidden="true" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                {primaryProject.category} · Integration
+              </span>
+            </div>
+            <h3 className="mt-5 text-4xl font-semibold tracking-[-0.045em] md:text-5xl">
+              <Link
+                href={primaryProject.sourceUrl ?? `/projects#${primaryProject.slug}`}
+                target={primaryProject.sourceUrl ? "_blank" : undefined}
+                rel={primaryProject.sourceUrl ? "noopener noreferrer" : undefined}
+                className="transition-colors duration-200 hover:text-primary"
+              >
+                {primaryProject.name}
+              </Link>
+            </h3>
+            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+              Bilingual e-commerce storefront built with WordPress and WooCommerce,
+              including OmPay payment gateway integration and the frontend/backend
+              connection required to support the customer journey.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {primaryProject.tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className="border-primary/20 bg-primary/10 font-mono text-[10px] text-primary"
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+              {primaryProject.sourceUrl && (
+                <a
+                  href={primaryProject.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform duration-200 hover:-translate-y-0.5"
+                >
+                  Visit project
+                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                </a>
+              )}
+              <Link
+                href={`/projects#${primaryProject.slug}`}
+                className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary"
+              >
+                Project index
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </Link>
             </div>
           </div>
         </article>
 
-        <div className="mt-5 grid gap-5 md:grid-cols-2">
-          {otherProjects.map((project) => (
-            <article
-              key={project.name}
-              onClick={() =>
-                trackProjectClick({
-                  project_name: project.name,
-                  project_category: project.category,
-                })
-              }
-              className="group rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/50"
-            >
-              <div className="relative h-48 overflow-hidden rounded-xl">
-                <Image src={project.image} alt={project.name} fill sizes="(min-width: 768px) 50vw, 100vw" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              </div>
-              <div className="mt-5 flex items-start justify-between gap-4">
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{project.category}</p>
-                  <h3 className="mt-2 text-xl font-semibold">{project.name}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{project.summary}</p>
+        <div className="grid md:grid-cols-2">
+          {otherProjects.map((project, index) => {
+            const number = String(index + 2).padStart(2, "0")
+            const href = project.sourceUrl ?? `/projects#${project.slug}`
+
+            return (
+              <article
+                key={project.id}
+                onClick={() =>
+                  trackProjectClick({
+                    project_name: project.name,
+                    project_category: project.category,
+                  })
+                }
+                className="group border-b border-border py-8 md:px-8 md:first:border-l-0 md:last:border-l md:last:pr-0 md:first:pl-0"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                    {number} / {project.category}
+                  </span>
+                  <ArrowUpRight
+                    className="h-4 w-4 text-primary/70 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
                 </div>
-                <ArrowUpRight className="h-5 w-5 shrink-0 text-primary opacity-60 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
-              </div>
-            </article>
-          ))}
+
+                <div className="relative mt-5 aspect-[16/10] overflow-hidden rounded-xl border border-border bg-card">
+                  <Image
+                    src={project.image}
+                    alt={`${project.name} preview`}
+                    fill
+                    sizes="(min-width: 768px) 45vw, 100vw"
+                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+                </div>
+
+                <h3 className="mt-5 text-2xl font-semibold tracking-[-0.03em]">
+                  <Link
+                    href={href}
+                    target={project.sourceUrl ? "_blank" : undefined}
+                    rel={project.sourceUrl ? "noopener noreferrer" : undefined}
+                    className="transition-colors duration-200 hover:text-primary"
+                  >
+                    {project.name}
+                  </Link>
+                </h3>
+                <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+                  {project.summary}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-border/80 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>

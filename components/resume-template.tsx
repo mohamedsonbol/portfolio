@@ -8,16 +8,12 @@ export interface ParsedResumeData {
   title: string;
   summary: string;
   contact: {
-    email: string;
-    phone: string;
-    location: string;
     linkedin: string;
   };
   experience: {
     company: string;
     role: string;
     date: string;
-    location: string;
     bullets: string[];
   }[];
   education: {
@@ -42,16 +38,12 @@ const fallbackResume: ParsedResumeData = {
   title: portfolioConfig.professionalTitle,
   summary: portfolioConfig.professionalSummary,
   contact: {
-    email: portfolioConfig.email,
-    phone: portfolioConfig.phone,
-    location: portfolioConfig.location,
     linkedin: portfolioConfig.linkedin.replace(/^https?:\/\//, ""),
   },
-  experience: resumeExperience.map(({ company, role, dates, location, bullets }) => ({
+  experience: resumeExperience.map(({ company, role, dates, bullets }) => ({
     company,
     role,
     date: dates,
-    location,
     bullets: [...(bullets ?? [])],
   })),
   education: resumeEducation.map(({ qualification, institution, dates }) => ({
@@ -141,18 +133,6 @@ export const CustomResumeTemplate = React.forwardRef<HTMLDivElement, CustomTempl
 
           <section className="space-y-3 text-[10px] font-sans">
             <div className="flex items-center gap-3">
-              <span className="shrink-0 w-4">✉</span>
-              <span className="truncate">{resume.contact.email || "Email"}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="shrink-0 w-4">⌂</span>
-              <span className="truncate">{resume.contact.location || "Location"}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="shrink-0 w-4">☏</span>
-              <span className="truncate">{resume.contact.phone || "Phone"}</span>
-            </div>
-            <div className="flex items-center gap-3">
               <span className="shrink-0 w-4">in</span>
               <span className="truncate">{resume.contact.linkedin || "LinkedIn"}</span>
             </div>
@@ -203,9 +183,7 @@ export const ClassicResumeTemplate = React.forwardRef<HTMLDivElement, CustomTemp
         
         <header className="text-center mb-6 border-b-2 border-black pb-4">
           <h1 className="text-3xl font-bold uppercase mb-1">{resume.name}</h1>
-          <div className="text-sm">
-            {resume.contact.email} | {resume.contact.phone} | {resume.contact.location} | {resume.contact.linkedin}
-          </div>
+          <div className="text-sm">{resume.contact.linkedin}</div>
         </header>
 
         <section className="mb-6">
@@ -222,10 +200,7 @@ export const ClassicResumeTemplate = React.forwardRef<HTMLDivElement, CustomTemp
                   <span>{exp.role}</span>
                   <span>{exp.date}</span>
                 </div>
-                <div className="flex justify-between italic mb-1">
-                  <span>{exp.company}</span>
-                  <span>{exp.location}</span>
-                </div>
+                <div className="italic mb-1">{exp.company}</div>
                 <ul className="list-disc pl-5">
                   {exp.bullets.map((b, i) => <li key={i}>{b}</li>)}
                 </ul>
@@ -275,9 +250,7 @@ export const MinimalistResumeTemplate = React.forwardRef<HTMLDivElement, CustomT
           <h1 className="text-4xl font-light tracking-wider text-gray-900 mb-2">{resume.name}</h1>
           <h2 className="text-lg text-blue-600 font-medium mb-4">{resume.title}</h2>
           <div className="flex gap-4 text-xs text-gray-500">
-            <span>{resume.contact.email}</span>
-            <span>{resume.contact.phone}</span>
-            <span>{resume.contact.location}</span>
+            <span>{resume.contact.linkedin}</span>
           </div>
         </header>
 

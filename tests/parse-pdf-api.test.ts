@@ -1,5 +1,4 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { readFile } from "node:fs/promises"
 import { NextRequest } from "next/server"
 
 import { POST } from "../app/api/parse-pdf/route"
@@ -15,15 +14,43 @@ function makeRequest(file: File, ip = `192.0.2.${++requestNumber}`) {
   })
 }
 
+function makeTextPdf(text: string) {
+  const escapedText = text.replace(/[\\()]/g, "\\$&")
+  const stream = `BT /F1 18 Tf 72 720 Td (${escapedText}) Tj ET`
+  const objects = [
+    "<< /Type /Catalog /Pages 2 0 R >>",
+    "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+    "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>",
+    `<< /Length ${Buffer.byteLength(stream, "latin1")} >>\nstream\n${stream}\nendstream`,
+    "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+  ]
+
+  let pdf = "%PDF-1.4\n"
+  const offsets: number[] = []
+  for (let index = 0; index < objects.length; index += 1) {
+    offsets.push(Buffer.byteLength(pdf, "latin1"))
+    pdf += `${index + 1} 0 obj\n${objects[index]}\nendobj\n`
+  }
+
+  const xrefOffset = Buffer.byteLength(pdf, "latin1")
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`
+  for (const offset of offsets) {
+    pdf += `${String(offset).padStart(10, "0")} 00000 n \n`
+  }
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`
+
+  return Buffer.from(pdf, "latin1")
+}
+
 beforeEach(() => vi.clearAllMocks())
 
 describe("PDF parsing API", () => {
   it("parses a valid PDF and returns extracted text", async () => {
-    const pdf = await readFile("public/Resume.pdf")
-    const response = await POST(makeRequest(new File([pdf], "Resume.pdf", { type: "application/pdf" })))
+    const pdf = makeTextPdf("Test Resume")
+    const response = await POST(makeRequest(new File([pdf], "resume.pdf", { type: "application/pdf" })))
     const body = await response.json()
     expect(response.status).toBe(200)
-    expect(body.text).toContain("Mohamed Ezzat (Sonbol)")
+    expect(body.text).toContain("Test Resume")
     expect(body.text.length).toBeLessThanOrEqual(100_000)
   })
 

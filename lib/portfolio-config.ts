@@ -1,14 +1,11 @@
 export const portfolioConfig = {
   name: "Mohamed Ezzat (Sonbol)",
-  professionalTitle: "Technical Support Engineer | JavaScript | Integrations",
-  location: "Warsaw, Poland",
-  email: "mhmdezzat.eng@gmail.com",
-  phone: "+48 732 785 743",
+  professionalTitle: "Digital Solutions & Technology Consultant",
   linkedin: "https://linkedin.com/in/mohamedsonbol",
   websiteUrl: "https://mohamedsonbol.exceptionalgrp.com",
   socialImage: "/images/profile/portfolio-portrait-1.png",
   professionalSummary:
-    "Technical Support Engineer with 4+ years of experience resolving complex technical issues for enterprise clients. Specialized in JavaScript debugging, Google and Adobe data collection, API validation and third-party integrations.",
+    "Digital solutions and technology consultant specialising in web development, e-commerce, digital analytics, integrations and AI-assisted automation. Diagnoses implementation issues, validates tracking and coordinates technical delivery.",
   social: {
     linkedin: "https://linkedin.com/in/mohamedsonbol",
     github: "https://github.com/mohamedsonbol",

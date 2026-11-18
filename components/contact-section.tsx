@@ -1,281 +1,510 @@
 "use client"
 
-import Image from "next/image"
-import { useState } from "react"
-import { Github, Linkedin, Mail, ArrowUpRight, CheckCircle2, Send, Loader2 } from "lucide-react"
+import Link from "next/link"
+import { useRef, useState } from "react"
+import {
+  AlertCircle,
+  ArrowUpRight,
+  CheckCircle2,
+  ChevronDown,
+  Github,
+  Linkedin,
+  Loader2,
+  Send,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { trackEvent } from "@/lib/analytics"
 import { portfolioConfig } from "@/lib/portfolio-config"
+import { cn } from "@/lib/utils"
 
 const services = [
-  "Tag management implementation & audit",
-  "Tagging solution design & governance",
-  "Data analytics audits & QA",
-  "GDPR & consent architecture",
-  "Production tracking issue resolution",
-  "Full-stack analytics tooling",
-]
+  "Web Development",
+  "E-commerce Solutions",
+  "Analytics & Tracking",
+  "Business Systems & Integrations",
+  "AI & Automation",
+  "Other / Not Sure Yet",
+] as const
 
-const quickLinks = [
-  {
-    icon: Linkedin,
-    label: "LinkedIn",
-    description: "Professional enquiries",
-    href: portfolioConfig.linkedin,
-    accent: "#0A66C2",
-    accentBg: "rgba(10,102,194,0.08)",
-    accentBorder: "rgba(10,102,194,0.2)",
-    cta: "Connect",
-  },
-  {
-    icon: Github,
-    label: "GitHub",
-    description: "See my code",
-    href: "https://github.com/mohamedsonbol",
-    accent: "var(--primary)",
-    accentBg: "color-mix(in srgb, var(--primary) 8%, transparent)",
-    accentBorder: "color-mix(in srgb, var(--primary) 20%, transparent)",
-    cta: "View profile",
-  },
-]
+const MAX_NAME_LENGTH = 100
+const MAX_EMAIL_LENGTH = 254
+const MAX_MESSAGE_LENGTH = 4_800
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 type FormStatus = "idle" | "loading" | "success" | "error"
+type FieldName = "name" | "email" | "service" | "message"
+type FormErrors = Partial<Record<FieldName, string>>
+
+const fieldClassName =
+  "w-full rounded-xl border border-border bg-background/70 px-4 py-3 text-sm text-foreground transition-[border-color,box-shadow] duration-200 placeholder:text-muted-foreground/50 focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25"
+
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null
+
+  return (
+    <p id={id} className="flex items-start gap-1.5 text-xs leading-5 text-destructive">
+      <AlertCircle className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
+      <span>{message}</span>
+    </p>
+  )
+}
 
 export function ContactSection() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [service, setService] = useState("")
   const [message, setMessage] = useState("")
   const [status, setStatus] = useState<FormStatus>("idle")
   const [errorMsg, setErrorMsg] = useState("")
+  const [errors, setErrors] = useState<FormErrors>({})
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setStatus("loading")
+  const nameRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const serviceRef = useRef<HTMLSelectElement>(null)
+  const messageRef = useRef<HTMLTextAreaElement>(null)
+
+  function clearError(field: FieldName) {
+    setErrors((current) => {
+      if (!current[field]) return current
+
+      const next = { ...current }
+      delete next[field]
+      return next
+    })
+  }
+
+  function validate() {
+    const nextErrors: FormErrors = {}
+    const cleanName = name.trim()
+    const cleanEmail = email.trim()
+    const cleanMessage = message.trim()
+
+    if (!cleanName) {
+      nextErrors.name = "Please enter your name."
+    } else if (cleanName.length > MAX_NAME_LENGTH) {
+      nextErrors.name = "Please keep your name under 100 characters."
+    }
+
+    if (!cleanEmail) {
+      nextErrors.email = "Please enter your email address."
+    } else if (cleanEmail.length > MAX_EMAIL_LENGTH) {
+      nextErrors.email = "Please enter a valid email address."
+    } else if (!EMAIL_PATTERN.test(cleanEmail)) {
+      nextErrors.email = "Please enter a valid email address."
+    }
+
+    if (!service) {
+      nextErrors.service = "Please select the service that fits best."
+    }
+
+    if (!cleanMessage) {
+      nextErrors.message = "Please tell me a little about your project."
+    } else if (cleanMessage.length > MAX_MESSAGE_LENGTH) {
+      nextErrors.message = "Please keep your project brief under 4,800 characters."
+    }
+
+    setErrors(nextErrors)
+
+    const firstInvalid = (["name", "email", "service", "message"] as const).find(
+      (field) => nextErrors[field],
+    )
+
+    if (firstInvalid) {
+      const refs = {
+        name: nameRef,
+        email: emailRef,
+        service: serviceRef,
+        message: messageRef,
+      }
+      refs[firstInvalid].current?.focus()
+    }
+
+    return Object.keys(nextErrors).length === 0
+  }
+
+  function resetForm() {
+    setName("")
+    setEmail("")
+    setService("")
+    setMessage("")
+    setErrors({})
     setErrorMsg("")
+    setStatus("idle")
+  }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    if (status === "loading") return
+
+    setErrorMsg("")
+    setStatus("idle")
+
+    if (!validate()) return
+
+    setStatus("loading")
 
     try {
-      const res = await fetch("/api/contact", {
+      const cleanName = name.trim()
+      const cleanEmail = email.trim()
+      const cleanMessage = message.trim()
+      const messageWithService = `Service interest: ${service}\n\n${cleanMessage}`
+
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({
+          name: cleanName,
+          email: cleanEmail,
+          message: messageWithService,
+        }),
       })
 
-      if (res.ok) {
+      if (response.ok) {
         trackEvent("contact_form_submit", { form_id: "contact-form" })
-        setStatus("success")
         setName("")
         setEmail("")
+        setService("")
         setMessage("")
-      } else {
-        const data = await res.json().catch(() => ({}))
-        setErrorMsg(data?.error ?? "Something went wrong. Please try again.")
-        setStatus("error")
+        setErrors({})
+        setStatus("success")
+        return
       }
+
+      const data = await response.json().catch(() => ({}))
+      setErrorMsg(
+        typeof data?.error === "string"
+          ? data.error
+          : "Something went wrong. Please try again.",
+      )
+      setStatus("error")
     } catch {
-      setErrorMsg("Network error. Please check your connection.")
+      setErrorMsg("Network error. Please check your connection and try again.")
       setStatus("error")
     }
   }
 
+  const isLoading = status === "loading"
+  const liveMessage = isLoading ? "Sending your project enquiry." : ""
+
   return (
-    <section id="contact" className="py-24 bg-secondary/30">
-      <div className="container mx-auto px-6">
+    <section
+      id="contact"
+      className="relative overflow-hidden border-t border-border/70 bg-secondary/20 py-24 md:py-32"
+    >
+      <div className="brand-ambient pointer-events-none absolute inset-0 opacity-70" aria-hidden="true" />
 
-        {/* Header */}
-        <div className="text-center mb-14">
-          <p className="text-xs font-mono text-primary uppercase tracking-widest mb-3">Get in touch</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Let&apos;s Work Together</h2>
-          <p className="text-muted-foreground max-w-xl mx-auto text-sm leading-relaxed">
-            I take on a limited number of consulting engagements. If you need precise, reliable analytics implementation — let&apos;s talk.
-          </p>
-        </div>
+      <div className="site-container relative">
+        <div className="grid gap-12 lg:grid-cols-[0.84fr_1.16fr] lg:gap-16">
+          <div className="self-start lg:sticky lg:top-28">
+            <p className="eyebrow">Start a project</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.045em] md:text-5xl">
+              Have a project in mind?
+            </h2>
+            <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground md:text-lg">
+              Let&apos;s explore how the right digital solutions can help move your
+              business forward.
+            </p>
+            <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">
+              Share what you&apos;re building, the systems involved, and what success
+              looks like. I&apos;ll reply with a practical next step.
+            </p>
 
-        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 items-start">
-
-          {/* ── Left: What I help with + quick links ── */}
-          <div className="flex flex-col gap-5">
-
-            {/* Services card */}
-            <div className="rounded-2xl bg-card border border-border p-7 flex flex-col gap-5">
-              <div className="mb-1 flex items-center gap-4">
-                <Image src="/images/profile/portfolio-portrait-1.png" alt="Mohamed Sonbol" width={72} height={72} sizes="72px" className="h-16 w-16 shrink-0 rounded-xl object-cover object-[center_20%]" loading="lazy" />
-                <div>
-                  <h3 className="text-lg font-semibold">What I help with</h3>
-                  <p className="text-sm text-muted-foreground">Specialised consulting for enterprise analytics teams.</p>
-                </div>
-              </div>
-
-              <ul className="flex flex-col gap-3">
-                {services.map((service) => (
-                  <li key={service} className="flex items-start gap-3">
-                    <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-muted-foreground leading-snug">{service}</span>
-                  </li>
-                ))}
-              </ul>
+            <div className="mt-9 flex flex-wrap items-center gap-3 border-t border-border pt-6">
+              <a
+                href={portfolioConfig.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                <Linkedin className="h-3.5 w-3.5" aria-hidden="true" />
+                LinkedIn
+                <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+              </a>
+              <a
+                href={portfolioConfig.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+              >
+                <Github className="h-3.5 w-3.5" aria-hidden="true" />
+                GitHub
+                <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+              </a>
             </div>
 
-            {/* Quick links */}
-            <div className="flex flex-col gap-3">
-              {quickLinks.map(({ icon: Icon, label, description, href, accent, accentBg, accentBorder, cta }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 px-4 py-4 rounded-xl border transition-all duration-200 hover:-translate-y-0.5"
-                  style={{ background: "transparent", borderColor: "var(--border)" }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLAnchorElement
-                    el.style.background = accentBg
-                    el.style.borderColor = accentBorder
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLAnchorElement
-                    el.style.background = "transparent"
-                    el.style.borderColor = "var(--border)"
-                  }}
-                >
-                  <div className="p-2.5 rounded-xl flex-shrink-0" style={{ background: accentBg }}>
-                    <Icon className="h-5 w-5" style={{ color: accent }} />
-                  </div>
-                  <div className="flex flex-col flex-1">
-                    <span className="text-sm font-semibold">{label}</span>
-                    <span className="text-xs text-muted-foreground">{description}</span>
-                  </div>
-                  <span
-                    className="text-xs font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                    style={{ color: accent }}
-                  >
-                    {cta}
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                  </span>
-                </a>
-              ))}
-            </div>
+            <p className="mt-7 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/70">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+              Typical reply within 24 hours
+            </p>
           </div>
 
-          {/* ── Right: Email contact form ── */}
-          <div className="rounded-2xl bg-card border border-border p-7 flex flex-col gap-6">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Mail className="h-5 w-5 text-primary" />
-                <h3 className="text-lg font-semibold">Send a message</h3>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Replies from{" "}
-                <span className="font-mono text-primary text-xs">{portfolioConfig.email}</span>{" "}
-                within 24 hours.
+          <div className="rounded-3xl border border-border bg-card p-6 shadow-xl shadow-primary/5 md:p-9">
+            <div className="border-b border-border pb-6">
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary">
+                Project enquiry
               </p>
-              <div className="mt-5 grid gap-2 border-t border-border/70 pt-4 text-sm text-muted-foreground sm:grid-cols-3">
-                <a className="transition-colors hover:text-primary" href={`mailto:${portfolioConfig.email}`}>{portfolioConfig.email}</a>
-                <a className="transition-colors hover:text-primary" href={`tel:${portfolioConfig.phone.replaceAll(" ", "")}`}>{portfolioConfig.phone}</a>
-                <span>{portfolioConfig.location}</span>
-              </div>
+              <h3
+                id="contact-form-title"
+                className="mt-3 text-2xl font-semibold tracking-[-0.025em]"
+              >
+                Tell me what you&apos;re working on.
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Fields marked <span className="text-primary">*</span> are required.
+              </p>
             </div>
 
+            <p className="sr-only" aria-live="polite" aria-atomic="true">
+              {liveMessage}
+            </p>
+
             {status === "success" ? (
-              <div className="flex flex-col items-center justify-center gap-3 py-10 text-center">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <CheckCircle2 className="h-8 w-8 text-primary" />
+              <div
+                role="status"
+                aria-live="polite"
+                className="flex flex-col items-start gap-4 py-10"
+              >
+                <span className="grid h-12 w-12 place-items-center rounded-full border border-primary/20 bg-primary/10">
+                  <CheckCircle2 className="h-6 w-6 text-primary" aria-hidden="true" />
+                </span>
+                <div>
+                  <h4 className="text-xl font-semibold tracking-[-0.02em]">
+                    Enquiry sent
+                  </h4>
+                  <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+                    Thanks for reaching out. Your message is on its way, and I&apos;ll
+                    reply within 24 hours.
+                  </p>
                 </div>
-                <p className="font-semibold text-sm">Message sent!</p>
-                <p className="text-xs text-muted-foreground">I&apos;ll get back to you within 24 hours.</p>
-                <button
-                  onClick={() => setStatus("idle")}
-                  className="mt-2 text-xs text-primary underline underline-offset-2"
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="mt-2 rounded-full"
+                  onClick={resetForm}
                 >
-                  Send another
-                </button>
+                  Send another enquiry
+                </Button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4" id="contact-form">
+              <form
+                id="contact-form"
+                aria-labelledby="contact-form-title"
+                aria-busy={isLoading}
+                noValidate
+                onSubmit={handleSubmit}
+                className="mt-6 flex flex-col gap-5"
+              >
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor="contact-name"
+                      className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+                    >
+                      Name <span className="text-primary" aria-hidden="true">*</span>
+                      <span className="sr-only"> (required)</span>
+                    </label>
+                    <input
+                      ref={nameRef}
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      autoComplete="name"
+                      required
+                      aria-required="true"
+                      aria-invalid={Boolean(errors.name)}
+                      aria-describedby={errors.name ? "contact-name-error" : undefined}
+                      maxLength={MAX_NAME_LENGTH}
+                      placeholder="Your name"
+                      value={name}
+                      onChange={(event) => {
+                        setName(event.target.value)
+                        clearError("name")
+                      }}
+                      className={cn(
+                        fieldClassName,
+                        errors.name && "border-destructive focus-visible:ring-destructive/20",
+                      )}
+                    />
+                    <FieldError id="contact-name-error" message={errors.name} />
+                  </div>
 
-                {/* Name */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="contact-name" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Name
-                  </label>
-                  <input
-                    id="contact-name"
-                    type="text"
-                    required
-                    placeholder="Your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full rounded-xl border border-border bg-secondary/40 px-4 py-2.5 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors"
-                  />
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor="contact-email"
+                      className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+                    >
+                      Email <span className="text-primary" aria-hidden="true">*</span>
+                      <span className="sr-only"> (required)</span>
+                    </label>
+                    <input
+                      ref={emailRef}
+                      id="contact-email"
+                      name="email"
+                      type="email"
+                      inputMode="email"
+                      autoComplete="email"
+                      required
+                      aria-required="true"
+                      aria-invalid={Boolean(errors.email)}
+                      aria-describedby={errors.email ? "contact-email-error" : undefined}
+                      maxLength={MAX_EMAIL_LENGTH}
+                      placeholder="you@company.com"
+                      value={email}
+                      onChange={(event) => {
+                        setEmail(event.target.value)
+                        clearError("email")
+                      }}
+                      className={cn(
+                        fieldClassName,
+                        errors.email && "border-destructive focus-visible:ring-destructive/20",
+                      )}
+                    />
+                    <FieldError id="contact-email-error" message={errors.email} />
+                  </div>
                 </div>
 
-                {/* Email */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="contact-email" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Email
+                <div className="flex flex-col gap-2">
+                  <label
+                    htmlFor="contact-service"
+                    className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+                  >
+                    Service <span className="text-primary" aria-hidden="true">*</span>
+                    <span className="sr-only"> (required)</span>
                   </label>
-                  <input
-                    id="contact-email"
-                    type="email"
-                    required
-                    placeholder="you@company.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-xl border border-border bg-secondary/40 px-4 py-2.5 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors"
-                  />
+                  <div className="relative">
+                    <select
+                      ref={serviceRef}
+                      id="contact-service"
+                      name="service"
+                      required
+                      aria-required="true"
+                      aria-invalid={Boolean(errors.service)}
+                      aria-describedby={
+                        errors.service
+                          ? "contact-service-error"
+                          : "contact-service-help"
+                      }
+                      value={service}
+                      onChange={(event) => {
+                        setService(event.target.value)
+                        clearError("service")
+                      }}
+                      className={cn(
+                        fieldClassName,
+                        "appearance-none pr-10",
+                        !service && "text-muted-foreground/70",
+                        errors.service && "border-destructive focus-visible:ring-destructive/20",
+                      )}
+                    >
+                      <option value="" disabled>
+                        Select a service
+                      </option>
+                      {services.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  {errors.service ? (
+                    <FieldError id="contact-service-error" message={errors.service} />
+                  ) : (
+                    <p id="contact-service-help" className="text-xs leading-5 text-muted-foreground">
+                      Choose the closest fit — we can refine it later.
+                    </p>
+                  )}
                 </div>
 
-                {/* Message */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="contact-message" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Message
+                <div className="flex flex-col gap-2">
+                  <label
+                    htmlFor="contact-message"
+                    className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+                  >
+                    Project brief <span className="text-primary" aria-hidden="true">*</span>
+                    <span className="sr-only"> (required)</span>
                   </label>
                   <textarea
+                    ref={messageRef}
                     id="contact-message"
+                    name="message"
                     required
-                    rows={4}
-                    placeholder="Tell me about your project..."
+                    aria-required="true"
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={
+                      errors.message ? "contact-message-error" : "contact-message-help"
+                    }
+                    rows={6}
+                    maxLength={MAX_MESSAGE_LENGTH}
+                    placeholder="What are you building, what systems are involved, and what would a good outcome look like?"
                     value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full rounded-xl border border-border bg-secondary/40 px-4 py-2.5 text-sm placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors resize-none"
+                    onChange={(event) => {
+                      setMessage(event.target.value)
+                      clearError("message")
+                    }}
+                    className={cn(
+                      fieldClassName,
+                      "min-h-36 resize-y",
+                      errors.message && "border-destructive focus-visible:ring-destructive/20",
+                    )}
                   />
+                  {errors.message ? (
+                    <FieldError id="contact-message-error" message={errors.message} />
+                  ) : (
+                    <p id="contact-message-help" className="text-xs leading-5 text-muted-foreground">
+                      A short brief is enough. Include timing or constraints if they matter.
+                    </p>
+                  )}
                 </div>
 
-                {/* Error */}
                 {status === "error" && (
-                  <p className="text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
-                    {errorMsg}
-                  </p>
+                  <div
+                    role="alert"
+                    className="flex items-start gap-2 rounded-xl border border-destructive/25 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+                  >
+                    <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                    <p>{errorMsg}</p>
+                  </div>
                 )}
 
-                {/* Submit */}
-                <Button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="w-full gap-2 font-semibold"
-                  id="contact-submit"
-                >
-                  {status === "loading" ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Sending…
-                    </>
-                  ) : (
-                    <>
-                      <Send className="h-4 w-4" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
+                <div className="flex flex-col gap-4 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="max-w-xs text-xs leading-5 text-muted-foreground">
+                    Your details are used only to respond to this enquiry.{" "}
+                    <Link
+                      href="/privacy-policy"
+                      className="text-primary underline-offset-2 hover:underline"
+                    >
+                      Privacy policy
+                    </Link>
+                  </p>
+
+                  <Button
+                    type="submit"
+                    disabled={isLoading}
+                    className="h-11 w-full gap-2 rounded-full px-6 font-semibold sm:w-auto"
+                    id="contact-submit"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                        Sending enquiry…
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4" aria-hidden="true" />
+                        Send project enquiry
+                      </>
+                    )}
+                  </Button>
+                </div>
               </form>
             )}
           </div>
-
         </div>
-
-        {/* Response time note */}
-        <p className="text-center text-xs text-muted-foreground/60 font-mono mt-8">
-          Typical response time: &lt; 24 hours
-        </p>
-
       </div>
     </section>
   )

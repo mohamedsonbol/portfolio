@@ -7,15 +7,15 @@ const resumePage = readFileSync("app/resume/page.tsx", "utf8")
 const resumeTemplate = readFileSync("components/resume-template.tsx", "utf8")
 
 describe("portfolio and resume consistency", () => {
-  it("uses the approved identity and contact details", () => {
+  it("uses the approved identity and public contact strategy", () => {
     expect(portfolioConfig).toMatchObject({
       name: "Mohamed Ezzat (Sonbol)",
-      professionalTitle: "Technical Support Engineer | JavaScript | Integrations",
-      location: "Warsaw, Poland",
-      email: "mhmdezzat.eng@gmail.com",
-      phone: "+48 732 785 743",
+      professionalTitle: "Digital Solutions & Technology Consultant",
       linkedin: "https://linkedin.com/in/mohamedsonbol",
     })
+    expect(portfolioConfig).not.toHaveProperty("email")
+    expect(portfolioConfig).not.toHaveProperty("phone")
+    expect(portfolioConfig).not.toHaveProperty("location")
   })
 
   it("contains the approved experience, project, education, and language data", () => {
@@ -28,7 +28,7 @@ describe("portfolio and resume consistency", () => {
     ])
     expect(resumeExperience[0].description).toContain("DR. CHOICE")
     expect(resumeExperience[0].description).toContain("OmPay")
-    expect(resumeEducation).toEqual([{ institution: "Al Shola Private High School for Boys", dates: "2009 – 2013", location: "", qualification: "High School Diploma" }])
+    expect(resumeEducation).toEqual([{ institution: "Al Shola Private High School for Boys", dates: "2009 – 2013", qualification: "High School Diploma" }])
     expect(resumeEducation.some((item) => /university|bachelor|master|degree/i.test(JSON.stringify(item)))).toBe(false)
     expect(resumeLanguages).toEqual([
       { name: "English", level: "Native" },

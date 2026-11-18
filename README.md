@@ -1,6 +1,6 @@
 # Mohamed Sonbol portfolio
 
-Personal portfolio for Mohamed Ezzat (Sonbol), a Technical Support Engineer focused on JavaScript and integrations.
+Personal portfolio for Mohamed Ezzat (Sonbol), a Digital Solutions & Technology Consultant specialising in web development, e-commerce, digital analytics, integrations and AI-assisted automation.
 
 The site is built with Next.js 16, React 19, TypeScript, and Tailwind CSS v4. It includes a responsive portfolio homepage, project browser, HTML resume, contact form, PDF parsing endpoint, and optional AI-powered resume analysis.
 
@@ -56,7 +56,7 @@ The repository also contains an unused Supabase browser client, which requires `
 ## Routes
 
 - `/` — portfolio homepage
-- `/projects` — GitHub and CodePen project collection
+- `/projects` — curated case studies and GitHub repositories
 - `/resume` — HTML resume
 - `/api/contact` — SMTP contact form endpoint with optional Telegram notification
 - `/api/parse-pdf` — PDF text extraction endpoint
@@ -85,8 +85,8 @@ The rate limiter is process-local because no external stateful rate-limit servic
 ## Identity
 
 - Website: https://mohamedsonbol.exceptionalgrp.com
-- Email: mhmdezzat.eng@gmail.com
 - LinkedIn: https://linkedin.com/in/mohamedsonbol
-- Location: Warsaw, Poland
+
+Public enquiries are handled through the website contact form or the LinkedIn profile. Personal email, phone, and location details are intentionally not published.
 
 Deployment is intentionally not performed from this repository workflow.

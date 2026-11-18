@@ -9,7 +9,7 @@ import { HighlightsSection } from "@/components/highlights-section"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-background">
+    <main id="main-content" className="min-h-screen bg-background">
       <Navigation />
       <HeroSection />
       <HighlightsSection />

@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "framer-motion"
 import { Progress } from "@/components/ui/progress"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { FileSearch } from "lucide-react"
@@ -13,6 +13,8 @@ interface AnalysisEngineProps {
 }
 
 export function AnalysisEngine({ isAnalyzing, progress, targetCompany, region }: AnalysisEngineProps) {
+  const prefersReducedMotion = useReducedMotion()
+
   if (!isAnalyzing) return null;
 
   return (
@@ -20,8 +22,8 @@ export function AnalysisEngine({ isAnalyzing, progress, targetCompany, region }:
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+            animate={{ rotate: prefersReducedMotion ? 0 : 360 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { repeat: Infinity, duration: 2, ease: "linear" }}
           >
             <FileSearch className="w-5 h-5 text-primary" />
           </motion.div>
@@ -43,16 +45,15 @@ export function AnalysisEngine({ isAnalyzing, progress, targetCompany, region }:
           </div>
           
           {/* The Scanner Beam */}
-          <motion.div 
+          <motion.div
             className="absolute left-0 right-0 h-1 bg-primary shadow-[0_0_8px_2px_rgba(var(--primary),0.6)]"
             initial={{ top: "0%" }}
-            animate={{ top: "100%" }}
-            transition={{ 
-              repeat: Infinity, 
-              duration: 1.5, 
-              ease: "easeInOut",
-              repeatType: "reverse"
-            }}
+            animate={{ top: prefersReducedMotion ? "0%" : "100%" }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { repeat: Infinity, duration: 1.5, ease: "easeInOut", repeatType: "reverse" }
+            }
           />
         </div>
 
@@ -62,8 +63,9 @@ export function AnalysisEngine({ isAnalyzing, progress, targetCompany, region }:
           <div className="flex justify-between text-xs text-muted-foreground font-mono">
             <motion.span
               key={Math.floor(progress / 20)} // Trigger animation every 20%
-              initial={{ opacity: 0, y: 5 }}
+              initial={{ opacity: prefersReducedMotion ? 1 : 0, y: prefersReducedMotion ? 0 : 5 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
             >
               {progress < 30 ? "Extracting entities..." : 
                progress < 60 ? "Evaluating keyword density..." : 

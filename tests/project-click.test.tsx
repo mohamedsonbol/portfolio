@@ -90,20 +90,30 @@ describe("/projects grid project_click tracking", () => {
       project_slug: "moblog",
       project_category: "Full-Stack",
     })
-    fireEvent.click(screen.getByText("CSS Selectors Game"))
+    fireEvent.click(screen.getByText("react-gallery"))
     expect(projectClicks()[1]).toMatchObject({
-      project_name: "CSS Selectors Game",
-      project_slug: "css-selectors-game",
-      project_category: "Experiment",
+      project_name: "react-gallery",
+      project_slug: "react-gallery",
+      project_category: "Web Development",
     })
   })
 
   it("uses lowercase hyphen-separated slugs for every project title", () => {
     render(<ProjectsGrid />)
-    fireEvent.click(screen.getByText("websitePractice"))
-    expect(projectClicks()[0]?.project_slug).toBe("websitepractice")
-    fireEvent.click(screen.getByText("The-Gym"))
-    expect(projectClicks()[1]?.project_slug).toBe("the-gym")
+    fireEvent.click(screen.getByText("yelp-camp-refactored"))
+    expect(projectClicks()[0]?.project_slug).toBe("yelp-camp-refactored")
+    fireEvent.click(screen.getByText("react-gallery"))
+    expect(projectClicks()[1]?.project_slug).toBe("react-gallery")
+  })
+
+  it("renders only the four approved repository projects", () => {
+    render(<ProjectsGrid />)
+    expect(screen.getByText("routing-app")).toBeTruthy()
+    expect(screen.getByText("moBlog")).toBeTruthy()
+    expect(screen.getByText("react-gallery")).toBeTruthy()
+    expect(screen.getByText("yelp-camp-refactored")).toBeTruthy()
+    expect(screen.queryByText("moPortfolio")).toBeNull()
+    expect(screen.queryByText("CSS Selectors Game")).toBeNull()
   })
 
   it("fires exactly one project_click when an inner link inside the card is clicked", () => {
@@ -202,6 +212,14 @@ describe("Homepage featured project_click tracking", () => {
       project_slug: "sonbol-labs",
       project_category: "Experiments",
     })
+  })
+
+  it("links Pioneera and Sonbol Labs to their verified sites", () => {
+    render(<ProjectsSection />)
+    expect(screen.getByText("Pioneera").closest("a")?.getAttribute("href")).toBe("https://pioneera.net")
+    expect(screen.getByText("Sonbol Labs").closest("a")?.getAttribute("href")).toBe(
+      "https://sonbolabs.exceptionalgrp.com",
+    )
   })
 
   it("does not fire on hover or focus", () => {

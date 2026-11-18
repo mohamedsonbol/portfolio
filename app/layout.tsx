@@ -15,12 +15,14 @@ const _jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-je
 
 export const metadata: Metadata = {
   metadataBase: new URL(portfolioConfig.websiteUrl),
-  title: `${portfolioConfig.name} | ${portfolioConfig.professionalTitle}`,
-  description: portfolioConfig.professionalSummary,
+  title: "Mohamed Sonbol | Digital Solutions & Technology Consultant",
+  description:
+    "Explore Mohamed Sonbol's work across web development, e-commerce, digital analytics, integrations and AI-assisted automation.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: `${portfolioConfig.name} | ${portfolioConfig.professionalTitle}`,
-    description: portfolioConfig.professionalSummary,
+    title: "Mohamed Sonbol | Digital Solutions & Technology Consultant",
+    description:
+      "Explore Mohamed Sonbol's work across web development, e-commerce, digital analytics, integrations and AI-assisted automation.",
     url: "/",
     siteName: portfolioConfig.name,
     type: "website",
@@ -28,22 +30,23 @@ export const metadata: Metadata = {
     images: [
       {
         url: portfolioConfig.socialImage,
-        width: 599,
-        height: 1024,
-        alt: `${portfolioConfig.name} portrait`,
+        width: 1254,
+        height: 1254,
+        alt: "Portrait of Mohamed Sonbol",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${portfolioConfig.name} | ${portfolioConfig.professionalTitle}`,
-    description: portfolioConfig.professionalSummary,
+    title: "Mohamed Sonbol | Digital Solutions & Technology Consultant",
+    description:
+      "Explore Mohamed Sonbol's work across web development, e-commerce, digital analytics, integrations and AI-assisted automation.",
     images: [portfolioConfig.socialImage],
   },
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon.svg", type: "image/svg+xml", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "63x41" },
     ],
     shortcut: "/icon.svg",
     apple: "/icon.svg",
@@ -56,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${_inter.variable} ${_jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <Script id="consent-default" strategy="beforeInteractive">
           {`
@@ -72,8 +75,41 @@ export default function RootLayout({
             gtag('set', 'ads_data_redaction', true);
           `}
         </Script>
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  name: "Mohamed Sonbol",
+                  url: portfolioConfig.websiteUrl,
+                  jobTitle: "Digital Solutions & Technology Consultant",
+                  description:
+                    "Digital solutions and technology consultant specialising in web development, e-commerce, digital analytics, integrations and AI-assisted automation.",
+                  sameAs: [portfolioConfig.linkedin, portfolioConfig.social.github],
+                },
+                {
+                  "@type": "WebSite",
+                  name: "Mohamed Sonbol Portfolio",
+                  url: portfolioConfig.websiteUrl,
+                  description:
+                    "Digital solutions and technology consultant specialising in web development, e-commerce, digital analytics, integrations and AI-assisted automation.",
+                },
+              ],
+            }),
+          }}
+        />
       </head>
-      <body className={`${_inter.variable} ${_jetbrainsMono.variable} font-sans antialiased`}>
+      <body className="font-sans antialiased">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+        >
+          Skip to main content
+        </a>
         <ConsentProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
             <TooltipProvider>

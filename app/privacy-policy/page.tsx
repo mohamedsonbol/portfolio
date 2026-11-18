@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
+import { LegalPageShell } from "@/components/legal-page-shell"
 import { portfolioConfig } from "@/lib/portfolio-config"
 
 export const metadata: Metadata = {
-  title: `Privacy Policy | ${portfolioConfig.name}`,
-  description: "How this website handles personal data, analytics and consent.",
+  title: `Privacy Policy | ${portfolioConfig.name} | Digital Solutions & Technology Consultant`,
+  description: `How ${portfolioConfig.name}'s digital solutions website handles personal data, analytics and consent.`,
   alternates: { canonical: "/privacy-policy" },
 }
 
@@ -19,7 +20,7 @@ const sections: { heading: string; body: string[] }[] = [
     heading: "2. Contact form",
     body: [
       "The contact form collects the name, email address, and message you provide, and sends them by email to the site owner so your enquiry can be answered. This data is used only to respond to your message.",
-      `You can also reach the site owner directly at ${portfolioConfig.email}.`,
+      "You can also reach the site owner through the LinkedIn profile linked in the site footer.",
     ],
   },
   {
@@ -50,30 +51,31 @@ const sections: { heading: string; body: string[] }[] = [
   {
     heading: "7. Contact",
     body: [
-      `Questions about this policy can be sent to ${portfolioConfig.email}.`,
+      "Questions about this policy can be sent using the contact form or through the LinkedIn profile linked in the site footer.",
     ],
   },
 ]
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="py-24">
-      <div className="container mx-auto max-w-3xl px-6">
-        <p className="font-mono text-xs uppercase tracking-[0.16em] text-primary mb-3">Legal</p>
-        <h1 className="text-4xl font-semibold tracking-tight mb-10">Privacy Policy</h1>
-        <div className="flex flex-col gap-8">
-          {sections.map((section) => (
-            <section key={section.heading} className="flex flex-col gap-3">
-              <h2 className="text-xl font-semibold tracking-tight">{section.heading}</h2>
+    <LegalPageShell title="Privacy Policy">
+      <div className="flex flex-col gap-10">
+        {sections.map((section) => (
+          <section
+            key={section.heading}
+            className="border-t border-border/70 pt-8 first:border-t-0 first:pt-0"
+          >
+            <h2 className="text-subheading">{section.heading}</h2>
+            <div className="mt-4 flex flex-col gap-4">
               {section.body.map((paragraph) => (
-                <p key={paragraph} className="text-sm text-muted-foreground leading-relaxed">
+                <p key={paragraph} className="text-body text-muted-foreground">
                   {paragraph}
                 </p>
               ))}
-            </section>
-          ))}
-        </div>
+            </div>
+          </section>
+        ))}
       </div>
-    </div>
+    </LegalPageShell>
   )
 }

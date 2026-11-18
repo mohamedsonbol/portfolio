@@ -3,33 +3,11 @@ import { portfolioConfig } from "@/lib/portfolio-config"
 export const portfolio = {
   ...portfolioConfig,
   title: portfolioConfig.professionalTitle,
-  eyebrow: "TECHNICAL SUPPORT ENGINEER · JAVASCRIPT · INTEGRATIONS",
+  eyebrow: "Digital Solutions & Technology Consultant",
   intro: portfolioConfig.professionalSummary,
 } as const
 
-export const featuredProjects = [
-  {
-    name: "DR. CHOICE",
-    category: "E-Commerce",
-    summary: "Bilingual e-commerce experience with product catalog, WooCommerce integration, and OmPay checkout.",
-    image: "/dr-choice-hero.png",
-    tags: ["WooCommerce", "JavaScript", "OmPay"],
-  },
-  {
-    name: "Pioneera",
-    category: "Full-Stack",
-    summary: "Arabic digital publishing platform combining a Next.js frontend with an editorial CMS workflow.",
-    image: "/pioneera-hero.png",
-    tags: ["Next.js", "CMS", "TypeScript"],
-  },
-  {
-    name: "Sonbol Labs",
-    category: "Experiments",
-    summary: "A digital solutions and AI-focused development studio for practical product experiments.",
-    image: "/sonbolabs-hero.png",
-    tags: ["AI", "Product Strategy", "Web Apps"],
-  },
-] as const
+export { featuredProjects } from "@/lib/projects"
 
 const resumeTechnologies = [
   "JavaScript debugging",
@@ -83,7 +61,6 @@ export const resumeExperience = [
   {
     company: "Freelance Web Developer",
     dates: "July 2025 – Present",
-    location: "Warsaw, Poland",
     role: "Freelance Web Developer",
     description: "Built client websites linking frontends to backend APIs with AI-assisted development. DR. CHOICE (dr-choice.com), Oman e-commerce: built a bilingual WordPress/WooCommerce store and integrated the OmPay payment gateway.",
     bullets: [
@@ -94,11 +71,10 @@ export const resumeExperience = [
   {
     company: "Samsung SDS",
     dates: "April 2024 – July 2025",
-    location: "Warsaw, Poland",
     role: "Technical Project Manager (Web Analytics & Integrations)",
-    description: "Performed QA on first-party tagging across 500+ pages in multiple languages across the EU for multiple flagship product launches, using Python. Owned technical sign-off, debugging, validation, and coordination across implementation and business teams.",
+    description: "Performed QA on first-party tagging across multiple languages across the EU for multiple flagship product launches, using Python. Owned technical sign-off, debugging, validation, and coordination across implementation and business teams.",
     bullets: [
-      "Performed QA on first-party tagging across 500+ pages in multiple languages across the EU for multiple flagship product launches, using Python.",
+      "Performed QA on first-party tagging across multiple languages across the EU for multiple flagship product launches, using Python.",
       "Approved technical implementations, mainly for Contentsquare, and handed them to the tagging team to build; owned the sign-off step.",
       "Debugged Google and Adobe data collection implementations and troubleshot live third-party integrations, including Contentsquare and Awin, using the terminal and vendor debugging extensions.",
       "Validated data with stakeholders and third-party vendors, ensuring correct data flow between Contentsquare and Samsung.",
@@ -108,7 +84,6 @@ export const resumeExperience = [
   {
     company: "Accenture",
     dates: "January 2021 – April 2024",
-    location: "Warsaw, Poland",
     role: "Customer Support Representative",
     description: "Delivered technical support to enterprise clients, managing critical incidents within strict SLA targets and debugging tagging, data collection, and API implementations.",
     bullets: [
@@ -122,7 +97,6 @@ export const resumeExperience = [
   {
     company: "Adel Abalkhail Real Estate",
     dates: "2018 – 2020",
-    location: "Dubai",
     role: "Sales and Marketing Specialist",
     description: "Earlier experience in sales and marketing.",
     bullets: [],
@@ -130,7 +104,6 @@ export const resumeExperience = [
   {
     company: "Bebcard",
     dates: "2015 – 2017",
-    location: "Kuwait",
     role: "Frontend Developer",
     description: "Earlier frontend development experience focused on WordPress websites.",
     bullets: [],
@@ -141,7 +114,6 @@ export const resumeEducation = [
   {
     institution: "Al Shola Private High School for Boys",
     dates: "2009 – 2013",
-    location: "",
     qualification: "High School Diploma",
   },
 ] as const

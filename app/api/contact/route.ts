@@ -58,9 +58,9 @@ export async function POST(req: NextRequest) {
     }
 
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,       // e.g. smtp.hostinger.com
+      host: process.env.SMTP_HOST,
       port: smtpPort,
-      secure: true,                      // true for port 465 (SSL)
+      secure: smtpPort === 465,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,     // your email password

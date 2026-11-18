@@ -25,7 +25,7 @@ const validResult = {
     name: "Mohamed Ezzat (Sonbol)",
     title: "Technical Support Engineer",
     summary: "Technical support specialist",
-    contact: { email: "mhmdezzat.eng@gmail.com", phone: "+48 732 785 743", location: "Warsaw, Poland", linkedin: "linkedin.com/in/mohamedsonbol" },
+    contact: { email: "candidate@example.com", phone: "+1 555 0100", location: "Example City", linkedin: "linkedin.com/in/example-candidate" },
     experience: [],
     education: [],
     skills: ["JavaScript"],
