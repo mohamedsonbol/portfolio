@@ -36,7 +36,7 @@ type FieldName = "name" | "email" | "service" | "message"
 type FormErrors = Partial<Record<FieldName, string>>
 
 const fieldClassName =
-  "w-full rounded-xl border border-border bg-background/70 px-4 py-3 text-sm text-foreground transition-[border-color,box-shadow] duration-200 placeholder:text-muted-foreground/50 focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25"
+  "w-full rounded-xl border border-border bg-background/70 px-4 py-3 text-sm text-foreground transition-[border-color,box-shadow] duration-200 placeholder:text-muted-foreground focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25"
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null
@@ -233,7 +233,7 @@ export function ContactSection() {
               </a>
             </div>
 
-            <p className="mt-7 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/70">
+            <p className="mt-7 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-subtle-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
               Typical reply within 24 hours
             </p>
@@ -393,7 +393,7 @@ export function ContactSection() {
                       className={cn(
                         fieldClassName,
                         "appearance-none pr-10",
-                        !service && "text-muted-foreground/70",
+                        !service && "text-subtle-foreground",
                         errors.service && "border-destructive focus-visible:ring-destructive/20",
                       )}
                     >
@@ -476,7 +476,7 @@ export function ContactSection() {
                     Your details are used only to respond to this enquiry.{" "}
                     <Link
                       href="/privacy-policy"
-                      className="text-primary underline-offset-2 hover:underline"
+                      className="text-primary underline decoration-primary/40 underline-offset-2 hover:decoration-primary"
                     >
                       Privacy policy
                     </Link>

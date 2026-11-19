@@ -4,8 +4,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight, Code2, Github, Globe } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { ProjectClickTracker } from "@/components/project-click-tracker"
 import { archiveProjects, featuredProjects, type Project } from "@/lib/projects"
-import { trackProjectClick } from "@/lib/analytics"
 
 const languageColors: Record<string, { bg: string; text: string; border: string; dot: string }> = {
   JavaScript: { bg: "rgba(234,179,8,0.12)", text: "#eab308", border: "rgba(234,179,8,0.25)", dot: "#eab308" },
@@ -30,12 +30,8 @@ function CaseStudyCard({
   return (
     <article
       id={project.slug}
-      onClick={() =>
-        trackProjectClick({
-          project_name: project.name,
-          project_category: project.category,
-        })
-      }
+      data-project-name={project.name}
+      data-project-category={project.category}
       className={`group grid gap-6 border-b border-border py-10 ${
         primary ? "lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:py-14" : "md:grid-cols-[0.9fr_1.1fr] md:items-center"
       }`}
@@ -74,7 +70,7 @@ function CaseStudyCard({
             href={href}
             target={project.sourceUrl ? "_blank" : undefined}
             rel={project.sourceUrl ? "noopener noreferrer" : undefined}
-            className="transition-colors duration-200 hover:text-primary"
+            className="underline decoration-primary/30 underline-offset-4 transition-colors duration-200 hover:text-primary hover:decoration-primary"
           >
             {project.name}
           </Link>
@@ -114,7 +110,7 @@ function CaseStudyCard({
           )}
           <Link
             href={`/projects#${project.slug}`}
-            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary"
+            className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground underline decoration-primary/30 underline-offset-4 transition-colors hover:text-primary hover:decoration-primary"
           >
             Permalink
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -133,12 +129,8 @@ function ProjectCard({ project }: { project: Project }) {
   return (
     <article
       id={project.slug}
-      onClick={() =>
-        trackProjectClick({
-          project_name: project.name,
-          project_category: project.category,
-        })
-      }
+      data-project-name={project.name}
+      data-project-category={project.category}
       className="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors duration-300 hover:border-primary/40"
     >
       <div className="relative h-48 flex-shrink-0 overflow-hidden">
@@ -189,7 +181,7 @@ function ProjectCard({ project }: { project: Project }) {
             </h3>
           </div>
           <ArrowUpRight
-            className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary/50 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             aria-hidden="true"
           />
         </div>
@@ -203,7 +195,7 @@ function ProjectCard({ project }: { project: Project }) {
             <Badge
               key={tag}
               variant="secondary"
-              className="h-auto border-primary/12 bg-primary/8 px-2 py-0.5 font-mono text-[10px] text-primary/80"
+              className="h-auto border-primary/12 bg-primary/8 px-2 py-0.5 font-mono text-[10px] text-primary"
             >
               {tag}
             </Badge>
@@ -236,7 +228,7 @@ function ProjectCard({ project }: { project: Project }) {
           )}
 
           {!project.liveUrl && isGithub && (
-            <span className="ml-auto font-mono text-[10px] italic text-muted-foreground/50">
+            <span className="ml-auto font-mono text-[10px] italic text-subtle-foreground">
               no live demo
             </span>
           )}
@@ -278,6 +270,7 @@ export function ProjectsGrid() {
           </div>
         </header>
 
+        <ProjectClickTracker>
         <section aria-labelledby="case-studies-title" className="pt-10">
           <div className="flex items-center justify-between gap-4">
             <h2
@@ -319,6 +312,7 @@ export function ProjectsGrid() {
             ))}
           </div>
         </section>
+        </ProjectClickTracker>
       </div>
     </div>
   )

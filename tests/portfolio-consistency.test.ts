@@ -23,11 +23,12 @@ describe("portfolio and resume consistency", () => {
       ["Freelance Web Developer", "July 2025 – Present"],
       ["Samsung SDS", "April 2024 – July 2025"],
       ["Accenture", "January 2021 – April 2024"],
-      ["Adel Abalkhail Real Estate", "2018 – 2020"],
-      ["Bebcard", "2015 – 2017"],
     ])
-    expect(resumeExperience[0].description).toContain("DR. CHOICE")
-    expect(resumeExperience[0].description).toContain("OmPay")
+    expect(resumeExperience[0].paragraphs.join(" ")).toContain("DR. CHOICE")
+    expect(resumeExperience[0].paragraphs.join(" ")).toContain("OmPay")
+    expect(JSON.stringify(resumeExperience)).not.toMatch(/Adel|Bebcard/i)
+    expect(resumeExperience.every((item) => !("bullets" in item) && !("description" in item))).toBe(true)
+    expect(resumeExperience.every(({ paragraphs }) => paragraphs.length >= 2 && paragraphs.length <= 3)).toBe(true)
     expect(resumeEducation).toEqual([{ institution: "Al Shola Private High School for Boys", dates: "2009 – 2013", qualification: "High School Diploma" }])
     expect(resumeEducation.some((item) => /university|bachelor|master|degree/i.test(JSON.stringify(item)))).toBe(false)
     expect(resumeLanguages).toEqual([

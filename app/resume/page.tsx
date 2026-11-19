@@ -82,22 +82,13 @@ export default function ResumePage() {
                   <div>
                     <h3 className="text-lg font-semibold tracking-tight">{experience.company}</h3>
                     <p className="mt-1 text-sm font-medium text-[#5B21B6]">{experience.role}</p>
-                    <p className="mt-3 text-sm leading-6 text-[#525252]">
-                      {experience.company === "Samsung SDS"
-                        ? "Performed QA on first-party tagging across multiple languages across the EU for multiple flagship product launches, using Python. Owned technical sign-off, debugging, validation, and coordination across implementation and business teams."
-                        : experience.description}
-                    </p>
-                    {experience.bullets.length > 0 && (
-                      <ul className="mt-3 list-disc space-y-1 pl-5 text-sm leading-6 text-[#525252]">
-                        {experience.bullets.map((bullet) =>
-                          experience.company === "Samsung SDS" && bullet.startsWith("Performed QA on first-party tagging across multiple languages across the EU")
-                            ? null
-                            : (
-                                <li key={bullet}>{bullet}</li>
-                              ),
-                        )}
-                      </ul>
-                    )}
+                    <div className="mt-3 space-y-2">
+                      {experience.paragraphs.map((paragraph) => (
+                        <p key={paragraph} className="text-sm leading-6 text-[#525252]">
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </section>
               ))}

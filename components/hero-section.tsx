@@ -47,7 +47,7 @@ export function HeroSection() {
                 href={portfolioConfig.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 transition-colors duration-200 hover:text-primary"
+                className="inline-flex items-center gap-2 underline decoration-primary/30 underline-offset-4 transition-colors duration-200 hover:text-primary hover:decoration-primary"
               >
                 <Linkedin className="h-3.5 w-3.5" aria-hidden="true" />
                 LinkedIn
@@ -67,7 +67,7 @@ export function HeroSection() {
             />
             <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-2xl shadow-primary/10">
               <Image
-                src="/images/profile/portfolio-portrait-1.png"
+                src="/images/profile/portfolio-portrait-1.avif"
                 alt="Portrait of Mohamed Sonbol"
                 width={1254}
                 height={1254}

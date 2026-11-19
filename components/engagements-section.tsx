@@ -2,25 +2,6 @@ import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { resumeExperience } from "@/lib/portfolio-data"
 
-const focusOverrides: Record<string, string> = {
-  "Samsung SDS":
-    "QA and technical sign-off for first-party tagging across multilingual EU product launches, with debugging, validation and vendor coordination.",
-}
-
-const bulletStart: Record<string, number> = {
-  "Accenture": 1,
-}
-
-function focusFor(company: string, description: string) {
-  return focusOverrides[company] ?? description
-}
-
-function highlightsFor(company: string, bullets: readonly string[]) {
-  const visible = bullets.filter((bullet) => !/\b500\+/.test(bullet))
-  const start = bulletStart[company] ?? 0
-  return visible.slice(start, start + 2)
-}
-
 export function EngagementsSection() {
   return (
     <section id="experience" className="border-t border-border/70 py-24 md:py-32">
@@ -44,8 +25,7 @@ export function EngagementsSection() {
           </div>
 
           <div>
-            {resumeExperience.map(({ company, role, dates, description, bullets }, index) => {
-              const highlights = highlightsFor(company, bullets)
+            {resumeExperience.map(({ company, role, dates, paragraphs }, index) => {
               const isCurrent = dates.includes("Present")
 
               return (
@@ -78,26 +58,16 @@ export function EngagementsSection() {
                       </p>
                     </div>
 
-                    <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-                      {focusFor(company, description)}
-                    </p>
-
-                    {highlights.length > 0 && (
-                      <ul className="mt-4 space-y-2">
-                        {highlights.map((highlight) => (
-                          <li
-                            key={highlight}
-                            className="flex max-w-2xl gap-3 text-xs leading-5 text-muted-foreground"
-                          >
-                            <span
-                              className="mt-2 h-1 w-1 flex-shrink-0 rounded-full bg-primary/60"
-                              aria-hidden="true"
-                            />
-                            <span>{highlight}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <div className="mt-3 space-y-3">
+                      {paragraphs.map((paragraph) => (
+                        <p
+                          key={paragraph}
+                          className="max-w-2xl text-sm leading-6 text-muted-foreground"
+                        >
+                          {paragraph}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </article>
               )

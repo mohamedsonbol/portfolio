@@ -14,7 +14,7 @@ export interface ParsedResumeData {
     company: string;
     role: string;
     date: string;
-    bullets: string[];
+    paragraphs: string[];
   }[];
   education: {
     degree: string;
@@ -40,11 +40,11 @@ const fallbackResume: ParsedResumeData = {
   contact: {
     linkedin: portfolioConfig.linkedin.replace(/^https?:\/\//, ""),
   },
-  experience: resumeExperience.map(({ company, role, dates, bullets }) => ({
+  experience: resumeExperience.map(({ company, role, dates, paragraphs }) => ({
     company,
     role,
     date: dates,
-    bullets: [...(bullets ?? [])],
+    paragraphs: [...paragraphs],
   })),
   education: resumeEducation.map(({ qualification, institution, dates }) => ({
     degree: qualification,
@@ -93,11 +93,11 @@ export const CustomResumeTemplate = React.forwardRef<HTMLDivElement, CustomTempl
                   <div className="flex-1">
                     <h4 className="font-bold text-[#2c4060] uppercase text-xs">{exp.role}</h4>
                     <p className="font-bold text-gray-600 mb-2 text-xs">{exp.company}</p>
-                    <ul className="list-disc pl-4 space-y-1 text-[#5c5c5c] font-sans">
-                      {exp.bullets.map((b, i) => (
-                        <li key={i}>{b}</li>
+                    <div className="space-y-1 text-[#5c5c5c] font-sans">
+                      {exp.paragraphs.map((paragraph, i) => (
+                        <p key={i}>{paragraph}</p>
                       ))}
-                    </ul>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -201,9 +201,9 @@ export const ClassicResumeTemplate = React.forwardRef<HTMLDivElement, CustomTemp
                   <span>{exp.date}</span>
                 </div>
                 <div className="italic mb-1">{exp.company}</div>
-                <ul className="list-disc pl-5">
-                  {exp.bullets.map((b, i) => <li key={i}>{b}</li>)}
-                </ul>
+                <div className="space-y-1">
+                  {exp.paragraphs.map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+                </div>
               </div>
             ))}
           </div>
@@ -263,9 +263,9 @@ export const MinimalistResumeTemplate = React.forwardRef<HTMLDivElement, CustomT
                   <div key={idx}>
                     <h4 className="font-bold text-gray-800">{exp.role}</h4>
                     <div className="text-blue-600 mb-2">{exp.company} <span className="text-gray-400">| {exp.date}</span></div>
-                    <ul className="text-gray-600 space-y-1">
-                      {exp.bullets.map((b, i) => <li key={i}>- {b}</li>)}
-                    </ul>
+                    <div className="space-y-1 text-gray-600">
+                      {exp.paragraphs.map((paragraph, i) => <p key={i}>{paragraph}</p>)}
+                    </div>
                   </div>
                 ))}
               </div>

@@ -1,11 +1,9 @@
-"use client"
-
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowUpRight, ExternalLink } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { ProjectClickTracker } from "@/components/project-click-tracker"
 import { featuredProjects } from "@/lib/projects"
-import { trackProjectClick } from "@/lib/analytics"
 
 export function ProjectsSection() {
   const [primaryProject, ...otherProjects] = featuredProjects
@@ -35,13 +33,10 @@ export function ProjectsSection() {
           </div>
         </div>
 
+        <ProjectClickTracker>
         <article
-          onClick={() =>
-            trackProjectClick({
-              project_name: primaryProject.name,
-              project_category: primaryProject.category,
-            })
-          }
+          data-project-name={primaryProject.name}
+          data-project-category={primaryProject.category}
           className="group grid gap-8 border-b border-border py-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:py-14"
         >
           <div className="order-2 lg:order-1">
@@ -77,7 +72,7 @@ export function ProjectsSection() {
                 href={primaryProject.sourceUrl ?? `/projects#${primaryProject.slug}`}
                 target={primaryProject.sourceUrl ? "_blank" : undefined}
                 rel={primaryProject.sourceUrl ? "noopener noreferrer" : undefined}
-                className="transition-colors duration-200 hover:text-primary"
+                className="underline decoration-primary/30 underline-offset-4 transition-colors duration-200 hover:text-primary hover:decoration-primary"
               >
                 {primaryProject.name}
               </Link>
@@ -129,12 +124,8 @@ export function ProjectsSection() {
             return (
               <article
                 key={project.id}
-                onClick={() =>
-                  trackProjectClick({
-                    project_name: project.name,
-                    project_category: project.category,
-                  })
-                }
+                data-project-name={project.name}
+                data-project-category={project.category}
                 className="group border-b border-border py-8 md:px-8 md:first:border-l-0 md:last:border-l md:last:pr-0 md:first:pl-0"
               >
                 <div className="flex items-center justify-between gap-4">
@@ -142,7 +133,7 @@ export function ProjectsSection() {
                     {number} / {project.category}
                   </span>
                   <ArrowUpRight
-                    className="h-4 w-4 text-primary/70 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    className="h-4 w-4 text-primary transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                     aria-hidden="true"
                   />
                 </div>
@@ -163,7 +154,7 @@ export function ProjectsSection() {
                     href={href}
                     target={project.sourceUrl ? "_blank" : undefined}
                     rel={project.sourceUrl ? "noopener noreferrer" : undefined}
-                    className="transition-colors duration-200 hover:text-primary"
+                    className="underline decoration-primary/30 underline-offset-4 transition-colors duration-200 hover:text-primary hover:decoration-primary"
                   >
                     {project.name}
                   </Link>
@@ -185,6 +176,7 @@ export function ProjectsSection() {
             )
           })}
         </div>
+        </ProjectClickTracker>
       </div>
     </section>
   )
