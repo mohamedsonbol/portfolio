@@ -67,7 +67,7 @@ export function HeroSection() {
             />
             <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-2xl shadow-primary/10">
               <Image
-                src="/images/profile/portfolio-portrait-1.avif"
+                src="/images/profile/portfolio-portrait-1.webp"
                 alt="Portrait of Mohamed Sonbol"
                 width={1254}
                 height={1254}
